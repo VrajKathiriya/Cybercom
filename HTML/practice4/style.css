@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  /* height: 100vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* table style */
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+/* cells style */
+table tr td,
+table tr th {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+/* set background color to each coloumns */
+.green {
+  background-color: #ccfdcc;
+}
+.blue {
+  background-color: #cce5ff;
+}
+.white {
+  padding-left: 20px;
+  /* text-align: center; */
+}
+.red {
+  background-color: #ffcccc;
+}
+.yellow {
+  background-color: #fffecc;
+}
+
+pre {
+  font-family: "Times New Roman", Times, serif;
+}
+
+a {
+  color: blue;
+}
