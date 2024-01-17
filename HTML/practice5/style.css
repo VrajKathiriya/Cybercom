@@ -1,0 +1,115 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins";
+}
+
+.container {
+  height: 100vh;
+  /* background-color: black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  height: 500px;
+  width: 400px;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border: 0.5px solid rgba(150, 150, 150, 0.2);
+}
+
+.contact {
+  width: 100%;
+  height: 120px;
+  color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: aqua; */
+  margin-bottom: 30px;
+  background-image: url("img/img1.jpg");
+  background-size: cover;
+}
+
+form {
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  /* background-color: yellow; */
+}
+
+.fullname,
+.email,
+.phone {
+  width: 100%;
+  /* background-color: greenyellow; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 0.5px solid rgba(150, 150, 150, 0.3);
+  border-radius: 2px;
+}
+
+.fullname input,
+.email input,
+.phone input {
+  height: 30px;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0 5px;
+  font-size: 12px;
+}
+
+.fullname i,
+.email i,
+.phone i {
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  margin: 10px 2px;
+}
+
+.textarea {
+  height: 120px;
+  display: flex;
+
+  border: 0.5px solid rgba(150, 150, 150, 0.3);
+}
+.textarea textarea {
+  border: none;
+  outline: none;
+  margin-top: 5px;
+  font-size: 12px;
+  /* resize: none; */
+}
+.textarea i {
+  color: #888;
+  width: 30px;
+  margin: 10px 2px;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  width: 100px;
+  height: 30px;
+  color: #fff;
+  background-color: #856add;
+  border-radius: 20px;
+  border: none;
+  font-size: 12px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  box-shadow: 5px 5px 10px rgba(133, 106, 221, 0.5);
+}
