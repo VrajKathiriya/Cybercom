@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* table container style */
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* outer table style  */
+#outer {
+  border-collapse: collapse;
+  border: 2px solid black;
+}
+
+#outer tr td,
+#outer tr th {
+  border: 2px solid black;
+  text-align: center;
+  padding: 5px;
+}
+
+/* inner table style  */
+#inner {
+  border: 2px solid black;
+  margin: 5px;
+}
+#inner tr td,
+#inner tr th {
+  border: 1px solid black;
+}
