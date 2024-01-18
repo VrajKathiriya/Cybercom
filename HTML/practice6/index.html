@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- link css file -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- main container -->
+    <div class="container">
+      <!-- form which redirect to success.html -->
+      <form action="/HTML/practice6/success.html" class="main-form">
+        <!-- fieldset for address -->
+
+        <fieldset class="address">
+          <legend>Your address</legend>
+          <table>
+            <tr>
+              <td>First name</td>
+              <td>
+                <input type="text" />
+              </td>
+            </tr>
+            <tr>
+              <td>Last name</td>
+              <td>
+                <input type="text" />
+              </td>
+            </tr>
+            <tr>
+              <td>Street</td>
+              <td><input type="text" /></td>
+            </tr>
+            <tr>
+              <td>City</td>
+              <td><input type="text" /></td>
+            </tr>
+          </table>
+        </fieldset>
+
+        <!-- fieldset for additional details -->
+
+        <fieldset class="details">
+          <legend>Additional details</legend>
+          <table>
+            <tr>
+              <td>Biography</td>
+              <td>
+                <textarea name="" id="" cols="25" rows="3"></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td>Image</td>
+              <td>
+                <input type="file" name="" id="" />
+              </td>
+            </tr>
+            <tr>
+              <td>Age group</td>
+              <td>
+                <select name="age" id="">
+                  <option value="0 to 9">0 to 9 Years</option>
+                  <option value="10 to 20">10 to 20 Years</option>
+                  <option value="20 to 40">20 to 40 Years</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+
+        <!-- fieldset for Interest -->
+
+        <fieldset class="interest">
+          <legend>Interest</legend>
+          <table>
+            <tr>
+              <td>Hobbies</td>
+              <td>
+                <select name="hobbies" id="" size="4" class="hobbies">
+                  <option value="soccer">Playing soccer</option>
+                  <option value="dancing">Dancing</option>
+                  <option value="gardening">gardening</option>
+                  <option value="movies">watching movies</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>Favorite car?</td>
+              <td>
+                <select name="car" id="">
+                  <option value="volvo">Volvo</option>
+                  <option value="bmw">BMW</option>
+                  <option value="audi">Audi</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td>favorite public transport?</td>
+              <td>
+                <select
+                  name="transport"
+                  size="5"
+                  class="transport"
+                  multiple="true"
+                >
+                  <optgroup label="Ground">
+                    <option value="train">Train</option>
+                    <option value="bus">Bus</option>
+                  </optgroup>
+                  <optgroup label="Water">
+                    <option value="ship">Ship</option>
+                  </optgroup>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </fieldset>
+        <!-- submit and reset button -->
+        <div class="buttons">
+          <button type="reset">Reset</button>
+          <button type="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
