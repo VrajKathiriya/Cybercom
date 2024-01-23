@@ -91,6 +91,13 @@ form {
   margin: 0 10px;
 }
 
+::-webkit-calendar-picker-indicator {
+  filter: invert(0.5);
+}
+::-webkit-datetime-edit {
+  color: #888;
+}
+
 button {
   width: 100px;
   height: 30px;
