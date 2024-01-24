@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Form</title>
+    <!-- link css file-->
+    <link rel="stylesheet" href="style.css" />
+    <!-- link jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <form class="patientForm">
+        <div class="heading box">
+          <h1>General Patient Information</h1>
+        </div>
+
+        <!-- patient gender box -->
+        <div class="box patientGender">
+          <label for="gender">Patient Gender <span>*</span></label>
+          <select name="gender" id="gender">
+            <option value="">Please select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+          <p class="errorBox" id="genderError"></p>
+        </div>
+
+        <!-- patient name box -->
+        <div class="box patientName">
+          <label for="name">Patient Name <span>*</span></label>
+          <div class="nameContainer">
+            <div class="firstName">
+              <input type="text" id="firstName" />
+              <h6>First Name</h6>
+              <p id="firstNameError" class="errorBox"></p>
+            </div>
+            <div class="lastName">
+              <input type="text" id="lastName" />
+              <h6>Last Name</h6>
+              <p id="lastNameError" class="errorBox"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- patient birthdate box -->
+        <div class="box patientDOB">
+          <label for="birthDate">Patinet Birth Date <span>*</span></label>
+          <div class="dobContainer">
+            <div class="month">
+              <select name="month" id="month">
+                <option value="">Please select month</option>
+                <option value="january">January</option>
+                <option value="february">February</option>
+                <option value="march">March</option>
+                <option value="april">April</option>
+                <option value="may">May</option>
+                <option value="june">June</option>
+                <option value="july">July</option>
+                <option value="augest">Augest</option>
+                <option value="september">September</option>
+                <option value="october">October</option>
+                <option value="november">November</option>
+                <option value="december">December</option>
+              </select>
+              <h6>Month</h6>
+              <p class="errorBox" id="monthError"></p>
+            </div>
+
+            <div class="day">
+              <select name="day" id="day">
+                <option value="">Please select day</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+              <h6>Day</h6>
+              <p class="errorBox" id="dayError"></p>
+            </div>
+
+            <div class="year">
+              <select name="year" id="year">
+                <option value="">Please select year</option>
+                <option value="2001">2001</option>
+                <option value="2002">2002</option>
+                <option value="2003">2003</option>
+                <option value="2004">2004</option>
+                <option value="2005">2005</option>
+                <option value="2006">2006</option>
+                <option value="2007">2007</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+              </select>
+              <h6>Year</h6>
+              <p class="errorBox" id="yearError"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- patient height box -->
+        <div class="box patientHeight">
+          <label for="patientHeight"
+            >Patient Height (cm's) <span>*</span></label
+          >
+          <input type="text" placeholder="ex: 176" id="patientHeight" />
+          <p class="errorBox" id="heightError"></p>
+        </div>
+
+        <!-- patient weight box -->
+        <div class="box patientWeight">
+          <label for="patientWeight"
+            >Patient Weight (kg's) <span>*</span></label
+          >
+          <input type="text" placeholder="ex: 76" id="patientWeight" />
+          <div class="errorBox" id="weightError"></div>
+        </div>
+
+        <!-- patient e-mail box -->
+        <div class="box patientEmail">
+          <label for="patientEmail">Patient E-Mail <span>*</span></label>
+          <input
+            type="text"
+            placeholder="ex: myname@example.com"
+            id="patientEmail"
+          />
+          <h6>example@example.com</h6>
+          <div class="errorBox" id="emailError"></div>
+        </div>
+
+        <!-- reason for seeding doctor box -->
+        <div class="box patientReason">
+          <label for="patientReason"
+            >Reason for seeding the doctor: <span>*</span></label
+          >
+          <input type="text" id="patientReason" />
+          <p class="errorBox" id="reasonError"></p>
+        </div>
+
+        <div class="box medicalHistory">
+          <h3>Patient Medical history</h3>
+        </div>
+
+        <div class="box drugAllergies">
+          <label for="drugAllergies">Please list any drug allergies</label>
+          <input type="text" />
+        </div>
+
+        <!-- disease list -->
+        <div class="box list">
+          <label>Have you ever had (Please check all that apply)</label>
+          <table>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Anemia</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Asthma</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Arthritis</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>cancer</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Gout</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Diabetes</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Emotional Disorder</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Epilepsy Seizures</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Fainting Spells</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Gallstones</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Heart Disease</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Heart Attack</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Rheumatic Fever</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>High Blood Pressure</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Digestive Problems</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Ulcerative Colitis</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Ulcer Disease</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Hepatitis</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Kidney Diease</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Liver Disease</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Sleep Apnea</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Use a C-PAP machine</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Thyroid Problems</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Tuberculosis</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Venereal Disease</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Neurological Disorders</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Bleeding Disorders</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Bleeding Disorders</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Lung Disease</td>
+            </tr>
+            <tr>
+              <td><input type="checkbox" /></td>
+              <td>Emphysema</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- other illnesses -->
+        <div class="box">
+          <label for="other illnesses">Other illnesses:</label>
+          <input type="text" />
+        </div>
+
+        <!-- Operations box -->
+        <div class="box operations">
+          <label for="operations"
+            >Please list any operations and dates of each</label
+          >
+          <input type="text" />
+        </div>
+
+        <!-- current medications box -->
+        <div class="box medications">
+          <label for="medications">Please list your Current Medications</label>
+          <input type="text" />
+        </div>
+
+        <div class="box status">
+          <h3>Healthy & Unhealthy Habits</h3>
+        </div>
+
+        <!-- exercise box -->
+        <div class="box exercise">
+          <label for="exercise">Exercise</label>
+          <table>
+            <tr>
+              <td><input type="radio" name="exercise" /></td>
+              <td>Never</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="exercise" /></td>
+              <td>1-2 days</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="exercise" /></td>
+              <td>3-4 days</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="exercise" /></td>
+              <td>5+ days</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- diet box -->
+        <div class="box diet">
+          <label for="diet">Eating following a diet</label>
+          <table>
+            <tr>
+              <td><input type="radio" name="diet" /></td>
+              <td>I have a loose diet</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="diet" /></td>
+              <td>I have a strict diet</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="diet" /></td>
+              <td>I don't have a diet plan</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Alcohol Consumption -->
+        <div class="box alcohol">
+          <label for="alcohol">Alcohol Consumption</label>
+          <table>
+            <tr>
+              <td><input type="radio" name="alcohol" /></td>
+              <td>I don't think</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="alcohol" /></td>
+              <td>1-2 glasses/day</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="alcohol" /></td>
+              <td>3-4 glasses/day</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="alcohol" /></td>
+              <td>5+ glasses/day</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- caffeine box -->
+        <div class="box caffeine">
+          <label for="caffeine">Caffine Consumption</label>
+          <table>
+            <tr>
+              <td><input type="radio" name="caffeine" /></td>
+              <td>I don't use caffeine</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="caffeine" /></td>
+              <td>1-2 cups/day</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="caffeine" /></td>
+              <td>3-4 cups/day</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="caffeine" /></td>
+              <td>5+ cups/day</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- smoke box -->
+        <div class="box smoke">
+          <label for="smoke">Do you smoke?</label>
+          <table>
+            <tr>
+              <td><input type="radio" name="smoke" /></td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="smoke" /></td>
+              <td>0-1 pack/day</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="smoke" /></td>
+              <td>1-2 pack/day</td>
+            </tr>
+            <tr>
+              <td><input type="radio" name="smoke" /></td>
+              <td>2+ pack/day</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- other comments -->
+        <div class="box comments">
+          <label for="comments"
+            >Include other comments regarding your medical history</label
+          >
+          <input type="text" />
+        </div>
+
+        <div class="box submit">
+          <button id="submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
