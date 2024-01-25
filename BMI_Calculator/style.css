@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Raleway";
+}
+:root {
+  --first-color: #233142;
+  --second-color: #455d7a;
+  --third-color: #f95959;
+  --fourth-color: #e3e3e3;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--second-color);
+}
+
+.container {
+  height: 500px;
+  width: 500px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  background-color: var(--first-color);
+  color: var(--fourth-color);
+  border: 5px solid var(--third-color);
+}
+
+.container h1 {
+  color: var(--fourth-color);
+}
+
+form {
+  width: 500px;
+  height: 300px;
+  /* background-color: red; */
+}
+
+.height,
+.weight {
+  height: 100px;
+  /* border: 1px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.errorBox {
+  position: absolute;
+  bottom: 0;
+  left: 200px;
+  color: var(--third-color);
+  font-size: 14px;
+}
+.height label,
+.weight label {
+  width: 150px;
+  /* background-color: red; */
+}
+
+.height input,
+.weight input {
+  height: 40px;
+  width: 250px;
+  border: none;
+  /* border-radius: 10px; */
+  border: 3px solid var(--fourth-color);
+  outline: none;
+  padding-left: 10px;
+  background-color: var(--second-color);
+  color: var(--fourth-color);
+  font-size: 16px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+.output {
+  height: 100px;
+  /* background-color: aqua; */
+  display: flex;
+  /* justify-content: space-around; */
+  align-items: center;
+}
+
+.button {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bmi,
+#category {
+  width: 150px;
+  /* background-color: yellow; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#output {
+  font-weight: 600;
+  font-size: 20px;
+  /* background-color: green; */
+}
+
+#category {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+/* button style */
+button {
+  padding: 15px 30px;
+  background-color: var(--third-color);
+  border: none;
+  color: var(--fourth-color);
+  font-weight: 600;
+  letter-spacing: 1px;
+  font-size: 16px;
+}
+button:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
