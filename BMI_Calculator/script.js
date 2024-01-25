@@ -51,18 +51,22 @@ $(document).ready(function () {
         $("#category").text("Underweight");
         $("#category").css("color", "#dc2f2f");
         $("#output").css("color", "#dc2f2f");
+        $(".container").css("border", "5px solid #dc2f2f");
       } else if (bmi >= 18.5 && bmi <= 24.9) {
         $("#category").text("Normal");
         $("#category").css("color", "#42b883");
         $("#output").css("color", "#42b883");
+        $(".container").css("border", "5px solid #42b883");
       } else if (bmi >= 25 && bmi <= 29.9) {
         $("#category").text("Overweight");
         $("#category").css("color", "#fda403");
         $("#output").css("color", "#fda403");
+        $(".container").css("border", "5px solid #fda403");
       } else {
         $("#category").text("Obesity");
         $("#category").css("color", "#dc2f2f");
         $("#output").css("color", "#dc2f2f");
+        $(".container").css("border", "5px solid #dc2f2f");
       }
     }
   });
