@@ -1,0 +1,21 @@
+.mb-3 {
+  position: relative;
+}
+.errorBox {
+  position: absolute;
+  color: red;
+  bottom: -20px;
+  right: 0;
+}
+.edit {
+  color: blue;
+}
+.edit:hover {
+  cursor: pointer;
+}
+.delete {
+  color: red;
+}
+.delete:hover {
+  cursor: pointer;
+}
