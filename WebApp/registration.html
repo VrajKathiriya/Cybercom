@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+    <!-- link jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <form action="">
+        <!-- heading -->
+        <div class="heading">
+          <h2>Registration</h2>
+        </div>
+        <!-- Name -->
+        <div class="name">
+          <input type="text" placeholder="Name" required id="name" />
+        </div>
+        <!-- email -->
+        <div class="email">
+          <input type="email" placeholder="Email" id="email" />
+        </div>
+        <!-- password -->
+        <div class="password">
+          <input type="password" placeholder="password" id="password" />
+        </div>
+        <!-- confirm password -->
+        <div class="confirm-password">
+          <input
+            type="password"
+            placeholder="confirm password"
+            id="con-password"
+          />
+        </div>
+
+        <!-- select city -->
+        <div class="city">
+          <select name="city" id="city">
+            <option value="">select city</option>
+            <option value="ahmedabad">Ahmedabad</option>
+            <option value="surat">Surat</option>
+            <option value="amreli">Amreli</option>
+          </select>
+        </div>
+
+        <!-- select state -->
+        <div class="state">
+          <select name="state" id="state">
+            <option value="">select state</option>
+            <option value="goa">Goa</option>
+            <option value="rajsthan">Rajasthan</option>
+            <option value="punjab">Punjab</option>
+          </select>
+        </div>
+
+        <!-- terms & condition -->
+        <div class="terms-condition">
+          <input type="checkbox" />
+          <span for="terms-condition">Terms & Conditions</span>
+        </div>
+
+        <!-- register now -->
+        <div class="register">
+          <button id="register-btn">Register Now</button>
+        </div>
+      </form>
+
+      <script src="scripts/register.js"></script>
+    </div>
+  </body>
+</html>

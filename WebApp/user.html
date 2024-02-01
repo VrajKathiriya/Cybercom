@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User</title>
+    <link rel="stylesheet" href="css/user.css" />
+    <!-- link jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <div class="hello">
+          <h3>Hello, [name]</h3>
+        </div>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="user.html">Users</a></li>
+          <li><a href="userSession.html">Login Seesion</a></li>
+          <li><a href="login.html">Logout</a></li>
+        </ul>
+      </div>
+      <div class="dashboard">
+        <div class="user-heading">
+          <h2>Add user</h2>
+        </div>
+        <div class="user-form">
+          <form action="">
+            <input type="text" placeholder="Name" id="name" />
+            <input type="email" placeholder="Email" id="email" />
+            <input type="password" placeholder="Password" id="password" />
+            <input type="date" id="birthdate" />
+          </form>
+        </div>
+        <div class="add-btn">
+          <button id="add-user-btn">Add user</button>
+        </div>
+        <div class="user-list">
+          <h2>Users list</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Birthdate</th>
+                <th>Age</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="content">
+              <!-- users list will be shown here              -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="scripts/user.js"></script>
+  </body>
+</html>
