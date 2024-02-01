@@ -39,10 +39,25 @@ function displayUsersList(users) {
 
 // add user
 addUserBtn.addEventListener("click", function (e) {
-  if (addUserBtn.innerText == "Add user") {
-    addUser(e);
-  } else if (addUserBtn.innerText == "Update User") {
-    updateUser(e);
+  const name = document.getElementById("name");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const birthdate = document.getElementById("birthdate");
+
+  if (!name.value) {
+    alert("Please enter name");
+  } else if (!email.value) {
+    alert("Please enter email");
+  } else if (!password.value) {
+    alert("Please enter password");
+  } else if (!birthdate.value) {
+    alert("Please enter birthdate");
+  } else {
+    if (addUserBtn.innerText == "Add user") {
+      addUser(e);
+    } else if (addUserBtn.innerText == "Update User") {
+      updateUser(e);
+    }
   }
 });
 
@@ -127,3 +142,5 @@ function deleteUser(id) {
   localStorage.setItem("users", JSON.stringify(users));
   location.reload();
 }
+
+// Validations
