@@ -1,11 +1,14 @@
 const addUserBtn = document.getElementById("add-user-btn");
 let users = [];
+let currentIndex;
 
 loadUsersList();
 
 function loadUsersList() {
   document.addEventListener("DOMContentLoaded", function () {
     let users = localStorage.getItem("users");
+    let admin = localStorage.getItem("admin");
+    admin = JSON.parse(admin);
 
     if (!users) {
       const temp = [];
@@ -13,6 +16,8 @@ function loadUsersList() {
     } else {
       displayUsersList(JSON.parse(users));
     }
+
+    document.getElementById("admin-name").innerText = admin.name;
   });
 }
 
@@ -33,7 +38,13 @@ function displayUsersList(users) {
 }
 
 // add user
-addUserBtn.addEventListener("click", addUser);
+addUserBtn.addEventListener("click", function (e) {
+  if (addUserBtn.innerText == "Add user") {
+    addUser(e);
+  } else if (addUserBtn.innerText == "Update User") {
+    updateUser(e);
+  }
+});
 
 // add user function
 function addUser(e) {
@@ -56,7 +67,56 @@ function addUser(e) {
 }
 
 // edit user function
-function editUser(id) {}
+function editUser(id) {
+  let users = localStorage.getItem("users");
+  users = JSON.parse(users);
+  let currentUser;
+
+  users.forEach((user, i) => {
+    if (user.id == id) {
+      currentUser = user;
+      currentIndex = i;
+      return;
+    }
+  });
+
+  fillForm(currentUser);
+  // deleteUser(currentUser);
+}
+
+function updateUser(e) {
+  e.preventDefault();
+  let users = localStorage.getItem("users");
+  users = JSON.parse(users);
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const birthdate = document.getElementById("birthdate").value;
+
+  let newUser = { name, email, password, birthdate };
+
+  console.log(currentIndex);
+  users[currentIndex] = newUser;
+  localStorage.setItem("users", JSON.stringify(users));
+  location.reload();
+}
+
+// fill entry for updating user
+function fillForm(user) {
+  let name = document.getElementById("name");
+  let email = document.getElementById("email");
+  let password = document.getElementById("password");
+  let birthdate = document.getElementById("birthdate");
+
+  name.value = user.name;
+  email.value = user.email;
+  password.value = user.password;
+  birthdate.value = user.birthdate;
+
+  document.getElementById("add-user-heading").innerHTML = "Update User";
+  addUserBtn.innerText = "Update User";
+}
 
 // delete user function
 function deleteUser(id) {

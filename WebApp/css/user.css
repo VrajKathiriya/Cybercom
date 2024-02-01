@@ -90,3 +90,14 @@ th {
   border-collapse: collapse;
   padding: 5px 10px;
 }
+
+.delete {
+  color: red;
+}
+.edit {
+  color: blue;
+}
+.delete:hover,
+.edit:hover {
+  cursor: pointer;
+}
