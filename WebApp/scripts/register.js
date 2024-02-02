@@ -15,7 +15,6 @@ function registerAdmin(e) {
   const name = document.getElementById("name").value;
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
-  const conPassword = document.getElementById("con-password").value;
   const city = document.getElementById("city").value;
   const state = document.getElementById("state").value;
 

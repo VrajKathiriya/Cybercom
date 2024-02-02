@@ -24,13 +24,21 @@ function loadUsersList() {
 // display user list function
 function displayUsersList(users) {
   const tbody = document.getElementById("content");
+
   users.forEach((user) => {
+    let date = new Date(user.birthdate);
+    console.log(date);
+    let birthdate = `${date.getDate()} / ${
+      date.getMonth() + 1
+    } / ${date.getFullYear()}`;
+
     const node = document.createElement("tr");
+
     node.innerHTML = `<td>${user.name}</td>
     <td>${user.email}</td>
     <td>${user.password}</td>
-    <td>${user.birthdate}</td>
-    <td>23</td>
+    <td>${birthdate}</td>
+    <td>${user.age}</td>
     <td><span class="edit" onclick=editUser(${user.id})>edit</span> <span class="delete" onclick=deleteUser(${user.id},)>delete</span></td>`;
 
     tbody.appendChild(node);
@@ -70,8 +78,14 @@ function addUser(e) {
   const password = document.getElementById("password").value;
   const birthdate = document.getElementById("birthdate").value;
   const id = Date.now();
+  const age = getAge(birthdate);
 
-  const newUser = { id, name, email, password, birthdate };
+  if (age <= 0) {
+    alert("Please enter proper birthdate");
+    return;
+  }
+
+  const newUser = { id, name, email, password, birthdate, age };
 
   let users = localStorage.getItem("users");
   users = JSON.parse(users);
@@ -79,6 +93,18 @@ function addUser(e) {
 
   localStorage.setItem("users", JSON.stringify(users));
   location.reload();
+}
+
+// get age of user
+function getAge(dateString) {
+  var today = new Date();
+  var birthDate = new Date(dateString);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
 }
 
 // edit user function
@@ -108,8 +134,10 @@ function updateUser(e) {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
   const birthdate = document.getElementById("birthdate").value;
+  const id = Date.now();
+  const age = getAge(birthdate);
 
-  let newUser = { name, email, password, birthdate };
+  let newUser = { id, name, email, password, birthdate, age };
 
   console.log(currentIndex);
   users[currentIndex] = newUser;
@@ -142,5 +170,3 @@ function deleteUser(id) {
   localStorage.setItem("users", JSON.stringify(users));
   location.reload();
 }
-
-// Validations
