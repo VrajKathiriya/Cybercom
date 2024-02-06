@@ -12,18 +12,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: aliceblue;
 }
 
 .container {
   height: 500px;
-  width: 300px;
-  border: 1px solid black;
+  width: 350px;
   position: relative;
+  background-color: #fff;
+  box-shadow: 1px 1px 20px #ddd;
 }
 
 .heading {
-  /* background-color: yellow; */
-  text-align: center;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px 0;
 }
 
@@ -33,7 +37,10 @@ body {
 }
 
 .navbar {
-  padding: 10px 0;
+  height: 40px;
+  /* background-color: red; */
+  padding: 10px 0 20px 0;
+  font-weight: 400;
 }
 
 .navbar ul {
@@ -51,10 +58,13 @@ a {
   text-decoration: none;
 }
 .product-list {
+  height: 300px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  /* background-color: red; */
+  overflow: auto;
 }
 
 .product-list img {
@@ -63,19 +73,22 @@ a {
 
 .product-list .product {
   padding: 10px 0;
-  width: 100%;
+  width: 80%;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  border-bottom: 0.5px solid #ddd;
 }
 .product-details {
   width: 100px;
-  /* background-color: black; */
 }
 .product-details h3 {
   font-weight: 500;
 }
-
+.product-price {
+  margin-top: 5px;
+  font-size: 15px;
+}
 .counter {
   display: flex;
   justify-content: center;
@@ -128,18 +141,23 @@ a {
 }
 
 /* cart.html style */
+::-webkit-scrollbar {
+  display: none;
+}
+
 .orders-list {
+  height: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  overflow: auto;
 }
 
 .orders-list .order {
   padding: 10px 0;
-  width: 100%;
-  border: 1px solid;
+  width: 80%;
   margin: 5px 0;
+  border: 0.5px solid #ddd;
 }
 
 .order-id {
@@ -149,21 +167,38 @@ a {
   align-items: center;
 }
 
+.date {
+  font-size: 12px;
+}
+
 .order-details {
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   margin-top: 10px;
+}
+
+.item-list {
+  width: 100%;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.item-box {
+  width: 50px;
 }
 
 .order-total-price {
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin: 10px 0 0 0;
   padding: 0 20px;
-  align-items: center;
 }
 
 .order-total-price h4 {
@@ -172,6 +207,6 @@ a {
 }
 
 .order-total-price span {
-  font-weight: 800;
+  font-weight: 700;
   margin: 0 5px;
 }
