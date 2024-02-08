@@ -9,6 +9,15 @@ let currentIndex;
 document.addEventListener("DOMContentLoaded", function () {
   let todos = localStorage.getItem("todos");
   todos = JSON.parse(todos) || [];
+
+  todos.forEach((todo) => {
+    todo.remainingDays = calculateRemainigDays(todo.dueDate);
+  });
+
+  localStorage.setItem("todos", JSON.stringify(todos));
+
+  todos = localStorage.getItem("todos");
+  todos = JSON.parse(todos) || [];
   bindData(todos);
 });
 
@@ -24,24 +33,38 @@ function addToDo() {
 
   todos = JSON.parse(todos) || [];
 
+  let date = new Date();
+
   const id = Date.now();
   const title = toDoTitleEl.value;
   const description = toDoDescriptionEl.value;
   const dueDate = toDoDueDateEl.value;
+  const createDate = `${date.getFullYear()}-${
+    date.getMonth() < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`
+  }-${date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`}`;
+  const remainingDays = calculateRemainigDays(dueDate);
 
-  let date = new Date();
-  console.log(date.getFullYear());
+  console.log(document.querySelector(".rem-day-box p"));
 
-  if (!title || !description || !dueDate) {
-    alert("Please fill all the details first");
+  if (!title) {
+    alert("Please enter the title");
+    return;
+  } else if (!description) {
+    alert("Please enter the description");
+    return;
+  } else if (!dueDate) {
+    alert("Please enter due Date");
+    return;
+  } else if (remainingDays < 0) {
+    alert("Please enter valid due date");
     return;
   }
 
   let newToDo = {};
 
-  newToDo = { id, title, description, dueDate };
+  newToDo = { id, title, description, dueDate, createDate, remainingDays };
 
-  todos = [...todos, newToDo];
+  todos = [newToDo, ...todos];
 
   localStorage.setItem("todos", JSON.stringify(todos));
 
@@ -51,28 +74,57 @@ function addToDo() {
 
 // function for binding data
 function bindData(todos) {
+  console.log(todos);
+  if (todos.length <= 0) {
+    console.log("hi");
+    toDoListEl.innerHTML = `No Todos to show 🥲`;
+    return;
+  }
   let todosHTML = "";
-  todos.reverse().forEach((todo) => {
+  todos.forEach((todo) => {
     let todoNode = `
-    <div class="todo">
+    <div class="todo ${
+      todo.remainingDays <= 10
+        ? "todo-red-border"
+        : todo.remainingDays <= 20
+        ? "todo-yellow-border"
+        : "todo-green-border"
+    }">
       <div class="todo-details">
         <h3>${todo.title}</h3>
         <p id="description">
           ${todo.description}
         </p>
         <div class="date-container">
+          <div class="create-date-box">
+            <h4>Create Date</h4>
+            <p>${todo.createDate}</p>
+          </div>
           <div class="due-date-box">
             <h4>Due Date</h4>
             <p>${todo.dueDate}</p>
           </div>
+          <div class="rem-day-box">
+            <h4>Remaining Days</h4>
+            <p class=${
+              todo.remainingDays <= 10
+                ? "red"
+                : todo.remainingDays <= 20
+                ? "yellow"
+                : "green"
+            }>${todo.remainingDays}</p>
+          </div>
         </div>
       </div>
       <div class="todo-actions">
-        <button class="edit-todo-btn" onclick=editToDo(${todo.id})><i class="fa-solid fa-pen-to-square"></i></button>
-        <button class="delete-todo-btn" onclick=deleteToDo(${todo.id})><i class="fa-solid fa-trash"></i></button>
+        <button class="edit-todo-btn" onclick=editToDo(${
+          todo.id
+        })><i class="fa-solid fa-pen-to-square"></i></button>
+        <button class="delete-todo-btn" onclick=deleteToDo(${
+          todo.id
+        })><i class="fa-solid fa-trash"></i></button>
       </div>
     </div>`;
-
     todosHTML += todoNode;
   });
   toDoListEl.innerHTML = todosHTML;
@@ -80,6 +132,9 @@ function bindData(todos) {
 
 // function for delete todo
 function deleteToDo(id) {
+  let confirmed = confirm("Are you sure you want to delete this todo?");
+
+  if (!confirmed) return;
   let todos = localStorage.getItem("todos");
   todos = JSON.parse(todos) || [];
 
@@ -99,8 +154,6 @@ function editToDo(id) {
   let todo = todos.find((todo) => todo.id == id);
   currentIndex = todos.findIndex((todo) => todo.id == id);
 
-  console.log(todo.title);
-
   toDoTitleEl.value = todo.title;
   toDoDescriptionEl.value = todo.description;
   toDoDueDateEl.value = todo.dueDate;
@@ -114,14 +167,20 @@ function updateToDo(index) {
   let todos = localStorage.getItem("todos");
   todos = JSON.parse(todos) || [];
 
+  let date = new Date();
+
   const id = Date.now();
   const title = toDoTitleEl.value;
   const description = toDoDescriptionEl.value;
   const dueDate = toDoDueDateEl.value;
+  const createDate = `${date.getFullYear()}-${
+    date.getMonth() < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`
+  }-${date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`}`;
+  const remainingDays = calculateRemainigDays(dueDate);
 
   let newToDo = {};
 
-  newToDo = { id, title, description, dueDate };
+  newToDo = { id, title, description, dueDate, createDate, remainingDays };
 
   todos[index] = newToDo;
 
@@ -139,4 +198,16 @@ function clearForm() {
 
   addToDoBtn.innerText = "Add ToDo";
   addToDoBtn.style.backgroundColor = "var(--green)";
+}
+
+// function that will calculate remaining days
+function calculateRemainigDays(dueDate) {
+  let currentDate = new Date(Date.now());
+  dueDate = new Date(dueDate);
+
+  let millis = dueDate.getTime() - currentDate.getTime();
+
+  let remDays = Math.ceil(millis / (1000 * 60 * 60 * 24));
+
+  return remDays;
 }

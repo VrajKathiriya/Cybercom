@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins";
+  font-family: "Poppins", sans-serif;
 }
 
 :root {
@@ -24,6 +24,17 @@
   --green: #2eb872;
   --blue: #2772db;
   --red: #f95959;
+  --yellow: #ffc93c;
+}
+
+.red {
+  color: var(--red) !important;
+}
+.yellow {
+  color: var(--yellow) !important;
+}
+.green {
+  color: var(--green) !important;
 }
 
 ::-webkit-scrollbar {
@@ -42,16 +53,18 @@
   height: 80vh;
   width: 500px;
   color: var(--white3);
-  background-color: var(--black2);
+  /* background-color: var(--black2); */
+  border: 1px solid var(--black2);
+  /* box-shadow: -1px -1px 50px var(--black2); */
 }
 
 .add-todo h1 {
   height: 10vh;
-  color: var(--white4);
-  background-color: var(--black2);
+  color: var(--white3);
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: 600;
 }
 
 .add-todo form {
@@ -68,7 +81,7 @@ form input {
   outline: none;
   border: 4px solid var(--black4);
   border-radius: 10px;
-  background-color: var(--white2);
+  background-color: var(--white3);
   padding: 0 10px;
 }
 
@@ -101,16 +114,18 @@ form input {
 .todo-list-container {
   height: 80vh;
   width: 800px;
-  background-color: var(--black2);
+  /* background-color: var(--black2); */
+  border: 1px solid var(--black2);
+  /* box-shadow: -1px -1px 50px var(--black2); */
 }
 
 .todo-list-container h1 {
   height: 10vh;
   color: var(--white3);
-  background-color: var(--black2);
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: 600;
 }
 
 .todo-list {
@@ -120,6 +135,7 @@ form input {
   justify-content: flex-start;
   align-items: center;
   overflow: auto;
+  color: var(--red);
 }
 
 .todo {
@@ -129,10 +145,22 @@ form input {
   justify-content: center;
   align-items: center;
   color: var(--white3);
-  border: 5px solid var(--black1);
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 10px;
+}
+
+.todo-red-border {
+  border: 2px solid rgba(249, 89, 89, 0.5);
+  background-color: rgba(249, 89, 89, 0.01);
+}
+.todo-yellow-border {
+  border: 2px solid rgba(255, 201, 60, 0.5);
+  background-color: rgba(255, 201, 60, 0.01);
+}
+.todo-green-border {
+  border: 2px solid rgba(46, 184, 114, 0.5);
+  background-color: rgba(46, 184, 114, 0.01);
 }
 
 .todo-details {
@@ -140,7 +168,7 @@ form input {
 }
 
 .todo-details h3 {
-  color: var(--white2);
+  color: var(--white1);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -151,13 +179,25 @@ form input {
   font-size: 14px;
   font-weight: 500;
 }
-.todo-details p {
-  color: var(--black5);
-}
 
 #description {
   font-size: 12px;
   color: var(--black5);
+  margin-bottom: 5px;
+}
+
+.date-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date-container h4 {
+  font-size: 13px;
+}
+
+.date-container p {
+  color: var(--white2);
 }
 
 .todo-actions {
@@ -173,16 +213,19 @@ form input {
   font-size: 20px;
   color: var(--white3);
   border: none;
-  padding: 10px 20px;
   cursor: pointer;
   border-radius: 10px;
   margin: 0 0 0 20px;
 }
 
 .edit-todo-btn {
-  background-color: var(--blue);
+  color: var(--blue);
+  background-color: transparent;
+  /* background-color: var(--blue); */
 }
 
 .delete-todo-btn {
-  background-color: var(--red);
+  color: var(--red);
+  background-color: transparent;
+  /* background-color: var(--red); */
 }
