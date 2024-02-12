@@ -74,9 +74,7 @@ function addToDo() {
 
 // function for binding data
 function bindData(todos) {
-  console.log(todos);
   if (todos.length <= 0) {
-    console.log("hi");
     toDoListEl.innerHTML = `No Todos to show 🥲`;
     return;
   }
@@ -210,4 +208,13 @@ function calculateRemainigDays(dueDate) {
   let remDays = Math.ceil(millis / (1000 * 60 * 60 * 24));
 
   return remDays;
+}
+
+// function for sorting todos
+function sortTodos() {
+  let todos = localStorage.getItem("todos");
+  todos = JSON.parse(todos) || [];
+
+  todos.sort((a, b) => a.remainingDays - b.remainingDays);
+  bindData(todos);
 }
