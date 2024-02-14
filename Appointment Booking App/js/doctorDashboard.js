@@ -8,6 +8,9 @@ const appointmentsListEl = document.getElementById("appointments-list");
 const acceptedAppointmentsListEl = document.getElementById(
   "accepted-appointments-list"
 );
+const rescheduleTimeFormEl = document.querySelector(".reschedule-time-form");
+const rescheduleTimeEl = document.getElementById("reschedule-time");
+const rescheduleBtn = document.getElementById("reschedule-btn");
 
 // get the information of logged in user
 let loggedInDoctor = sessionStorage.getItem("loggedInUser");
@@ -82,7 +85,7 @@ function bindData(appointments) {
       <td>${appointment.patientId}</td>
       <td>${appointment.patientName}</td>
       <td>${appointment.startTime}</td>
-      <td><span class="btn btn-success" onclick="acceptAppointment(${appointment.id})">Accept</span> <span class="btn btn-danger" onclick="declineAppointment(${appointment.id})">Decline</span></td>
+      <td><span class="btn btn-success" onclick="acceptAppointment(${appointment.id})">Accept</span> <span class="btn btn-danger" onclick="declineAppointment(${appointment.id})">Decline</span> <span class="btn btn-warning" onclick="rescheduleAppointment(${appointment.id})">Reschedule</span></td>
       </tr>
       `;
     } else {
@@ -113,13 +116,31 @@ logoutBtn.addEventListener("click", logoutUser);
 
 // function which will accept appointment
 function acceptAppointment(appointmentId) {
-  let confirmed = confirm("Are you sure you want to Accept this request?");
-  if (!confirmed) return;
-
+  console.log("hi");
   let appointments = localStorage.getItem("appointments");
   appointments = JSON.parse(appointments) || [];
   let patients = localStorage.getItem("patients");
   patients = JSON.parse(patients) || [];
+
+  // for reschedule appointment
+  if (!rescheduleTimeFormEl.classList.contains("hidden")) {
+    let rescheduleTime = rescheduleTimeEl.value;
+    let startTime = startTimeEl.value;
+    let endTime = endTimeEl.value;
+
+    if (rescheduleTime < startTime || rescheduleTime > endTime) {
+      alert("Please enter proper reschedule time");
+      return;
+    }
+    appointments.forEach((appointment) => {
+      if (appointment.id == appointmentId) {
+        appointment.startTime = rescheduleTime;
+      }
+    });
+  } else {
+    let confirmed = confirm("Are you sure you want to Accept this request?");
+    if (!confirmed) return;
+  }
 
   let patientId;
   appointments.forEach((appointment) => {
@@ -139,6 +160,18 @@ function acceptAppointment(appointmentId) {
   localStorage.setItem("appointments", JSON.stringify(appointments));
 
   location.reload();
+}
+
+// function that will reschedule appointment
+function rescheduleAppointment(appointmentId) {
+  let confirmed = confirm("Are you sure you want to Reschedule this request?");
+  if (!confirmed) return;
+  rescheduleTimeFormEl.classList.remove("hidden");
+
+  rescheduleBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    acceptAppointment(appointmentId);
+  });
 }
 
 // function which will decline the appointment request

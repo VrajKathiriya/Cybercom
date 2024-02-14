@@ -12,6 +12,7 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="css/patientDashboard.css" />
   </head>
   <body>
     <div class="container-sm">
@@ -40,16 +41,7 @@
 
       <!-- Available doctors list -->
       <table class="table">
-        <p class="h2">Available Doctors</p>
-        <thead>
-          <tr>
-            <th scope="col">Doctor Name</th>
-            <th scope="col">Start Time</th>
-            <th scope="col">End Time</th>
-            <th scope="col">Available Duration</th>
-            <th scope="col">Book Appointment</th>
-          </tr>
-        </thead>
+        <thead id="table-heading"></thead>
         <tbody id="doctor-list"></tbody>
       </table>
     </div>

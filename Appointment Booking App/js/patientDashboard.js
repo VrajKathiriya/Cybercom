@@ -3,10 +3,14 @@ const startTimeEl = document.getElementById("start-time");
 const checkBtn = document.getElementById("check-btn");
 const doctorListEl = document.getElementById("doctor-list");
 const logoutBtn = document.getElementById("logout-btn");
+const tableHeadingEl = document.getElementById("table-heading");
 
 // get the information of logged in user
 let loggedInPatient = sessionStorage.getItem("loggedInUser");
 loggedInPatient = JSON.parse(loggedInPatient);
+
+let appointments = localStorage.getItem("appointments");
+appointments = JSON.parse(appointments) || [];
 
 if (!loggedInPatient) {
   location.href = "index.html";
@@ -29,17 +33,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sessionStorage.setItem("loggedInUser", JSON.stringify(loggedInPatient));
 
-  let appointment = appointments.find(
-    (appointment) => appointment.patientId == loggedInPatient.id
-  );
-
   if (loggedInPatient.appointmentRequest == "sent") {
-    document.querySelector(".table").innerText =
+    document.querySelector(".table").innerHTML =
       "You already sent request to doctor please wait untill they will accept or decline your request.";
   } else if (loggedInPatient.appointmentRequest == "accepted") {
-    document.querySelector(
-      ".table"
-    ).innerText = `Your request has been approved with doctor ${appointment.doctorName} at ${appointment.startTime}`;
+    bindData({ appointments });
   }
 });
 
@@ -61,14 +59,51 @@ function checkAvailability(e) {
       availability.startTime <= startTime && availability.endTime >= startTime
   );
 
-  bindData(availabilities);
+  bindData({ availabilities });
 }
 
 // function which will bind data into table
-function bindData(availabilities) {
-  let html = "";
-  availabilities.forEach((availability) => {
-    html += `
+function bindData({ availabilities, appointments }) {
+  let appointment;
+  if (appointments) {
+    appointment = appointments.find(
+      (appointment) => appointment.patientId == loggedInPatient.id
+    );
+  }
+  if (loggedInPatient.appointmentRequest == "accepted") {
+    tableHeadingEl.innerHTML = `
+    <p class="h2">Appointment Request updates</p>
+    <tr>
+      <th scope="col">Doctor Id</th>
+      <th scope="col">Doctor Name</th>
+      <th scope="col">Start Time</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+    `;
+    doctorListEl.innerHTML = `
+    <tr>
+      <td>${appointment.doctorId}</td>
+      <td>${appointment.doctorName}</td>
+      <td>${appointment.startTime}</td>
+      <td>${appointment.status}</td>
+      <td><span class="btn btn-danger" onclick="cancelAppointment(${appointment.id})">Cancel Appointment</span></td>
+    </tr>
+    `;
+  } else {
+    doctorListEl.innerHTML = "";
+    availabilities.forEach((availability) => {
+      tableHeadingEl.innerHTML = `
+      <p class="h2">Available Doctors</p>
+      <tr>
+        <th scope="col">Doctor Name</th>
+        <th scope="col">Start Time</th>
+        <th scope="col">End Time</th>
+        <th scope="col">Available Duration</th>
+        <th scope="col">Book Appointment</th>
+      </tr>
+      `;
+      doctorListEl.innerHTML += `
     <tr>
       <td>${availability.name}</td>
       <td>${availability.startTime}</td>
@@ -78,11 +113,10 @@ function bindData(availabilities) {
         doctorId: ${availability.id},
         doctorName: '${availability.name}'
       })">Book Appointment</button></td>
-      
     </tr>
     `;
-  });
-  doctorListEl.innerHTML = html;
+    });
+  }
 }
 
 // function which will book the appointment
@@ -125,6 +159,35 @@ function bookAppointment({ doctorId, doctorName }) {
 
   localStorage.setItem("appointments", JSON.stringify(appointments));
 
+  location.reload();
+}
+
+// function which will decline the appointment request
+function cancelAppointment(appointmentId) {
+  let confirmed = confirm("Are you sure?");
+  if (!confirmed) return;
+
+  let appointments = localStorage.getItem("appointments");
+  appointments = JSON.parse(appointments) || [];
+  let patients = localStorage.getItem("patients");
+  patients = JSON.parse(patients) || [];
+
+  let appointment = appointments.find(
+    (appointment) => appointment.id == appointmentId
+  );
+
+  appointments = appointments.filter(
+    (appointment) => appointment.id != appointmentId
+  );
+
+  patients.forEach((patient) => {
+    if (patient.id == appointment.patientId) {
+      patient.appointmentRequest = "not sent";
+    }
+  });
+
+  localStorage.setItem("appointments", JSON.stringify(appointments));
+  localStorage.setItem("patients", JSON.stringify(patients));
   location.reload();
 }
 
