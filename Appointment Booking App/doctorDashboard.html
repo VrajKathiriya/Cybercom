@@ -17,10 +17,8 @@
   <body>
     <div class="container-sm">
       <div class="mb-3">
-        <p class="h1">Doctor Dashboard</p>
-      </div>
-      <div class="mb-3">
-        <button class="btn btn-danger mb-3" id="logout-btn">logout</button>
+        <span class="h1">Doctor Dashboard</span>
+        <span class="btn btn-danger mb-3" id="logout-btn">logout</span>
       </div>
       <div class="mb-3">
         <p class="h3">Hi👋, <span id="doctor-name"></span></p>
@@ -47,6 +45,34 @@
       <button type="submit" class="btn btn-danger mb-3 hidden" id="delete-btn">
         Not available
       </button>
+
+      <!-- appointments requsets -->
+      <table class="table appointments-requests">
+        <p class="h2">Appointments Requests</p>
+        <thead>
+          <tr>
+            <th scope="col">Patient Id</th>
+            <th scope="col">Patient Name</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="appointments-list"></tbody>
+      </table>
+
+      <!-- accepted appointments -->
+      <table class="table appointments-requests">
+        <p class="h2">Accepted Appointments</p>
+        <thead>
+          <tr>
+            <th scope="col">Patient Id</th>
+            <th scope="col">Patient Name</th>
+            <th scope="col">Start Time</th>
+            <th scope="col">Remark</th>
+          </tr>
+        </thead>
+        <tbody id="accepted-appointments-list"></tbody>
+      </table>
     </div>
     <script src="js/doctorDashboard.js"></script>
   </body>

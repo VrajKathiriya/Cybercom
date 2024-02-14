@@ -85,6 +85,8 @@ function registerPatient(newPatient) {
   let patients = localStorage.getItem("patients");
   patients = JSON.parse(patients) || [];
 
+  newPatient.appointmentRequest = "not sent";
+
   patients = [...patients, newPatient];
 
   localStorage.setItem("patients", JSON.stringify(patients));
