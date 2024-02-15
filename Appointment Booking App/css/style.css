@@ -1,4 +1,8 @@
-a {
-  text-decoration: none;
-  color: #fff;
+.img-container {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("../img/img2.jpg");
+  background-size: cover;
+  opacity: 0.5;
 }

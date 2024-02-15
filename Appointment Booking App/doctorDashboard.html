@@ -14,7 +14,9 @@
       crossorigin="anonymous"
     />
   </head>
+  <link rel="stylesheet" href="css/style.css" />
   <body>
+    <div class="img-container"></div>
     <div class="container-sm">
       <div class="mb-3">
         <span class="h1">Doctor Dashboard</span>
@@ -38,13 +40,13 @@
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary mb-3" id="set-btn">
+        <span type="submit" class="btn btn-primary mb-3" id="set-btn">
           Set
-        </button>
+        </span>
+        <span class="btn btn-danger mb-3 hidden" id="delete-btn">
+          Not available
+        </span>
       </form>
-      <button type="submit" class="btn btn-danger mb-3 hidden" id="delete-btn">
-        Not available
-      </button>
 
       <!-- reschedule time form -->
       <form class="reschedule-time-form hidden">
@@ -85,7 +87,7 @@
             <th scope="col">Patient Id</th>
             <th scope="col">Patient Name</th>
             <th scope="col">Start Time</th>
-            <th scope="col">Remark</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody id="accepted-appointments-list"></tbody>
