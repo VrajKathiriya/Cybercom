@@ -11,7 +11,7 @@ putBtn.addEventListener("click", updateData);
 deleteBtn.addEventListener("click", deleteData);
 
 function getAllData() {
-  fetch("https://reqres.in/api/users?page=2")
+  fetch("http://127.0.0.1:8000/api/v1/patients")
     .then((response) => response.json())
     .then((data) => console.log(data))
     .catch((err) => console.log(err));
