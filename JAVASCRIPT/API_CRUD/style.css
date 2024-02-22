@@ -1,0 +1,19 @@
+.countries-container {
+  display: flex;
+}
+
+.hidden {
+  display: none;
+}
+
+.list-item {
+  display: flex;
+  width: 85vw;
+  justify-content: space-between;
+  align-items: center;
+}
+/* 
+.add-country-form {
+  position: absolute;
+  z-index: 2;
+} */

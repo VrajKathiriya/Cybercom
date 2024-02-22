@@ -47,8 +47,12 @@ async function showFavoritesCountries() {
 
   for (let i = 0; i < countries.length; i++) {
     let country = countries[i];
+    console.log(typeof country);
+    let ind = country.index;
     let data = await getJSON(country.url);
-    newCountries.push(...data);
+    data = data[ind];
+    console.log(data);
+    newCountries.push(data);
   }
 
   bindCountriesData({ newCountries });
@@ -57,7 +61,7 @@ async function showFavoritesCountries() {
 // function which binds data to ui
 function bindCountriesData({ countries, newCountries }) {
   let html = "";
-  countries?.forEach((country) => {
+  countries?.forEach((country, i) => {
     html += `
      <div class="card" style="width: 18rem">
        <img src=${country.flags.svg} class="card-img-top" alt="..." />
@@ -66,12 +70,12 @@ function bindCountriesData({ countries, newCountries }) {
          <h6 class="card-title">${country.continents[0]}</h6>
          <h6 class="card-title">👨‍👩‍👧‍👦 ${country.population}</h6>
          <a href=${country.maps.googleMaps} class="btn btn-primary mb-1")" target=blank>Show On Google Maps</a>
-         <a href="#" class="btn btn-warning save-btn" onclick="saveToLocalStorage('${country.name.common}','${searchBar.value}')" id='${country.name.common}'>Add to favorites</a>
+         <a href="#" class="btn btn-warning save-btn" onclick="saveToLocalStorage('${country.name.common}','${searchBar.value}',${i})" id='${country.name.common}'>Add to favorites</a>
        </div>
      </div>
      `;
   });
-  newCountries?.forEach((country) => {
+  newCountries?.forEach((country, i) => {
     html += `
      <div class="card" style="width: 18rem">
        <img src=${country.flags.svg} class="card-img-top" alt="..." />
@@ -80,7 +84,7 @@ function bindCountriesData({ countries, newCountries }) {
          <h6 class="card-title">${country.continents[0]}</h6>
          <h6 class="card-title">👨‍👩‍👧‍👦 ${country.population}</h6>
          <a href=${country.maps.googleMaps} class="btn btn-primary mb-1")" target=blank>Show On Google Maps</a>
-         <a href="#" class="btn btn-danger" onclick="deleteFromLocalStorage('${country.name.common}')" id=${country.name.common}>Remove from Favorites</a>
+         <a href="#" class="btn btn-danger" onclick="deleteFromLocalStorage('${country.name.common}','${i}')" id=${country.name.common}>Remove from Favorites</a>
        </div>
      </div>
      `;
@@ -92,7 +96,7 @@ function bindCountriesData({ countries, newCountries }) {
 }
 
 // fucntion which saves data to localstorage
-function saveToLocalStorage(countryName, searchValue) {
+function saveToLocalStorage(countryName, searchValue, index) {
   const saveBtn = document.getElementById(countryName);
   console.log(saveBtn, countryName);
 
@@ -100,7 +104,7 @@ function saveToLocalStorage(countryName, searchValue) {
   countries = JSON.parse(countries) || [];
 
   let available = countries.find(
-    (country) => country.countryName == countryName
+    (country) => country.countryName == countryName && country.index == index
   );
   console.log(available);
 
@@ -117,6 +121,7 @@ function saveToLocalStorage(countryName, searchValue) {
   let newCountry = {
     id: Date.now(),
     countryName,
+    index,
     url: `https://restcountries.com/v3.1/name/${searchValue}`,
   };
 
@@ -130,7 +135,7 @@ function saveToLocalStorage(countryName, searchValue) {
 }
 
 // function which deletes data from localstorage
-function deleteFromLocalStorage(countryName) {
+function deleteFromLocalStorage(countryName, index) {
   let countries = localStorage.getItem("countries");
   countries = JSON.parse(countries) || [];
 
