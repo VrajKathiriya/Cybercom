@@ -8,11 +8,15 @@ const postCountryBtn = document.getElementById("post-country-data");
 const addCountryForm = document.querySelector(".add-country-form");
 const deletedCountriesEl = document.querySelector(".deleted-countries");
 const deletedCountryBtn = document.getElementById("deleted-country-btn");
+const updateCountryBtn = document.getElementById("update-country-data");
 
 const countryNameEl = document.getElementById("country-name");
 const continentEl = document.getElementById("continent");
 const populationEl = document.getElementById("population");
 const countryImgEl = document.getElementById("country-img");
+
+// global variable for update country
+let currentCountry, currentIndex;
 
 searchBtn.addEventListener("click", function (e) {
   e.preventDefault();
@@ -22,6 +26,7 @@ searchBtn.addEventListener("click", function (e) {
 addCountryBtn.addEventListener("click", function (e) {
   e.preventDefault();
   addCountryForm.classList.remove("hidden");
+  countriesContainer.classList.add("hidden");
 });
 
 postCountryBtn.addEventListener("click", function (e) {
@@ -66,6 +71,11 @@ deletedCountryBtn.addEventListener("click", function (e) {
     ulEl += `</ul>`;
     countriesContainer.innerHTML = ulEl;
   }
+});
+
+updateCountryBtn.addEventListener("click", function (e) {
+  e.preventDefault();
+  updateCountryData();
 });
 
 // function which fetch data from API and return json data
@@ -121,7 +131,7 @@ async function showAllCountries() {
   let localCountries = localStorage.getItem("countries");
   localCountries = JSON.parse(localCountries) || [];
 
-  countries = [...countries, ...localCountries];
+  countries = [...localCountries, ...countries];
   bindCountriesData({ countries });
 }
 
@@ -133,31 +143,52 @@ async function sortCountries() {
   let localCountries = localStorage.getItem("countries");
   localCountries = JSON.parse(localCountries) || [];
 
-  countries = [...countries, ...localCountries];
+  countries = [...localCountries, ...countries];
   countries.sort((a, b) => a.population - b.population);
   bindCountriesData({ countries });
 }
 
 // function which binds data to ui
 function bindCountriesData({ countries }) {
+  countriesContainer.classList.remove("hidden");
+  addCountryForm.classList.add("hidden");
+
   let deletedCountries = localStorage.getItem("deletedCountries");
   deletedCountries = JSON.parse(deletedCountries) || [];
 
   let html = "";
+  let localCountries = [];
   countries?.forEach((country, i) => {
-    if (!deletedCountries.includes(country.name.common.toLowerCase())) {
+    let condition;
+    if (country.id && country.status) condition = true;
+    else
+      condition =
+        !deletedCountries.includes(country.name.common.toLowerCase()) &&
+        !localCountries.includes(country.name.common.toLowerCase());
+    if (condition) {
       html += `
       <div class="card" style="width: 18rem">
         <img src=${country.flags.svg} class="card-img-top" alt="..." />
         <div class="card-body">
-          <h4 class="card-title">${country.name.common}</h4>
+          <h4 class="card-title">${country.name.common.toUpperCase()}</h4>
           <h6 class="card-title">${country.continents[0]}</h6>
           <h6 class="card-title">👨‍👩‍👧‍👦 ${country.population}</h6>
-          <a href="#" class="btn btn-danger delete-btn" id='${country.name.common}' onclick="addToDeletedCountries('${country.name.common}')">Delete country</a>
+          <a href="#" class="btn btn-primary edit-btn mb-2" id='${
+            country.name.common
+          }' onclick="editCountry('${
+        country.name.common
+      }',${i})">Edit country</a>
+          <a href="#" class="btn btn-danger delete-btn" id='${
+            country.name.common
+          }' onclick="addToDeletedCountries('${
+        country.name.common
+      }')">Delete country</a>
         </div>
       </div>
       `;
     }
+    if (country.id)
+      localCountries = [...localCountries, country.name.common.toLowerCase()];
   });
 
   countriesContainer.innerHTML = html;
@@ -204,7 +235,7 @@ async function saveToLocalStorage() {
 
   for (let country of oldCountries) {
     if (country.name.common.toLowerCase() == countryName.toLowerCase()) {
-      alert("This country is alredy present");
+      alert("This country is already present");
       clearForm();
       return;
     }
@@ -212,7 +243,7 @@ async function saveToLocalStorage() {
 
   for (let country of countries) {
     if (country.name.common.toLowerCase() == countryName.toLowerCase()) {
-      alert("This country is alredy present");
+      alert("This country is already present");
       clearForm();
       return;
     }
@@ -244,14 +275,139 @@ function addToDeletedCountries(countryName) {
   let confirmed = confirm("Are you sure you want to delete this country!");
   if (!confirmed) return;
 
+  let localCountries = localStorage.getItem("countries");
+  localCountries = JSON.parse(localCountries) || [];
+
   let deletedCountries = localStorage.getItem("deletedCountries");
   deletedCountries = JSON.parse(deletedCountries) || [];
+
+  for (let country of localCountries) {
+    if (country.name.common.toLowerCase() == countryName.toLowerCase()) {
+      localCountries = localCountries.filter(
+        (country) =>
+          country.name.common.toLowerCase() != countryName.toLowerCase()
+      );
+      localStorage.setItem("countries", JSON.stringify(localCountries));
+      location.reload();
+      return;
+    }
+  }
 
   if (deletedCountries.includes(countryName.toLowerCase())) return;
   deletedCountries = [...deletedCountries, countryName.toLowerCase()];
 
   localStorage.setItem("deletedCountries", JSON.stringify(deletedCountries));
   location.reload();
+}
+
+// function which allows to edit country
+async function editCountry(countryName, index) {
+  console.log(countryName, index);
+  let localCountries = localStorage.getItem("countries");
+  localCountries = JSON.parse(localCountries) || [];
+
+  let deletedCountries = localStorage.getItem("deletedCountries");
+  deletedCountries = JSON.parse(deletedCountries) || [];
+
+  let editCountry;
+
+  for (let country of localCountries) {
+    if (country.name.common == countryName) {
+      editCountry = country;
+    }
+  }
+
+  if (!editCountry) {
+    editCountry = await getJSON(
+      `https://restcountries.com/v3.1/name/${countryName}`
+    );
+    console.log(editCountry);
+    editCountry = editCountry[index];
+  }
+
+  currentCountry = editCountry;
+
+  console.log(currentCountry);
+
+  countryNameEl.value = countryName;
+  continentEl.value = editCountry.continents[0];
+  populationEl.value = editCountry.population;
+  countryImgEl.value = editCountry.flags.svg;
+  addCountryForm.classList.remove("hidden");
+}
+
+// function which will update country data
+function updateCountryData() {
+  console.log(currentCountry);
+  const countryName = countryNameEl.value;
+  const continent = continentEl.value;
+  const imgUrl = countryImgEl.value;
+  const population = populationEl.value;
+
+  let localCountries = localStorage.getItem("countries");
+  localCountries = JSON.parse(localCountries) || [];
+
+  if (!countryName) {
+    alert("Please enter country name");
+    return;
+  } else if (!continent) {
+    alert("Please enter continent name");
+    return;
+  } else if (!population) {
+    alert("Please enter population");
+    return;
+  } else if (!imgUrl) {
+    alert("Please enter image url");
+    return;
+  }
+
+  let newCountry = {
+    id: Date.now(),
+    name: {
+      common: countryName.toLowerCase(),
+    },
+    continents: [continent],
+    population,
+    flags: {
+      svg: imgUrl,
+    },
+    index: 0,
+    status: "updated",
+  };
+
+  if (
+    countryName.toLowerCase() == currentCountry.name.common.toLowerCase() &&
+    continent.toLowerCase() == currentCountry.continents[0].toLowerCase() &&
+    population == currentCountry.population &&
+    imgUrl == currentCountry.flags.svg
+  ) {
+    clearForm();
+    return;
+  }
+
+  if (currentCountry.id) {
+    let index;
+    localCountries.forEach((country, i) => {
+      if (country.id == currentCountry.id) index = i;
+    });
+
+    localCountries[index] = newCountry;
+  } else {
+    let deletedCountries = localStorage.getItem("deletedCountries");
+    deletedCountries = JSON.parse(deletedCountries) || [];
+
+    deletedCountries = [
+      ...deletedCountries,
+      currentCountry.name.common.toLowerCase(),
+    ];
+
+    localStorage.setItem("deletedCountries", JSON.stringify(deletedCountries));
+
+    localCountries = [...localCountries, newCountry];
+  }
+
+  localStorage.setItem("countries", JSON.stringify(localCountries));
+  clearForm();
 }
 
 // function which restore country
