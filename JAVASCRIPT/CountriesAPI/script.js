@@ -25,8 +25,11 @@ searchBtn.addEventListener("click", function (e) {
 
 addCountryBtn.addEventListener("click", function (e) {
   e.preventDefault();
+  clearForm();
   addCountryForm.classList.remove("hidden");
   countriesContainer.classList.add("hidden");
+  updateCountryBtn.classList.add("hidden");
+  postCountryBtn.classList.remove("hidden");
 });
 
 postCountryBtn.addEventListener("click", function (e) {
@@ -178,7 +181,7 @@ function bindCountriesData({ countries }) {
           }' onclick="editCountry('${
         country.name.common
       }',${i})">Edit country</a>
-          <a href="#" class="btn btn-danger delete-btn" id='${
+          <a href="#" class="btn btn-danger delete-btn mb-2" id='${
             country.name.common
           }' onclick="addToDeletedCountries('${
         country.name.common
@@ -288,6 +291,14 @@ function addToDeletedCountries(countryName) {
           country.name.common.toLowerCase() != countryName.toLowerCase()
       );
       localStorage.setItem("countries", JSON.stringify(localCountries));
+
+      deletedCountries = deletedCountries.filter(
+        (country) => country != countryName.toLowerCase()
+      );
+      localStorage.setItem(
+        "deletedCountries",
+        JSON.stringify(deletedCountries)
+      );
       location.reload();
       return;
     }
@@ -302,7 +313,9 @@ function addToDeletedCountries(countryName) {
 
 // function which allows to edit country
 async function editCountry(countryName, index) {
-  console.log(countryName, index);
+  postCountryBtn.classList.add("hidden");
+  updateCountryBtn.classList.remove("hidden");
+
   let localCountries = localStorage.getItem("countries");
   localCountries = JSON.parse(localCountries) || [];
 
@@ -322,14 +335,18 @@ async function editCountry(countryName, index) {
       `https://restcountries.com/v3.1/name/${countryName}`
     );
     console.log(editCountry);
-    editCountry = editCountry[index];
+    editCountry = editCountry.filter(
+      (country) =>
+        country.name.common.toLowerCase() == countryName.toLowerCase()
+    );
+    editCountry = editCountry[0];
   }
 
   currentCountry = editCountry;
 
   console.log(currentCountry);
 
-  countryNameEl.value = countryName;
+  countryNameEl.value = editCountry.name.common;
   continentEl.value = editCountry.continents[0];
   populationEl.value = editCountry.population;
   countryImgEl.value = editCountry.flags.svg;
