@@ -6,6 +6,8 @@ const productImageEl = document.getElementById("product-image");
 const updateProductBtn = document.getElementById("update-product-btn");
 
 let productId;
+
+// DOM content loaded
 document.addEventListener("DOMContentLoaded", function () {
   let currentProduct = localStorage.getItem("currentProduct");
   currentProduct = JSON.parse(currentProduct) || [];
@@ -20,11 +22,13 @@ document.addEventListener("DOMContentLoaded", function () {
   productImageEl.value = currentProduct.images[0].slice(2).slice(0, -2);
 });
 
+// evnet listner on update product button
 updateProductBtn.addEventListener("click", function (e) {
   e.preventDefault();
   updateProduct();
 });
 
+// function which will update the product
 async function updateProduct() {
   const productTitle = productTitleEl.value;
   const productPrice = productPriceEl.value;
@@ -66,6 +70,7 @@ async function updateProduct() {
   clearForm();
 }
 
+// function which will clear the form
 function clearForm() {
   productTitleEl.value = "";
   productPriceEl.value = "";

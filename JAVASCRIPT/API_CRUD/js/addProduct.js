@@ -6,6 +6,7 @@ const productImageEl = document.getElementById("product-image");
 const addProductBtn = document.getElementById("add-product-btn");
 const addNewProductForm = document.querySelector(".add-new-product-form");
 
+// DOM content loaded
 document.addEventListener("DOMContentLoaded", async function () {
   let res = await fetch(`https://api.escuelajs.co/api/v1/categories`);
   let data = await res.json();
@@ -18,11 +19,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 });
 
+// event listner to add product button
 addProductBtn.addEventListener("click", function (e) {
   e.preventDefault();
   addProduct();
 });
 
+// function which will add product
 async function addProduct() {
   const productTitle = productTitleEl.value;
   const productPrice = productPriceEl.value;
@@ -61,6 +64,7 @@ async function addProduct() {
   clearForm();
 }
 
+// function which will clear the form
 function clearForm() {
   productTitleEl.value = "";
   productPriceEl.value = "";

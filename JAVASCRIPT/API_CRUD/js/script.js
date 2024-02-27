@@ -15,6 +15,7 @@ let end = itemsPerPage;
 let products;
 let productId;
 
+// DOM content loaded
 document.addEventListener("DOMContentLoaded", async function () {
   let res = await fetch(`https://api.escuelajs.co/api/v1/categories`);
   let categories = await res.json();
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 });
 
+// event listner on itemsPerPage element
 itemsPerPageEl.addEventListener("change", function () {
   itemsPerPage = this.value;
   end = page * +itemsPerPage;
@@ -33,6 +35,7 @@ itemsPerPageEl.addEventListener("change", function () {
   bindProductsData(products.slice((page - 1) * itemsPerPage, end));
 });
 
+// evenet listner on getAllProducts button
 getAllProductsBtn.addEventListener("click", async function (e) {
   e.preventDefault();
   extraBtns.classList.remove("hidden");
@@ -42,6 +45,7 @@ getAllProductsBtn.addEventListener("click", async function (e) {
   bindProductsData(products.slice(0, itemsPerPage));
 });
 
+// event listner on search button
 getSingleProductBtn.addEventListener("click", async function (e) {
   e.preventDefault();
   extraBtns.classList.add("hidden");
@@ -77,18 +81,21 @@ getSingleProductBtn.addEventListener("click", async function (e) {
   }
 });
 
+// function which fetch all products data
 async function fetchAllProductsData() {
   const res = await fetch(`https://api.escuelajs.co/api/v1/products/`);
   const data = await res.json();
   return data;
 }
 
+// function which fetch a single product data
 async function fetchSingleProduct(id) {
   const res = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`);
   const data = await res.json();
   return data;
 }
 
+// function which fetch product's data by title
 async function fetchProductsByTitle(title) {
   const res = await fetch(
     `https://api.escuelajs.co/api/v1/products/?title=${title}`
@@ -97,6 +104,7 @@ async function fetchProductsByTitle(title) {
   return data;
 }
 
+// function which fetch product data by price
 async function fetchProductsByPrice(price) {
   const res = await fetch(
     `https://api.escuelajs.co/api/v1/products/?price=${price}`
@@ -105,6 +113,7 @@ async function fetchProductsByPrice(price) {
   return data;
 }
 
+// function which handle previous page in pagination
 function handlePrevious() {
   if (page == 1) return;
   page--;
@@ -114,6 +123,7 @@ function handlePrevious() {
   bindProductsData(data);
 }
 
+// function which handle next page in pagination
 function handleNext() {
   if (page > products.length / itemsPerPage) return;
   page++;
@@ -124,6 +134,7 @@ function handleNext() {
   bindProductsData(data);
 }
 
+// function which bind the data
 function bindProductsData(products) {
   let html = "";
 
@@ -153,6 +164,7 @@ function bindProductsData(products) {
   productsContainer.innerHTML = html;
 }
 
+// function which allows user to edit product data
 async function editProduct(id) {
   let data = await fetchSingleProduct(id);
 
@@ -160,6 +172,7 @@ async function editProduct(id) {
   location.href = "../API_CRUD/updateProductForm.html";
 }
 
+// function which will delete product data
 async function deleteProduct(id) {
   console.log(id);
   let confirmed = confirm("Are you sure you want to delete this?");
@@ -173,12 +186,14 @@ async function deleteProduct(id) {
   location.reload();
 }
 
+// function which will sort the product data according to category
 function sortProducts(category) {
   products = products.sort((p1, p2) => (p1[category] > p2[category] ? 1 : -1));
   bindProductsData(products.slice(0, itemsPerPage));
   page = 1;
 }
 
+// function which will filter products
 async function filterProducts(categoryId) {
   let res = await fetch(
     `https://api.escuelajs.co/api/v1/products/?categoryId=${categoryId}`
