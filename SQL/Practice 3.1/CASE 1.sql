@@ -11,7 +11,7 @@ INSERT INTO customers
 (id, name, email, created_at) 
 VALUES
 (1, 'John Smith', 'johnsmith@gmail.com', '2022-01-01 10:00:00'),
-(2, 'Jane Doe', 'janedoe@yahoo.com', '2022-01-02 11:00:00'),
+(2, 'Jane Doe', 'janedoe@yahoo.com', '2022-01-01 11:00:00'),
 (3, 'Bob Johnson', 'bobjohnson@hotmail.com', '2022-01-03 12:00:00'),
 (4, 'Sarah Lee', 'sarahlee@gmail.com', '2022-01-04 13:00:00'),
 (5, 'David Kim', 'davidkim@yahoo.com', '2022-01-05 14:00:00');

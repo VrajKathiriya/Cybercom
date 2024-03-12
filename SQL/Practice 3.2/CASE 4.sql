@@ -21,3 +21,7 @@ SELECT customer_id, SUM(total_amount) AS total_amount
 FROM orders
 GROUP BY customer_id
 ORDER BY total_amount DESC;
+
+
+
+
