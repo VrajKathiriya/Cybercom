@@ -40,8 +40,8 @@ VALUES
 (1, 1,101, 100.50, '2024-03-13'),
 (2, 3,101, 75.20, '2024-02-12'),
 (3, 5,101, 50.00, '2024-01-13'),
-(4, 2,102, 120.75, '2024-01-23'),
-(5, 7,103, 200.30, '2024-03-13'),
+(4, 2,102, 12000.75, '2024-01-23'),
+(5, 7,103, 20000.30, '2024-03-13'),
 (6, 4,104, 30.90, '2024-03-13'),
 (7, 6,105, 80.60, '2024-03-13'),
 (8, 9,105, 150.25, '2024-02-13' ),
@@ -79,22 +79,24 @@ VALUES
 
 
 -- create employees table
+DROP TABLE employees;
 CREATE TABLE employees (
     employee_id INT PRIMARY KEY,
     employee_name VARCHAR(255),
     employee_salary DECIMAL(10,2),
     department_id INT,
+    country_name VARCHAR(200),
     FOREIGN KEY (department_id) REFERENCES departments(department_id)
 );
 
 -- insert data into employees table
-INSERT INTO employees (employee_id, employee_name, employee_salary, department_id)
+INSERT INTO employees (employee_id, employee_name, employee_salary, department_id, country_name)
 VALUES
-(1, 'John Doe', 60000.00, 1),
-(2, 'Jane Smith', 75000.00,1),
-(3, 'Mike Johnson', 90000.00,2),
-(4, 'Emily White', 80000.00,4),
-(5, 'David Brown', 70000.00,5);
+(1, 'John Doe', 60000.00, 1, 'USA'),
+(2, 'Jane Smith', 75000.00,1, 'UK'),
+(3, 'Mike Johnson', 90000.00,2, 'USA'),
+(4, 'Emily White', 80000.00,4, 'India'),
+(5, 'David Brown', 70000.00,5, 'USA');
 
 -- create departments table
 CREATE TABLE departments (
@@ -112,6 +114,7 @@ VALUES
 (5, 'Operations');
 
 -- create order_details table
+DROP TABLE order_details;
 CREATE TABLE order_details (
     order_id INT PRIMARY KEY,
     quantity INT,
