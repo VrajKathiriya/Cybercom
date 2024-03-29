@@ -1,0 +1,8 @@
+/* Custom styles */
+.product-img {
+  max-width: 100px;
+  height: auto;
+}
+.cart-item {
+  border-bottom: 1px solid #ddd;
+}

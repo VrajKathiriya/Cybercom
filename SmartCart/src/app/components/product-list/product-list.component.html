@@ -1,0 +1,43 @@
+<mat-paginator
+  [length]="newProducts.length"
+  [pageSize]="pageSize"
+  (page)="getPaginatorData($event)"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="onPageSizeChange($event)"
+  showFirstLastButtons="false"
+>
+</mat-paginator>
+
+<div class="container mt-1">
+  <!-- <h1 class="mb-4">Product List</h1> -->
+  <mat-form-field>
+    <mat-label>Choose category</mat-label>
+    <mat-select (selectionChange)="onCategoryChange($event)">
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{ category }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="row">
+    <div
+      class="col-md-3 mb-4"
+      *ngFor="let product of newProducts | slice : lowValue : highValue"
+    >
+      <div class="card">
+        <img
+          src="https://via.placeholder.com/300x200"
+          class="card-img-top"
+          alt="Product 1"
+        />
+        <div class="card-body">
+          <h2 class="card-title">{{ product.title }}</h2>
+          <p class="card-text">{{ product.description }}</p>
+          <p>{{ product.price }}</p>
+          <p>Category: {{ product.category }}</p>
+          <a href="#" class="btn btn-sm btn-primary mr-2">Add to Cart</a>
+          <a href="#" class="btn btn-sm btn-secondary">View Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

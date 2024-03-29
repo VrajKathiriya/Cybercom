@@ -1,0 +1,33 @@
+.profile-img {
+  /* max-width: 200px; */
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: red;
+  overflow: hidden;
+}
+img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+.profile-details table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.profile-details th,
+.profile-details td {
+  padding: 15px 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.edit-btn {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.edit-btn:hover {
+  color: #007bff;
+  text-decoration: none;
+}

@@ -49,12 +49,11 @@ JOIN products p
 ON p.product_id = od.product_id
 WHERE p.category = 'Clothing'
 GROUP BY e.employee_id, e.employee_name
-HAVING COUNT(p.category) > 0
 ORDER BY total_revenue DESC;
 
 -- 3.	Write a SQL query to retrieve the names of all customers who have placed orders for products in both the "Electronics" and "Clothing" 
 -- categories. The output should only include customers who have ordered products in both categories.
-SELECT c.first_name, c.last_name
+SELECT c.first_name, c.last_name, GROUP_CONCAT(DISTINCT p.category) AS category
 FROM customers c
 JOIN orders o
 ON c.customer_id = o.customer_id

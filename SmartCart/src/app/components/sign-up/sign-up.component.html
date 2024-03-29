@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" routerLink="">🛍️Smart Cart🛒</a>
+</nav>
+
+<div class="container sign-up-container mt-5">
+  <div class="text-center mt-2 h2">Sign Up</div>
+  <form class="signup-form mt-4" [formGroup]="signUpForm" (ngSubmit)="signUp()">
+    <div class="form-group my-3">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        formControlName="username"
+        placeholder="Enter username"
+      />
+      <span
+        class="error-msg"
+        style="color: red"
+        *ngIf="username && username.invalid && username.touched"
+        >**Please enter your full name</span
+      >
+    </div>
+    <div class="form-group my-3">
+      <label for="email">Email address</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        placeholder="Enter your email"
+      />
+      <span
+        class="error-msg"
+        style="color: red"
+        *ngIf="email && email.invalid && email.touched"
+        >**Please enter your email correctly</span
+      >
+    </div>
+    <div class="form-group my-3">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+        placeholder="Password"
+        required
+      />
+      <span
+        class="error-msg"
+        style="color: red"
+        *ngIf="password && password.invalid && password.touched"
+        >**Please enter password</span
+      >
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+    <p class="mt-4">
+      already have an account?
+      <a routerLink="../login">login</a>
+    </p>
+  </form>
+</div>

@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <div class="mb-4 h3">Wishlist</div>
+  <div class="row">
+    <div class="col">
+      <div
+        class="cart-item mb-3 border-bottom pb-3"
+        *ngFor="let item of wishlist"
+      >
+        <div class="row align-items-center">
+          <div class="col-md-2">
+            <img
+              src="https://via.placeholder.com/100"
+              alt="Product 1"
+              class="product-img img-fluid"
+            />
+          </div>
+          <div class="col-md-5">
+            <h2>{{ item.name }}</h2>
+            <p>{{ item.description }}</p>
+          </div>
+          <div class="col-md-2">
+            <p>${{ item.price }}</p>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary btn-add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

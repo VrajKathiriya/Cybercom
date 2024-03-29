@@ -1,0 +1,11 @@
+<!-- <app-login></app-login> -->
+<!-- <app-sign-up></app-sign-up> -->
+
+<!-- <app-home></app-home> -->
+
+<!-- <app-product-list></app-product-list> -->
+
+<!-- <app-page-not-found></app-page-not-found> -->
+
+<app-navbar *ngIf="pathName != '/login' && pathName != '/sign-up'"></app-navbar>
+<router-outlet></router-outlet>

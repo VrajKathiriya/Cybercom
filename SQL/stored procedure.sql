@@ -95,7 +95,8 @@ CALL handle_student('select', NULL, NULL, NULL, NULL, NULL, NULL);
 CALL handle_student('update', 4, NULL, 'maths', NULL, NULL , 100);
 CALL handle_student('update', 3, NULL, NULL, 'physics', NULL, 98);
 
-CALL handle_student('insert',6, 'sita', '45', '45', '55', NULL);
+
+CALL handle_student('insert',7, 'sita', '45', '45', '55', NULL);
 
 DROP PROCEDURE handle_student;
 DELIMITER //
