@@ -1,4 +1,30 @@
-<div class="container">
+<div class="thank-you-container" *ngIf="orderPlaced">
+  <div class="confirmation-text">
+    <p class="thank-you mb-5 h1">Thank you!</p>
+    <p class="h3">Your order has been placed successfully.</p>
+  </div>
+
+  <div class="order-details">
+    <div class="order-details">
+      <p><strong>Order ID:</strong> #{{ order_id }}</p>
+      <p><strong>Order Date:</strong>{{ order_date }}</p>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <button
+      class="btn btn-lg btn-continue-shopping mr-2"
+      routerLink="../product-list"
+    >
+      Continue Shopping
+    </button>
+    <a href="#" class="btn btn-lg btn-primary" routerLink="../orders"
+      >See Orders</a
+    >
+  </div>
+</div>
+
+<div class="container mt-5" *ngIf="total_amount != 0 && !orderPlaced">
   <div class="col-md-6 mx-auto">
     <div class="mb-4 h3">Checkout</div>
     <div class="card">
@@ -8,30 +34,47 @@
           <tbody>
             <tr>
               <td>Total Amount</td>
-              <td class="text-right">$1000</td>
+              <td class="text-right">${{ total_amount }}</td>
             </tr>
             <tr>
-              <td>Discount (10%)</td>
-              <td class="text-right">$100</td>
+              <td>Discount ({{ discount_percentage }}%)</td>
+              <td class="text-right">${{ discount_amount }}</td>
             </tr>
             <tr>
-              <td>GST Amount (18%)</td>
-              <td class="text-right">$162</td>
+              <td>Gross Amount</td>
+              <td class="text-right">${{ gross_amount }}</td>
+            </tr>
+            <tr>
+              <td>GST Amount ({{ gst_percentage }}%)</td>
+              <td class="text-right">${{ gst_amount }}</td>
             </tr>
             <tr>
               <td>Delivery Charge</td>
-              <td class="text-right">$50</td>
+              <td class="text-right">${{ delivery_charge }}</td>
             </tr>
             <tr>
               <td><strong>Net Amount</strong></td>
-              <td class="text-right"><strong>$1112</strong></td>
+              <td class="text-right">
+                <strong>${{ net_amount }}</strong>
+              </td>
             </tr>
           </tbody>
         </table>
         <div class="text-center">
-          <button class="btn btn-primary btn-lg">Proceed to Pay</button>
+          <button class="btn btn-primary btn-lg" (click)="makeOrder()">
+            Place Order
+          </button>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<div class="container mt-5" *ngIf="total_amount == 0 && !orderPlaced">
+  loading...
+</div>
+
+<!-- <div class="container mt-5" *ngIf="total_amount == 0 && orderPlaced">
+  <p>you don't have any product in cart</p>
+  <div class="btn btn-primary" routerLink="../product-list">Shop Now</div>
+</div> -->

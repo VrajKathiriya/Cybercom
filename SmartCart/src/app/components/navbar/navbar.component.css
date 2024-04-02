@@ -7,3 +7,16 @@
   justify-content: center;
   align-items: center;
 }
+
+.nav-link {
+  cursor: pointer;
+}
+
+#user {
+  font-size: 20px;
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: #ddd;
+  padding: 10px 20px;
+  border-radius: 20px;
+}

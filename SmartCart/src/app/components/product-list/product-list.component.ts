@@ -1,4 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { CartService } from 'src/app/services/cart.service';
+import { CategoryService } from 'src/app/services/category.service';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -6,144 +9,23 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
-  products = [
-    {
-      product_id: 1,
-      title: 'Product 1',
-      description: 'Description of Product 1.',
-      price: '$19.99',
-      category: 'Category 1',
-      image: 'https://example.com/product1.jpg',
-    },
-    {
-      product_id: 2,
-      title: 'Product 2',
-      description: 'Description of Product 2.',
-      price: '$29.99',
-      category: 'Category 2',
-      image: 'https://example.com/product2.jpg',
-    },
-    {
-      product_id: 3,
-      title: 'Product 3',
-      description: 'Description of Product 3.',
-      price: '$39.99',
-      category: 'Category 3',
-      image: 'https://example.com/product3.jpg',
-    },
-    {
-      product_id: 4,
-      title: 'Product 4',
-      description: 'Description of Product 4.',
-      price: '$109.99',
-      category: 'Category 2',
-      image: 'https://example.com/product10.jpg',
-    },
-    {
-      product_id: 5,
-      title: 'Product 5',
-      description: 'Description of Product 1.',
-      price: '$19.99',
-      category: 'Category 1',
-      image: 'https://example.com/product1.jpg',
-    },
-    {
-      product_id: 6,
-      title: 'Product 6',
-      description: 'Description of Product 2.',
-      price: '$29.99',
-      category: 'Category 2',
-      image: 'https://example.com/product2.jpg',
-    },
-    {
-      product_id: 7,
-      title: 'Product 7',
-      description: 'Description of Product 3.',
-      price: '$39.99',
-      category: 'Category 3',
-      image: 'https://example.com/product3.jpg',
-    },
-    {
-      product_id: 8,
-      title: 'Product 8',
-      description: 'Description of Product 4.',
-      price: '$109.99',
-      category: 'Category 2',
-      image: 'https://example.com/product10.jpg',
-    },
-    {
-      product_id: 9,
-      title: 'Product 9',
-      description: 'Description of Product 1.',
-      price: '$19.99',
-      category: 'Category 1',
-      image: 'https://example.com/product1.jpg',
-    },
-    {
-      product_id: 10,
-      title: 'Product 10',
-      description: 'Description of Product 2.',
-      price: '$29.99',
-      category: 'Category 2',
-      image: 'https://example.com/product2.jpg',
-    },
-    {
-      product_id: 11,
-      title: 'Product 11',
-      description: 'Description of Product 3.',
-      price: '$39.99',
-      category: 'Category 3',
-      image: 'https://example.com/product3.jpg',
-    },
-    {
-      product_id: 12,
-      title: 'Product 12',
-      description: 'Description of Product 4.',
-      price: '$109.99',
-      category: 'Category 2',
-      image: 'https://example.com/product10.jpg',
-    },
-    {
-      product_id: 13,
-      title: 'Product 13',
-      description: 'Description of Product 1.',
-      price: '$19.99',
-      category: 'Category 1',
-      image: 'https://example.com/product1.jpg',
-    },
-    {
-      product_id: 14,
-      title: 'Product 14',
-      description: 'Description of Product 2.',
-      price: '$29.99',
-      category: 'Category 2',
-      image: 'https://example.com/product2.jpg',
-    },
-    {
-      product_id: 15,
-      title: 'Product 15',
-      description: 'Description of Product 3.',
-      price: '$39.99',
-      category: 'Category 3',
-      image: 'https://example.com/product3.jpg',
-    },
-    {
-      product_id: 16,
-      title: 'Product 16',
-      description: 'Description of Product 4.',
-      price: '$109.99',
-      category: 'Category 3',
-      image: 'https://example.com/product10.jpg',
-    },
-  ];
+  baseUrl: any = 'http://localhost:1337';
+  products: any[] = [];
+  filterProducts: any[] = [];
+  categories: any[] = [];
+  presentInCart: any[] = [];
 
-  newProducts = [...this.products];
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService,
+    private cartService: CartService
+  ) {}
 
-  categories = ['Category 1', 'Category 2', 'Category 3', 'Category 4'];
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getProductList();
+    this.getCategories();
+    this.getProductIdsFromCart();
+  }
 
   lowValue: number = 0;
   highValue: number = 4;
@@ -162,12 +44,74 @@ export class ProductListComponent implements OnInit {
   }
 
   onCategoryChange(event: any): any {
-    this.newProducts = this.products.filter(
-      (product) => product.category == event.value
+    console.log(event.value);
+    console.log(this.products);
+    this.filterProducts = this.products.filter(
+      (product) =>
+        product.attributes.category.data.attributes.category_name == event.value
     );
+    console.log(this.products);
     this.lowValue = 0;
     this.highValue = this.lowValue + this.pageSize;
 
     return event;
+  }
+
+  getProductList() {
+    this.productService.getAllProducts().subscribe({
+      next: (res: any) => {
+        this.products = res.data;
+        this.filterProducts = res.data;
+        console.log(res.data);
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getCategories() {
+    this.categoryService.getAllCategories().subscribe({
+      next: (res: any) => {
+        this.categories = res.data;
+        console.log(res);
+      },
+    });
+  }
+
+  getProductIdsFromCart() {
+    let userId = localStorage.getItem('user_id');
+    this.cartService.getCartItems(userId).subscribe({
+      next: (res: any) => {
+        res.data.forEach((cart: any) => {
+          this.presentInCart.push(cart.attributes.product.data.id);
+        });
+        const currentTimestamp = new Date().toISOString();
+        console.log(currentTimestamp);
+      },
+    });
+  }
+
+  addProductToCart(productId: any) {
+    const product = {
+      data: {
+        product: productId,
+        quantity: 1,
+        order: null,
+        user_detail: localStorage.getItem('user_id'),
+      },
+    };
+
+    if (this.presentInCart.includes(productId)) {
+      alert('your product is already present in cart');
+    } else {
+      this.cartService.addCartItem(product).subscribe({
+        next: (res: any) => {
+          console.log(res);
+          alert('your product is added in cart successfully');
+          this.presentInCart.push(res.data.attributes.product.data.id);
+        },
+      });
+    }
   }
 }

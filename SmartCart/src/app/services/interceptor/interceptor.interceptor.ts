@@ -17,10 +17,10 @@ export class InterceptorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     let _jwtToken: any = '';
 
-    console.log(
-      'localStorage.getItem(LocalStorageKeys.token): ',
-      localStorage.getItem('token')
-    );
+    // console.log(
+    //   'localStorage.getItem(LocalStorageKeys.token): ',
+    //   localStorage.getItem('token')
+    // );
 
     const token = localStorage.getItem('token')
       ? localStorage.getItem('token')
@@ -29,7 +29,7 @@ export class InterceptorInterceptor implements HttpInterceptor {
     if (token) {
       _jwtToken = JSON.parse(token || '') || '';
     }
-    console.log('_jwtToken: ', _jwtToken);
+    // console.log('_jwtToken: ', _jwtToken);
     const authReq = request.clone({
       headers: request.headers.set('Authorization', `Bearer ${_jwtToken}`),
     });

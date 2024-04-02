@@ -6,37 +6,26 @@
         <table class="table">
           <tr>
             <th>Name</th>
-            <td>John Doe</td>
+            <td>{{ user.username }}</td>
             <td><a href="#" class="edit-btn">Edit</a></td>
           </tr>
           <tr>
             <th>Email</th>
-            <td>john@example.com</td>
-            <td><a href="#" class="edit-btn">Edit</a></td>
+            <td>{{ user.email }}</td>
           </tr>
           <tr>
             <th>Phone</th>
-            <td>123-456-7890</td>
+            <td>{{ user.mobile_number }}</td>
             <td><a href="#" class="edit-btn">Edit</a></td>
           </tr>
           <tr>
             <th>Address</th>
-            <td>123 Main St</td>
+            <td>{{ user.user_addresses[0].address_line_1 }}</td>
             <td><a href="#" class="edit-btn">Edit</a></td>
           </tr>
           <tr>
             <th>City</th>
-            <td>Anytown</td>
-            <td><a href="#" class="edit-btn">Edit</a></td>
-          </tr>
-          <tr>
-            <th>Country</th>
-            <td>Country</td>
-            <td><a href="#" class="edit-btn">Edit</a></td>
-          </tr>
-          <tr>
-            <th>Zip</th>
-            <td>12345</td>
+            <td>{{ user.user_addresses[0].city.name }}</td>
             <td><a href="#" class="edit-btn">Edit</a></td>
           </tr>
         </table>

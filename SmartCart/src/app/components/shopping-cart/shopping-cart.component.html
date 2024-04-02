@@ -58,28 +58,43 @@
   <div class="mb-4 h3">Shopping Cart</div>
   <div class="row">
     <div class="col-md-8">
+      <div *ngIf="cartItems.length == 0 && !cartEmpty">loading...</div>
+      <div *ngIf="cartEmpty">
+        <p>your cart is empty</p>
+        <div class="btn btn-primary" routerLink="../product-list">
+          Shop Here
+        </div>
+      </div>
       <div class="cart-item mb-3" *ngFor="let item of cartItems">
         <div class="row align-items-center">
           <div class="col-md-3">
             <img
-              src="{{ item.image }}"
+              [src]="
+                baseUrl +
+                item.attributes.product.data.attributes.product_image.data[0]
+                  .attributes.url
+              "
               alt="{{ item.name }}"
               class="product-img img-fluid"
             />
           </div>
           <div class="col-md-4">
-            <h2>{{ item.name }}</h2>
-            <p>{{ item.description }}</p>
+            <h2>{{ item.attributes.product.data.attributes.product_name }}</h2>
+            <p>
+              {{ item.attributes.product.data.attributes.product_description }}
+            </p>
           </div>
           <div class="col-md-2">
-            <p>{{ item.price | currency }}</p>
+            <p>
+              {{ item.attributes.product.data.attributes.price | currency }}
+            </p>
           </div>
           <div class="col-md-3">
             <div class="input-group">
               <div class="input-group-prepend">
                 <button
                   class="btn btn-outline-secondary"
-                  (click)="decrementQuantity(item)"
+                  (click)="decrementQuantity(item.id)"
                 >
                   -
                 </button>
@@ -87,13 +102,14 @@
               <input
                 type="text"
                 class="form-control"
-                [value]="item.quantity"
+                [value]="item.attributes.quantity"
+                [id]="item.id"
                 readonly
               />
               <div class="input-group-append">
                 <button
                   class="btn btn-outline-secondary"
-                  (click)="incrementQuantity(item)"
+                  (click)="incrementQuantity(item.id)"
                 >
                   +
                 </button>
@@ -103,7 +119,7 @@
           <div class="col-md mb-1">
             <button
               class="btn btn-sm btn-danger float-right"
-              (click)="removeItem(item)"
+              (click)="removeItem(item.id)"
             >
               Remove
             </button>
@@ -111,7 +127,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-4" *ngIf="cartItems.length > 0">
       <div class="card mb-3">
         <div class="card-body">
           <h2 class="card-title">Cart Summary</h2>
@@ -120,7 +136,9 @@
               {{ getTotal() | currency }}
             </span>
           </p>
-          <button class="btn btn-primary btn-block">Checkout</button>
+          <button class="btn btn-primary btn-block" routerLink="../checkout">
+            Checkout
+          </button>
         </div>
       </div>
     </div>

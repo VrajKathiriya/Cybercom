@@ -1,5 +1,5 @@
 <mat-paginator
-  [length]="newProducts.length"
+  [length]="filterProducts.length"
   [pageSize]="pageSize"
   (page)="getPaginatorData($event)"
   [pageSizeOptions]="pageSizeOptions"
@@ -10,31 +10,52 @@
 
 <div class="container mt-1">
   <!-- <h1 class="mb-4">Product List</h1> -->
+
   <mat-form-field>
     <mat-label>Choose category</mat-label>
     <mat-select (selectionChange)="onCategoryChange($event)">
-      <mat-option *ngFor="let category of categories" [value]="category">
-        {{ category }}
+      <mat-option
+        *ngFor="let category of categories"
+        [value]="category.attributes.category_name"
+      >
+        {{ category.attributes.category_name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <div class="row">
+    <div *ngIf="products.length == 0">loading...</div>
     <div
       class="col-md-3 mb-4"
-      *ngFor="let product of newProducts | slice : lowValue : highValue"
+      *ngFor="let product of filterProducts | slice : lowValue : highValue"
     >
       <div class="card">
-        <img
-          src="https://via.placeholder.com/300x200"
-          class="card-img-top"
-          alt="Product 1"
-        />
+        <div class="img-container">
+          <img
+            [src]="
+              baseUrl + product.attributes.product_image.data[0].attributes.url
+            "
+            class="card-img-top"
+            alt="Product 1"
+          />
+        </div>
         <div class="card-body">
-          <h2 class="card-title">{{ product.title }}</h2>
-          <p class="card-text">{{ product.description }}</p>
-          <p>{{ product.price }}</p>
-          <p>Category: {{ product.category }}</p>
-          <a href="#" class="btn btn-sm btn-primary mr-2">Add to Cart</a>
+          <h2 class="card-title">{{ product.attributes.product_name }}</h2>
+          <p class="card-text">{{ product.attributes.product_description }}</p>
+          <p>${{ product.attributes.price }}</p>
+          <p>
+            Category:
+            {{ product.attributes.category.data.attributes.category_name }}
+          </p>
+          <a
+            class="btn btn-sm mr-2"
+            [ngClass]="
+              presentInCart.includes(product.id) ? 'btn-success' : 'btn-primary'
+            "
+            (click)="addProductToCart(product.id)"
+            >{{
+              presentInCart.includes(product.id) ? "Added" : "Add to Cart"
+            }}</a
+          >
           <a href="#" class="btn btn-sm btn-secondary">View Details</a>
         </div>
       </div>

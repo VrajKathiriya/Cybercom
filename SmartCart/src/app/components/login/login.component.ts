@@ -40,6 +40,7 @@ export class LoginComponent {
         next: (res: any) => {
           localStorage.setItem('token', JSON.stringify(res.jwt));
           localStorage.setItem('user_id', JSON.stringify(res.user.id));
+          localStorage.setItem('username', JSON.stringify(res.user.username));
 
           this.route.navigate(['']);
 

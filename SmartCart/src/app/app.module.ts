@@ -13,7 +13,7 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { OrdersComponent } from './components/orders/orders.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -56,6 +56,7 @@ import { InterceptorInterceptor } from './services/interceptor/interceptor.inter
     MatSelectModule,
     MatFormFieldModule,
     HttpClientModule,
+    FormsModule,
   ],
   providers: [
     {

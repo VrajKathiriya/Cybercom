@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment.development';
 export class UserService {
   loginUrl: string = environment.baseUrl + environment.login;
 
-  userDetails: string = environment.baseUrl + environment.user_detail;
+  userDetails: string = environment.baseUrl + environment.user_details;
 
   constructor(private http: HttpClient) {}
 

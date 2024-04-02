@@ -1,52 +1,78 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-shopping-cart',
   templateUrl: './shopping-cart.component.html',
   styleUrls: ['./shopping-cart.component.css'],
 })
-export class ShoppingCartComponent {
-  cartItems = [
-    {
-      id: 1,
-      name: 'Product 1',
-      description: 'Description of Product 1.',
-      price: 19.99,
-      image: 'https://via.placeholder.com/150',
-      quantity: 1,
-    },
-    {
-      id: 2,
-      name: 'Product 2',
-      description: 'Description of Product 2.',
-      price: 19.99,
-      image: 'https://via.placeholder.com/150',
-      quantity: 1,
-    },
-  ];
+export class ShoppingCartComponent implements OnInit {
+  baseUrl: string = 'http://localhost:1337';
+  cartItems: any[] = [];
+  cartEmpty: boolean = false;
+  constructor(private cartService: CartService) {}
 
-  incrementQuantity(item: any) {
-    item.quantity++;
+  ngOnInit(): void {
+    this.getCartItems();
   }
 
-  decrementQuantity(item: any) {
-    if (item.quantity > 1) {
-      item.quantity--;
-    }
+  incrementQuantity(cartId: any) {
+    const item = this.cartItems.find((i) => i.id === cartId);
+    const newQuantity = {
+      data: {
+        quantity: ++item.attributes.quantity,
+      },
+    };
+
+    this.cartService.updateQuantity(cartId, newQuantity).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+    });
   }
 
-  removeItem(item: any) {
-    var index = this.cartItems.indexOf(item);
-    if (index !== -1) {
-      this.cartItems.splice(index, 1);
-    }
+  decrementQuantity(cartId: any) {
+    const item = this.cartItems.find((i) => i.id === cartId);
+    if (item.attributes.quantity == 1) return;
+    const newQuantity = {
+      data: {
+        quantity: --item.attributes.quantity,
+      },
+    };
+
+    this.cartService.updateQuantity(cartId, newQuantity).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+    });
+  }
+
+  removeItem(cartId: any) {
+    this.cartService.deleteItem(cartId).subscribe({
+      next: (res: any) => {
+        this.cartItems = this.cartItems.filter((item) => item.id !== cartId);
+        if (this.cartItems.length == 0) this.cartEmpty = true;
+      },
+    });
   }
 
   getTotal() {
     var total = 0;
     this.cartItems.forEach(function (item) {
-      total += item.price * item.quantity;
+      total +=
+        item.attributes.product.data.attributes.price *
+        item.attributes.quantity;
     });
     return total;
+  }
+
+  getCartItems() {
+    let user_id = localStorage.getItem('user_id');
+    this.cartService.getCartItems(user_id).subscribe({
+      next: (res: any) => {
+        this.cartItems = res.data;
+        if (res.data.length == 0) this.cartEmpty = true;
+      },
+    });
   }
 }

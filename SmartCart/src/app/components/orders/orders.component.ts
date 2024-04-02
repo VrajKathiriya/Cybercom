@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: 'app-orders',
@@ -6,29 +7,43 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./orders.component.css'],
 })
 export class OrdersComponent implements OnInit {
-  orders = [
-    {
-      id: '001',
-      date: '2024-03-25',
-      status: 'shipped',
-      total: '$50.00',
-      payment: 'credit card',
-    },
-    {
-      id: '002',
-      date: '2024-03-23',
-      status: 'processing',
-      total: '$30.00',
-      payment: 'paypal',
-    },
-    {
-      id: '003',
-      date: '2024-03-20',
-      status: 'delivered',
-      total: '$70.00',
-      payment: 'cash on delivery',
-    },
-  ];
+  orders: any[] = [];
+  userId: any = '';
+  ordersEmpty: boolean = false;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userId = localStorage.getItem('user_id');
+    this.getOrdersOfUser();
+  }
+
+  constructor(private orderService: OrderService) {}
+
+  formatTimestamp(timestamp: any): any {
+    let date = new Date(timestamp);
+    return `${date.getDate()} / ${date.getMonth()} / ${date.getFullYear()} `;
+  }
+
+  getOrdersOfUser() {
+    this.orderService.getAllOrders(this.userId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.orders = res.data;
+        if (this.orders.length == 0) this.ordersEmpty = true;
+      },
+      error: (err: any) => {
+        console.log(err);
+      },
+    });
+  }
+
+  cancelOrder(orderId: any) {
+    let confirmed = confirm('Are you sure? you want to cancel this order?');
+    if (!confirmed) return;
+    this.orderService.cancelOrder(orderId).subscribe({
+      next: (res: any) => {
+        this.orders = this.orders.filter((order) => order.id !== orderId);
+        if (this.orders.length == 0) this.ordersEmpty = true;
+      },
+    });
+  }
 }

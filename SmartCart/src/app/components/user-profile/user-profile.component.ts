@@ -13,10 +13,12 @@ export class UserProfileComponent implements OnInit {
     this.getUserData();
   }
 
+  user: any;
   getUserData() {
     this.userService.getUserDetails().subscribe({
       next: (res: any) => {
         console.log(res);
+        this.user = res;
       },
       error: (err: any) => {
         console.log(err);
