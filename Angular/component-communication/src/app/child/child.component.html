@@ -1,0 +1,11 @@
+<p>child works!</p>
+<p>{{ dataFromParent }}</p>
+<p style="color: red">{{ message }}</p>
+
+<h4>child list</h4>
+<ul>
+  <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+
+<input type="text" #inputBox />
+<button (click)="sendItem(inputBox.value)">data send to parent</button>

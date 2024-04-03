@@ -1,0 +1,22 @@
+<h1>parent to child communication</h1>
+<app-child [dataFromParent]="title"></app-child>
+
+<h1>child to parent communication</h1>
+<ul>
+  <li *ngFor="let item of items">{{ item }}</li>
+</ul>
+
+<app-child (addItem)="addItem($event)" [items]="items"></app-child>
+
+<h1>child to parent using viewChild</h1>
+<app-child></app-child>
+
+<h1>communication using data service</h1>
+<p style="color: red" (click)="changeMessage()">{{ message }}</p>
+
+<h1>property binding</h1>
+<input type="text" value="{{ message }}" disabled="{{ disable }}" />
+<br /><br />
+<input type="text" [value]="message" [disabled]="disable" />
+<br /><br />
+<button (click)="makeDisable()">disable toggle</button>

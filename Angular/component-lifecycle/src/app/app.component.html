@@ -1,0 +1,5 @@
+<button (click)="increment()">increment</button>
+<button (click)="goToHome()">home</button>
+
+<app-home *ngIf="isHome"></app-home>
+<app-overview [data]="count" *ngIf="!isHome"></app-overview>
