@@ -1,0 +1,67 @@
+<div class="modal" tabindex="-1" id="exampleModal" [formGroup]="addUserForm">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add User</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="closeAddModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="container mt-2">
+          <form>
+            <div class="mb-3">
+              <label for="userName" class="form-label">User Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="userName"
+                placeholder="Enter user name"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="userEmail" class="form-label">User email</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="userEmail"
+                placeholder="Enter user email"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="userPassword" class="form-label">User Password</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="userPassword"
+                placeholder="Enter user password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="userAvatar" class="form-label">User Avatar</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="userAvatar"
+                placeholder="Enter user email"
+                required
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="addUser()">
+          Add User
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

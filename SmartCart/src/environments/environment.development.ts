@@ -16,6 +16,8 @@ export const environment = {
 
   order: 'api/orders',
 
+  address: 'api/user-addresses',
+
   user_details:
     'api/users/me?populate[0]=user_addresses&populate[1]=user_addresses.city',
 };

@@ -11,9 +11,11 @@ import { ProductService } from 'src/app/services/product.service';
 export class ProductListComponent implements OnInit {
   baseUrl: any = 'http://localhost:1337';
   products: any[] = [];
+  product: any = {};
   filterProducts: any[] = [];
   categories: any[] = [];
   presentInCart: any[] = [];
+  productDetailsModal: boolean = false;
 
   constructor(
     private productService: ProductService,
@@ -113,5 +115,15 @@ export class ProductListComponent implements OnInit {
         },
       });
     }
+  }
+
+  showProductDetails(product: any) {
+    console.log(product);
+    this.product = product;
+    this.productDetailsModal = true;
+  }
+
+  onProductDetailsChange(event: any) {
+    this.productDetailsModal = event;
   }
 }

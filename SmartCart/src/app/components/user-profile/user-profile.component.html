@@ -7,7 +7,6 @@
           <tr>
             <th>Name</th>
             <td>{{ user.username }}</td>
-            <td><a href="#" class="edit-btn">Edit</a></td>
           </tr>
           <tr>
             <th>Email</th>
@@ -16,24 +15,88 @@
           <tr>
             <th>Phone</th>
             <td>{{ user.mobile_number }}</td>
-            <td><a href="#" class="edit-btn">Edit</a></td>
           </tr>
-          <tr>
+          <tr *ngIf="user.user_addresses.length > 0">
             <th>Address</th>
-            <td>{{ user.user_addresses[0].address_line_1 }}</td>
-            <td><a href="#" class="edit-btn">Edit</a></td>
-          </tr>
-          <tr>
-            <th>City</th>
-            <td>{{ user.user_addresses[0].city.name }}</td>
-            <td><a href="#" class="edit-btn">Edit</a></td>
+            <td>
+              {{
+                user.user_addresses[0].address_line_1 +
+                  ", " +
+                  user.user_addresses[0].address_line_2 +
+                  ", " +
+                  user.user_addresses[0].landmark
+              }}
+            </td>
+            <td><a class="edit-btn" (click)="editAddress()">Edit</a></td>
           </tr>
         </table>
-        <div class="text-right">
-          <button type="button" class="btn btn-primary">Save Changes</button>
-          <button type="button" class="btn btn-secondary ml-2">Cancel</button>
-        </div>
       </div>
     </div>
   </div>
+</div>
+<div class="container" *ngIf="user.user_addresses.length == 0">
+  <div class="mb-4 h3">User Address</div>
+  <form [formGroup]="addressForm" (ngSubmit)="addAddress()">
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="address_line_1"
+        placeholder="address line 1"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="address_line_2"
+        placeholder="address line 2"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="landmark"
+        placeholder="landmark"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Add Address</button>
+  </form>
+</div>
+
+<div class="container" *ngIf="updateAddressToggle">
+  <div class="mb-4 h3">User Address</div>
+  <form
+    [formGroup]="updateAddressForm"
+    (ngSubmit)="updateAddress(user.user_addresses[0].id)"
+  >
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="address_line_1"
+        placeholder="address line 1"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="address_line_2"
+        placeholder="address line 2"
+      />
+    </div>
+    <div class="mb-3">
+      <input
+        type="text"
+        class="form-control"
+        formControlName="landmark"
+        placeholder="landmark"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">
+      Update Address
+    </button>
+  </form>
 </div>

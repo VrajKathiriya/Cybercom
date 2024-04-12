@@ -1,0 +1,61 @@
+<div class="container">
+  <h2>Users List</h2>
+  <button class="btn btn-success" (click)="openAddModal()">Add User</button>
+  <table class="table">
+    <div
+      class="spinner-border"
+      role="status"
+      *ngIf="users.length == 0 && !noUsers"
+    >
+      <span class="sr-only"></span>
+    </div>
+    <div *ngIf="users.length == 0 && noUsers">
+      <p>users list is empty</p>
+    </div>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Avtar</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let user of users">
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>
+            <div class="image-container">
+              <img src="{{ user.avatar }}" alt="{{ user.name }}" />
+            </div>
+          </td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-sm mx-2 btn-primary"
+              (click)="openEditModal(user.id)"
+            >
+              Edit
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<ng-container *ngIf="addUserForm">
+  <app-add-user (addUserChange)="onAddUser($event)"></app-add-user>
+</ng-container>
+
+<ng-container *ngIf="editUserForm">
+  <app-edit-user
+    [userId]="editUserId"
+    (editUserChange)="onEditUser($event)"
+  ></app-edit-user>
+</ng-container>

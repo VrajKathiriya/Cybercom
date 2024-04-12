@@ -1,0 +1,55 @@
+:host {
+  display: contents;
+}
+
+.main-content {
+  flex: 1; /* Take remaining space */
+  padding: 20px;
+}
+
+.img-container {
+  height: 300px;
+  overflow: hidden;
+}
+.product-img {
+  background-image: url("../../../../../assets/img/products.jpg");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+.category-img {
+  background-image: url("../../../../../assets/img/categories.jpg");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+.user-img {
+  background-image: url("../../../../../assets/img/users.jpg");
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+/* Product card */
+.product-card {
+  background-color: #f8d7da;
+}
+/* Category card */
+.category-card {
+  background-color: #d4edda;
+}
+/* User card */
+.user-card {
+  background-color: #cce5ff;
+}
+/* Image styling */
+.card-img-top {
+  max-width: 100%;
+  height: auto;
+}

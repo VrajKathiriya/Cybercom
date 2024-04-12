@@ -1,0 +1,62 @@
+<h1>trackBy function</h1>
+<table>
+  <tr>
+    <th>name</th>
+    <th>age</th>
+  </tr>
+  <tr *ngFor="let student of students; trackBy: refreshStudent">
+    <td>{{ student.name }}</td>
+    <td>{{ student.age }}</td>
+  </tr>
+</table>
+
+<button (click)="refresh()">Refresh</button>
+
+<h1>Switch case</h1>
+<div [ngSwitch]="switchValue">
+  <p *ngSwitchCase="1">The first</p>
+  <p *ngSwitchCase="2">The second</p>
+  <p *ngSwitchCase="3">The third</p>
+</div>
+
+<h1>ng-container and ng-template</h1>
+<ng-container *ngFor="let num of list">
+  <p *ngIf="num > 2">{{ num }}</p>
+</ng-container>
+
+<ng-container *ngIf="toggle; else toggleOff">
+  <p>toggle is on</p>
+</ng-container>
+<ng-template #toggleOff>
+  <p>toggle is off</p>
+</ng-template>
+<button (click)="toggleElement()">toggle element</button>
+
+<h1>lazzy loading</h1>
+<h3>admin links</h3>
+<ul>
+  <li><a routerLink="admin/login">login</a></li>
+  <li><a routerLink="admin/list">list</a></li>
+</ul>
+<h3>user links</h3>
+<ul>
+  <li><a routerLink="user/login">login</a></li>
+  <li><a routerLink="user/list">list</a></li>
+</ul>
+
+<router-outlet></router-outlet>
+
+<!-- observable -->
+<!-- <app-observable></app-observable> -->
+
+<!-- subject -->
+<!-- <app-subject></app-subject> -->
+
+<!-- behaviour subject -->
+<!-- <app-behaviour-subject></app-behaviour-subject> -->
+
+<!-- replay subject -->
+<!-- <app-replay-subject></app-replay-subject> -->
+
+<!-- async subject -->
+<app-async-subject></app-async-subject>

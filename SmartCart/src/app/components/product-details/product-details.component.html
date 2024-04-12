@@ -1,0 +1,55 @@
+<div class="modal" tabindex="-1" id="exampleModal">
+  <div class="modal-dialog modal-l">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Product Details</h5>
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="closeProductDetailsModal()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img
+          [src]="
+            baseUrl + product.attributes.product_image.data[0].attributes.url
+          "
+          alt="Product Image"
+          style="height: 200px; object-fit: contain"
+        />
+        <div class="card-body">
+          <p class="card-title font-weight-bold h4">
+            {{ product.attributes.product_name }}
+          </p>
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted"
+              >Price: {{ product.attributes.price | currency }}</span
+            >
+          </div>
+          <p class="card-text">
+            Category:
+            {{ product.attributes.category.data.attributes.category_name }}
+          </p>
+          <p class="card-text">
+            {{ product.attributes.product_description }}
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted"
+              >Manufacture date:
+              {{ product.attributes.manufacture_date | date }}</span
+            >
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="text-muted"
+              >Manufacturer Company:
+              {{ product.attributes.manufacturer_company }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

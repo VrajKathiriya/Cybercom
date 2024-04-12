@@ -58,13 +58,40 @@
                 <strong>${{ net_amount }}</strong>
               </td>
             </tr>
+            <tr *ngIf="currentAddress.length != 0">
+              <td>Delivery Address</td>
+              <td class="text-right">
+                {{
+                  currentAddress.address_line_1 +
+                    ", " +
+                    currentAddress.address_line_2 +
+                    ", " +
+                    currentAddress.landmark
+                }}
+              </td>
+            </tr>
           </tbody>
         </table>
-        <div class="text-center">
+        <span class="mb-2" style="color: red" *ngIf="currentAddress.length != 0"
+          >**if you want to change your address then change from profile
+          section</span
+        >
+
+        <div
+          class="text-center"
+          *ngIf="currentAddress.length != 0; else errorTemp"
+        >
           <button class="btn btn-primary btn-lg" (click)="makeOrder()">
             Place Order
           </button>
         </div>
+
+        <ng-template #errorTemp>
+          <span style="color: red"
+            >**You don't have any address please add address from profile
+            section to place order</span
+          >
+        </ng-template>
       </div>
     </div>
   </div>

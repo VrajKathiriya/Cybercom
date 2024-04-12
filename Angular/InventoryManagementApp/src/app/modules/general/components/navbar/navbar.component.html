@@ -1,0 +1,72 @@
+<!-- Navbar - Left -->
+
+<!-- <div class="navbar">
+  <div class="navbar-left">
+    <h2 class="navbar-brand">Inventory Management</h2>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="product/product-list">
+          <i class="fas fa-box"></i> Products
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="category/category-list">
+          <i class="fas fa-tags"></i> Categories
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">
+          <i class="fas fa-users"></i> Users
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()">
+          <i class="fas fa-users"></i> logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</div> -->
+<div class="navbar">
+  <div class="navbar-left">
+    <h2 class="navbar-brand">
+      <i class="fa fa-th" aria-hidden="true"></i>
+      Inventory Management
+    </h2>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">
+          <i class="fa fa-pie-chart" aria-hidden="true"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userRole == 'customer'">
+        <a class="nav-link" routerLink="product/product-list">
+          <i class="fa fa-th-large" aria-hidden="true"></i> Products
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userRole == 'customer'">
+        <a class="nav-link" routerLink="category/category-list">
+          <i class="fa fa-tags" aria-hidden="true"></i> Categories
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userRole == 'admin'">
+        <a class="nav-link" routerLink="user/user-list">
+          <i class="fa fa-users" aria-hidden="true"></i> Users
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        *ngIf="userRole == 'admin' || userRole == 'customer'"
+      >
+        <a class="nav-link" (click)="logout()">
+          <i class="fa fa-sign-out" aria-hidden="true"></i> logout
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="userRole == 'none'">
+        <a class="nav-link" routerLink="auth/login">
+          <i class="fa fa-sign-in" aria-hidden="true"></i> login
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

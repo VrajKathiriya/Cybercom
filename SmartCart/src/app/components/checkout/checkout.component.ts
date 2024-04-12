@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AddressService } from 'src/app/services/address.service';
 import { CartService } from 'src/app/services/cart.service';
 import { OrderService } from 'src/app/services/order.service';
 
@@ -11,7 +12,8 @@ export class CheckoutComponent implements OnInit {
   orderPlaced: boolean = false;
   constructor(
     private cartService: CartService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private addressService: AddressService
   ) {}
 
   cartIds: any[] = [];
@@ -30,8 +32,11 @@ export class CheckoutComponent implements OnInit {
   order_id: any;
   order_date: any;
 
+  currentAddress: any = '';
+
   ngOnInit(): void {
     this.getTotalAmount();
+    this.getAddress();
   }
 
   getTotalAmount() {
@@ -68,6 +73,19 @@ export class CheckoutComponent implements OnInit {
 
         console.log(this.cartIds);
         console.log(this.products);
+      },
+    });
+  }
+
+  getAddress() {
+    let userId = localStorage.getItem('user_id');
+    this.addressService.getAddress(userId).subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.currentAddress = res.data[0].attributes;
+      },
+      error: (err: any) => {
+        console.log(err);
       },
     });
   }

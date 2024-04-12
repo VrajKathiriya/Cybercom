@@ -1,0 +1,12 @@
+/* Styles for the Wrapper */
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+/* Styles for the Main Content */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}

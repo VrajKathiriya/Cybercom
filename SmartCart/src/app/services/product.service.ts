@@ -13,4 +13,10 @@ export class ProductService {
   getAllProducts() {
     return this.http.get(this.productList);
   }
+
+  getProductByName() {
+    return this.http.get(
+      this.productList + '&filters[product_name][$containsi][0]=man'
+    );
+  }
 }

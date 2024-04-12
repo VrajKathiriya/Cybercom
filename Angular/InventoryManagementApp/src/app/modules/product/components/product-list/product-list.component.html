@@ -1,0 +1,74 @@
+<div class="container">
+  <h2>Product List</h2>
+  <button class="btn btn-success" (click)="openAddModal()">Add Product</button>
+
+  <table class="table">
+    <div
+      class="spinner-border"
+      role="status"
+      *ngIf="products.length == 0 && !noProducts"
+    >
+      <span class="sr-only"></span>
+    </div>
+    <div *ngIf="products.length == 0 && noProducts">
+      <p>product list is empty</p>
+    </div>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Category</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let product of products">
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>
+            <div class="image-container">
+              <img
+                [src]="product.images[0].slice(2).slice(0, -2)"
+                alt="{{ product.title }}"
+              />
+            </div>
+          </td>
+          <td>{{ product.title }}</td>
+          <td>{{ product.price }}</td>
+          <td>10</td>
+          <td>{{ product.category.name }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn btn-sm mx-2 btn-primary"
+              (click)="openEditModal(product.id)"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm mx-2 btn-danger"
+              (click)="deleteProduct(product.id)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<ng-container *ngIf="addProductForm">
+  <app-add-product (addProductChange)="onAddProduct($event)"></app-add-product>
+</ng-container>
+
+<ng-container *ngIf="editProductForm">
+  <app-edit-product
+    [productId]="editProductId"
+    (editProductChange)="onEditProduct($event)"
+  ></app-edit-product>
+</ng-container>

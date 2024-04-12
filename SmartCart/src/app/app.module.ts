@@ -28,6 +28,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { InterceptorInterceptor } from './services/interceptor/interceptor.interceptor';
+import { ProductDetailsComponent } from './components/product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { InterceptorInterceptor } from './services/interceptor/interceptor.inter
     OrdersComponent,
     UserProfileComponent,
     WishlistComponent,
+    ProductDetailsComponent,
   ],
   imports: [
     BrowserModule,
