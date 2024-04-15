@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
@@ -18,7 +19,10 @@ export class EditUserComponent {
     userAvatar: new FormControl(''),
   });
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getEditUser();
@@ -66,9 +70,17 @@ export class EditUserComponent {
         console.log(res);
         this.closeEditModal();
         this.editUserChange.emit(res);
+
+        this.toastr.success('User is updated successfully', 'Success!');
       },
       error: (err: any) => {
         console.log(err);
+        this.toastr.error(
+          err.error.message.constructor == 'Array'
+            ? err.error.message[0]
+            : err.error.message,
+          'Error💥'
+        );
       },
     });
   }

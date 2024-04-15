@@ -1,0 +1,20 @@
+<app-navbar></app-navbar>
+
+<mat-sidenav-container>
+  <mat-sidenav opened="true" mode="side">
+    <mat-nav-list>
+      <mat-list-item routerLink="task/my-task" routerLinkActive="active">
+        My Tasks
+      </mat-list-item>
+      <mat-list-item routerLink="task/pending" routerLinkActive="active">
+        Pending
+      </mat-list-item>
+      <mat-list-item routerLink="task/completed" routerLinkActive="active">
+        Completed
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

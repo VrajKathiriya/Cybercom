@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
 import { ProductRoutingModule } from './product-routing.module';
 import { ProductService } from 'src/app/core/services/product/product.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ProductService } from 'src/app/core/services/product/product.service';
     HttpClientModule,
     ReactiveFormsModule,
     ProductRoutingModule,
+    SharedModule,
   ],
   providers: [ProductService],
   exports: [ProductListComponent],

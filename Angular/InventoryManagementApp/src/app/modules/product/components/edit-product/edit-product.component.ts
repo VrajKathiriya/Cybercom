@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/core/services/category/category.service';
 import { ProductService } from 'src/app/core/services/product/product.service';
 
@@ -26,7 +27,8 @@ export class EditProductComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -91,9 +93,11 @@ export class EditProductComponent implements OnInit {
         this.product = res;
         this.closeEditModal();
         this.editProductChange.emit(res);
+
+        this.toastr.success('Your product is updated successfully', 'Success!');
       },
       error: (err: any) => {
-        console.log(err);
+        this.toastr.error(err.error.message[0], 'Error💥');
       },
     });
   }

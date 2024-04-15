@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/core/services/category/category.service';
 
 @Component({
@@ -10,7 +11,10 @@ import { CategoryService } from 'src/app/core/services/category/category.service
 export class AddCategoryComponent implements OnInit {
   @Output() addCategoryChange: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+    private toastr: ToastrService
+  ) {}
 
   addCategoryForm: FormGroup = new FormGroup({
     categoryName: new FormControl(''),
@@ -43,9 +47,12 @@ export class AddCategoryComponent implements OnInit {
         console.log(res);
         this.closeAddModal();
         this.addCategoryChange.emit(res);
+
+        this.toastr.success('Your category is added successfully', 'Success!');
       },
       error: (err: any) => {
         console.log(err);
+        this.toastr.error(err.error.message[0], 'Error💥');
       },
     });
   }

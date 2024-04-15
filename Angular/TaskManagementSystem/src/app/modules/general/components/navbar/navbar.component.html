@@ -1,0 +1,31 @@
+<mat-toolbar color="primary">
+  <span>Task Management</span>
+  <span class="example-spacer"></span>
+
+  <!-- Logged-in user section -->
+  <div class="user-section">
+    <ul class="nav-links">
+      <!-- Navigation links -->
+      <li>
+        <a routerLink="user/user-list" *ngIf="userRole == 'admin'">Users</a>
+      </li>
+      <li>
+        <a
+          routerLink="task/task-list"
+          *ngIf="userRole == 'admin' || userRole == 'customer'"
+          >Tasks</a
+        >
+      </li>
+      <li *ngIf="userRole == 'admin' || userRole == 'customer'">
+        <a (click)="logout()">Logout</a>
+      </li>
+    </ul>
+    <div
+      class="user-info"
+      *ngIf="userRole == 'admin' || userRole == 'customer'"
+    >
+      <img class="user-photo" [src]="loggedInUser.avatar" alt="Profile Photo" />
+      <span class="username">{{ loggedInUser.name }}</span>
+    </div>
+  </div>
+</mat-toolbar>

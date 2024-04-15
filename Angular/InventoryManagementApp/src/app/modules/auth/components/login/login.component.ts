@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CheckLoginService } from 'src/app/core/services/shared/check-login.service';
 
@@ -18,7 +19,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private checkLoginService: CheckLoginService,
-    private route: Router
+    private route: Router,
+    private toastr: ToastrService
   ) {}
 
   get email() {
@@ -47,6 +49,7 @@ export class LoginComponent {
             JSON.stringify(res.refresh_token)
           );
 
+          this.toastr.success('You are logged in', 'Success');
           this.route.navigate(['']);
 
           this.checkLoginService.isLoggedIn();
@@ -54,6 +57,7 @@ export class LoginComponent {
           // console.log(res);
         },
         error: (err: any) => {
+          this.toastr.info('Please enter valid details');
           console.log(err);
         },
       });

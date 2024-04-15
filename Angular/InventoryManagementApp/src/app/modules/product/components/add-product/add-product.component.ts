@@ -1,5 +1,11 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/core/services/category/category.service';
 import { ProductService } from 'src/app/core/services/product/product.service';
 
@@ -20,11 +26,16 @@ export class AddProductComponent implements OnInit {
     productCategory: new FormControl('', [Validators.required]),
     productImageUrl: new FormControl('', [Validators.required]),
   });
-
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService
-  ) {}
+    private categoryService: CategoryService,
+    private toastr: ToastrService,
+    private fb: FormBuilder
+  ) {
+    this.addProductForm = this.fb.group({
+      productName: [''],
+    });
+  }
 
   ngOnInit(): void {
     const openModelDiv = document.getElementById('exampleModal');
@@ -32,7 +43,23 @@ export class AddProductComponent implements OnInit {
       openModelDiv.style.display = 'block';
     }
     this.getAllCategories();
+    // this.addValidators();
+    // this.addProductForm.get('productName')?.valueChanges.subscribe((value) => {
+    //   console.log('Value changed: ', value);
+    // });
   }
+
+  // addValidators() {
+  //   this.addProductForm
+  //     .get('productName')
+  //     ?.setValidators([Validators.required]);
+  //   this.addProductForm.get('productName')?.updateValueAndValidity();
+  // }
+
+  // removeValidators() {
+  //   this.addProductForm.get('productName')?.clearValidators();
+  //   this.addProductForm.get('productName')?.updateValueAndValidity(); // Update validity after changing validators
+  // }
 
   getAllCategories() {
     this.categoryService.getAllCategories().subscribe({
@@ -59,9 +86,10 @@ export class AddProductComponent implements OnInit {
         console.log(res);
         this.closeAddModal();
         this.addProductChange.emit(res);
+        this.toastr.success('Your product is added successfully', 'Success!');
       },
       error: (err: any) => {
-        console.log(err);
+        this.toastr.error(err.error.message[0], 'Error💥');
       },
     });
   }

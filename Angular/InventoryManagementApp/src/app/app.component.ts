@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './core/services/auth/auth.service';
 import { CheckLoginService } from './core/services/shared/check-login.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -11,19 +11,10 @@ export class AppComponent implements OnInit {
   title = 'InventoryManagementApp';
   constructor(
     private checkLoginService: CheckLoginService,
-    private authService: AuthService
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem('access_token')) {
-      this.authService.getUserProfile().subscribe({
-        next: (res: any) => {
-          this.checkLoginService.isLoggedIn();
-        },
-        error: (err: any) => {
-          this.checkLoginService.isLoggedIn();
-        },
-      });
-    }
+    this.checkLoginService.isLoggedIn();
   }
 }

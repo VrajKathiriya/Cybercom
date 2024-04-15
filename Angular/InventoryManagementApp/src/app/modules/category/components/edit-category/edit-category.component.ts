@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from 'src/app/core/services/category/category.service';
 
 @Component({
@@ -16,7 +17,10 @@ export class EditCategoryComponent implements OnInit {
     categoryImage: new FormControl(''),
   });
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(
+    private categoryService: CategoryService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.getEditCategory();
@@ -60,9 +64,15 @@ export class EditCategoryComponent implements OnInit {
         console.log(res);
         this.closeEditModal();
         this.editCategoryChange.emit(res);
+
+        this.toastr.success(
+          'Your category is updated successfully',
+          'Success!'
+        );
       },
       error: (err: any) => {
         console.log(err);
+        this.toastr.error(err.error.message[0], 'Error💥');
       },
     });
   }

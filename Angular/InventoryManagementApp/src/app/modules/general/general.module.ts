@@ -6,9 +6,11 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HomeComponent } from './components/home/home.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AccessDeniedComponent } from './components/access-denied/access-denied.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 @NgModule({
-  declarations: [NavbarComponent, DashboardComponent, HomeComponent],
+  declarations: [NavbarComponent, DashboardComponent, HomeComponent, AccessDeniedComponent, ErrorPageComponent],
   imports: [CommonModule, GeneralRoutingModule, FontAwesomeModule],
   exports: [NavbarComponent],
 })

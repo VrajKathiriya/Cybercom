@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { CheckLoginService } from 'src/app/core/services/shared/check-login.service';
 
 @Component({
@@ -13,7 +14,8 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private route: Router,
-    private checkLoginService: CheckLoginService
+    private checkLoginService: CheckLoginService,
+    private tostr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -24,6 +26,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     localStorage.clear();
     this.checkLoginService.isLoggedIn();
+    this.tostr.success('You are logged out now');
     this.route.navigate(['auth/login']);
   }
 }

@@ -37,7 +37,7 @@
             </div>
           </td>
           <td>{{ product.title }}</td>
-          <td>{{ product.price }}</td>
+          <td>{{ +product.price | usdToInr : 80 | currency : "INR" }}</td>
           <td>10</td>
           <td>{{ product.category.name }}</td>
           <td>
