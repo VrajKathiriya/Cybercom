@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,8 @@ export class TaskService {
     tasks = JSON.parse(tasks) || [];
     tasks = [...tasks, task];
 
+    console.log('add task called');
+
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
@@ -31,6 +33,8 @@ export class TaskService {
         return updatedTask;
       } else return task;
     });
+
+    console.log('edit task called');
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { concatMap, map, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { UserProfileService } from 'src/app/core/services/shared/user-profile.service';
 import { TaskService } from 'src/app/core/services/task/task.service';
-import { UserService } from 'src/app/core/services/user/user.service';
 
 @Component({
   selector: 'app-completed-task',
@@ -10,30 +11,52 @@ import { UserService } from 'src/app/core/services/user/user.service';
 })
 export class CompletedTaskComponent {
   tasks: any[] = [];
+  users: any[] = [];
   current_user: any;
 
   displayedColumns: string[] = [
     'id',
+    'created_by',
     'title',
     'description',
-    'assigned_to',
     'status',
   ];
   statusOptions: string[] = ['completed', 'pending'];
 
   constructor(
     private taskService: TaskService,
-    private authService: AuthService
+    private userProfileService: UserProfileService
   ) {}
 
   ngOnInit(): void {
-    // this.tasks = this.taskService.getAllTasks();
+    this.userProfileService.userProfile$
+      .pipe(
+        switchMap((userProfile) => {
+          this.current_user = userProfile;
+          console.log('this is data', userProfile);
+          // Return the observable for getAllTasks() after filtering based on the current user id
+          return this.taskService
+            .getAllTasks()
+            .pipe(
+              map((tasks: any) =>
+                tasks.filter(
+                  (task: any) =>
+                    task.assigned_to === userProfile.id &&
+                    task.status == 'completed'
+                )
+              )
+            );
+        })
+      )
+      .subscribe((filteredTasks) => {
+        this.tasks = filteredTasks;
+      });
+    // console.log(this.taskService.getAllTasks());
+  }
 
-    this.tasks = this.tasks.filter((task) => task.status == 'completed');
-    this.authService.getUserProfile().subscribe({
-      next: (res: any) => {
-        this.current_user = res;
-      },
-    });
+  onEdit(task: any): void {
+    // Handle edit operation, e.g., update task data
+    this.taskService.editTask(task.id, task);
+    console.log('Edited task:', task);
   }
 }

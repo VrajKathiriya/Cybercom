@@ -11,6 +11,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 const material = [
   MatIconModule,
@@ -23,11 +26,15 @@ const material = [
   MatTableModule,
   MatSelectModule,
   MatListModule,
+  MatTabsModule,
+  MatProgressSpinnerModule,
+  MatDatepickerModule,
 ];
 
 @NgModule({
   declarations: [],
   imports: [CommonModule, material],
+  providers: [],
   exports: [material],
 })
 export class MaterialModule {}

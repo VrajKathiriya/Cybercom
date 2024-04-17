@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, delay } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserProfileService {
-  constructor(private authService: AuthService) {
-    this.isLoggedIn();
-  }
+  constructor(private authService: AuthService) {}
 
   private profileSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
     'none'
@@ -21,8 +19,8 @@ export class UserProfileService {
         console.log(res);
         this.profileSubject.next(res);
       },
-      error: (res: any) => {
-        console.log(res);
+      error: (err: any) => {
+        console.log(err);
         this.profileSubject.next('none');
       },
     });

@@ -22,7 +22,15 @@ export class UserService {
     return this.http.post(this.user_url, user);
   }
 
+  checkEmail(email: string) {
+    return this.http.post(this.user_url + '/is-available', email);
+  }
+
   updateUser(userId: number, user: any) {
     return this.http.put(this.user_url + `/${userId}`, user);
+  }
+
+  deleteUser(userId: number) {
+    return this.http.delete(this.user_url + `/${userId}`);
   }
 }

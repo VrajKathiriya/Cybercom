@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { UserProfileService } from 'src/app/core/services/shared/user-profile.service';
 
@@ -13,7 +14,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private userProfileService: UserProfileService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   loginForm: FormGroup = new FormGroup({
@@ -41,10 +43,12 @@ export class LoginComponent {
 
           this.userProfileService.isLoggedIn();
 
+          this.toastr.success('Logged In Successfully');
           this.router.navigate(['']);
         },
         error: (err: any) => {
           console.log(err);
+          this.toastr.error('Please enter valid details');
         },
       });
     } else {

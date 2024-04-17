@@ -7,6 +7,7 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from 'src/app/core/interceptors/auth.interceptor';
+import { ToastrService } from 'ngx-toastr';
 
 @NgModule({
   declarations: [LoginComponent, SignUpComponent],
@@ -18,6 +19,7 @@ import { AuthInterceptor } from 'src/app/core/interceptors/auth.interceptor';
     HttpClientModule,
   ],
   providers: [
+    ToastrService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })

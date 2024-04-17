@@ -10,6 +10,9 @@ import { UserModule } from './modules/user/user.module';
 import { TaskModule } from './modules/task/task.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
+
+import { MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,8 +25,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     AuthModule,
     UserModule,
     TaskModule,
+    ToastrModule.forRoot(),
+    MatNativeDateModule,
   ],
-  providers: [],
+  providers: [NativeDateAdapter],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

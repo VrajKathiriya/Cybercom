@@ -11,13 +11,16 @@
       </li>
       <li>
         <a
-          routerLink="task/task-list"
+          routerLink="task/my-task"
           *ngIf="userRole == 'admin' || userRole == 'customer'"
           >Tasks</a
         >
       </li>
       <li *ngIf="userRole == 'admin' || userRole == 'customer'">
         <a (click)="logout()">Logout</a>
+      </li>
+      <li *ngIf="userRole != 'admin' && userRole != 'customer'">
+        <a routerLink="/auth/login">Login</a>
       </li>
     </ul>
     <div

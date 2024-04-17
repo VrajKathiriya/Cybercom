@@ -1,6 +1,6 @@
-input {
-  height: 50px;
-  padding: 0 5px;
-  border: 0.5px solid #ddd;
-  border-radius: 5px;
+.rowMargin {
+  margin-top: 20px;
+}
+mat-icon {
+  margin: 0 10px;
 }
