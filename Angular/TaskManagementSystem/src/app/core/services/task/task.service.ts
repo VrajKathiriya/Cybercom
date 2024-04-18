@@ -7,10 +7,12 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 export class TaskService {
   constructor() {}
 
+  private taskSubject: BehaviorSubject<any> = new BehaviorSubject<any>('');
+  public tasks$: Observable<any> = this.taskSubject.asObservable();
+
   getAllTasks(): Observable<any> {
     let tasks: any = localStorage.getItem('tasks');
     tasks = JSON.parse(tasks) || [];
-
     return of(tasks);
   }
 
@@ -22,6 +24,8 @@ export class TaskService {
     console.log('add task called');
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    return of(task);
   }
 
   editTask(taskId: number, updatedTask: any) {
@@ -39,12 +43,14 @@ export class TaskService {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
-  deleteTask(taskId: number) {
+  deleteTask(taskId: number): Observable<any> {
     let tasks: any = localStorage.getItem('tasks');
     tasks = JSON.parse(tasks) || [];
 
     tasks = tasks.filter((task: any) => task.id != taskId);
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
+
+    return of(true);
   }
 }

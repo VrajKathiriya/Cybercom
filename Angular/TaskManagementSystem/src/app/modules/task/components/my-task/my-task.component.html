@@ -1,154 +1,165 @@
-<!-- task-management.component.html -->
+<h1 style="margin: 20px">All tasks</h1>
 
-<h1>My tasks</h1>
+<form [formGroup]="taskFormArray" style="margin: 0 20px">
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let taskFormGroup">
+        {{ taskFormGroup.get("id").value }}
+      </mat-cell>
+    </ng-container>
 
-<mat-tab-group>
-  <mat-tab label="Assigned By Me">
-    <button mat-raised-button color="primary" (click)="addTask()">
-      <mat-icon>add</mat-icon>Add Task
-    </button>
-    <mat-table [dataSource]="assignmentTasks" class="mat-elevation-z8">
-      <!-- Define columns -->
-      <ng-container *ngFor="let column of assignedTaskColumns">
-        <ng-container [matColumnDef]="column">
-          <mat-header-cell *matHeaderCellDef>
-            {{ column | titlecase }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let task">
-            <ng-container *ngIf="editableColumn(column); else readonlyCell">
-              <ng-container *ngIf="column !== 'assigned_to'; else assignedCell">
-                <ng-container *ngIf="column !== 'status'; else statusCell">
-                  <ng-container *ngIf="column !== 'actions'; else actionsCell">
-                    <ng-container *ngIf="column !== 'due_date'; else dateCell">
-                      <!-- <input
-                  type="text"
-                  [(ngModel)]="task[column]"
-                  (blur)="onEdit(task)"
-                /> -->
-                      <mat-form-field appearance="outline">
-                        <input matInput [(ngModel)]="task[column]" />
-                      </mat-form-field>
-                    </ng-container>
-                  </ng-container>
-                </ng-container>
-              </ng-container>
-            </ng-container>
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let taskFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            (blur)="addValidators('title', i)"
+            [formControl]="taskFormGroup.get('title')"
+            placeholder="Name"
+          />
+          <mat-error
+            *ngIf="
+              taskFormGroup.get('title').invalid &&
+              taskFormGroup.get('title').touched
+            "
+          >
+            Name is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-            <ng-template #assignedCell>
-              <mat-form-field appearance="outline">
-                <mat-select [(ngModel)]="task[column]">
-                  <mat-option *ngFor="let user of users" [value]="user.id">
-                    {{ user.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </ng-template>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+      <mat-cell *matCellDef="let taskFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            (blur)="addValidators('description', i)"
+            [formControl]="taskFormGroup.get('description')"
+            placeholder="description"
+          />
+          <mat-error
+            *ngIf="
+              taskFormGroup.get('description').invalid &&
+              taskFormGroup.get('description').touched
+            "
+          >
+            Description is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-            <ng-template #dateCell>
-              <mat-form-field appearance="outline">
-                <mat-label>Choose a date</mat-label>
-                <input
-                  matInput
-                  [matDatepicker]="picker"
-                  [(ngModel)]="task[column]"
-                />
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle
-                  matIconSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </ng-template>
+    <ng-container matColumnDef="assigned_to">
+      <mat-header-cell *matHeaderCellDef> Assigned_to </mat-header-cell>
+      <mat-cell *matCellDef="let taskFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <mat-select
+            (blur)="addValidators('assigned_to', i)"
+            [formControl]="taskFormGroup.get('assigned_to')"
+            placeholder="assigned_to"
+          >
+            <mat-option *ngFor="let user of users" [value]="user.id">{{
+              user.name
+            }}</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              taskFormGroup.get('assigned_to').invalid &&
+              taskFormGroup.get('assigned_to').touched
+            "
+          >
+            Please assign a user
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-            <ng-template #statusCell>
-              <mat-form-field appearance="outline">
-                <mat-select [(ngModel)]="task[column]">
-                  <mat-option
-                    *ngFor="let option of statusOptions"
-                    [value]="option"
-                  >
-                    {{ option }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </ng-template>
+    <ng-container matColumnDef="due_date">
+      <mat-header-cell *matHeaderCellDef> Due Date </mat-header-cell>
+      <mat-cell *matCellDef="let taskFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            (blur)="addValidators('due_date', i)"
+            [matDatepicker]="picker"
+            [formControl]="taskFormGroup.get('due_date')"
+            readonly
+            placeholder="due_date"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error
+            *ngIf="
+              taskFormGroup.get('due_date').invalid &&
+              taskFormGroup.get('due_date').touched
+            "
+          >
+            Due date is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-            <ng-template #actionsCell>
-              <button mat-raised-button color="accent" (click)="onSave(task)">
-                Save
-              </button>
-              <mat-icon
-                color="warn"
-                fontIcon="delete"
-                (click)="onDelete(task.id)"
-                style="cursor: pointer"
-              ></mat-icon>
-            </ng-template>
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+      <mat-cell *matCellDef="let taskFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <mat-select
+            (blur)="addValidators('status', i)"
+            [formControl]="taskFormGroup.get('status')"
+            placeholder="status"
+          >
+            <mat-option *ngFor="let option of statusOptions" [value]="option">
+              {{ option }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              taskFormGroup.get('status').invalid &&
+              taskFormGroup.get('status').touched
+            "
+          >
+            Status is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-            <ng-template #readonlyCell> {{ task[column] }} </ng-template>
-          </mat-cell>
-        </ng-container>
-      </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let taskFormGroup; let i = index">
+        <!-- <button mat-raised-button color="accent" (click)="onSave(i)">
+          save
+        </button> -->
+        <mat-icon
+          fontIcon="delete"
+          color="warn"
+          (click)="onDelete(i)"
+        ></mat-icon>
+      </mat-cell>
+    </ng-container>
 
-      <!-- Define the table rows -->
-      <mat-header-row *matHeaderRowDef="assignedTaskColumns"></mat-header-row>
-      <mat-row
-        *matRowDef="let row; columns: assignedTaskColumns"
-        class="rowMargin"
-      ></mat-row>
-    </mat-table>
-  </mat-tab>
-  <mat-tab label="Assigned To Me">
-    <mat-table [dataSource]="myTasks" class="mat-elevation-z8">
-      <!-- Define columns -->
-      <ng-container *ngFor="let column of myTaskColumns">
-        <ng-container [matColumnDef]="column">
-          <mat-header-cell *matHeaderCellDef>
-            {{ column | titlecase }}
-          </mat-header-cell>
-          <mat-cell *matCellDef="let task">
-            <ng-container>
-              <ng-container *ngIf="column !== 'status'; else statusCell">
-                <ng-container *ngIf="column !== 'actions'; else actionsCell">
-                  <ng-container *ngIf="column != 'due_date'">
-                    {{ task[column] }}
-                  </ng-container>
-                  <ng-container *ngIf="column == 'due_date'">
-                    {{ task[column] | date }}
-                  </ng-container>
-                </ng-container>
-              </ng-container>
-            </ng-container>
-
-            <ng-template #statusCell>
-              <mat-form-field appearance="outline">
-                <mat-select [(ngModel)]="task[column]">
-                  <mat-option
-                    *ngFor="let option of statusOptions"
-                    [value]="option"
-                  >
-                    {{ option }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </ng-template>
-
-            <ng-template #actionsCell>
-              <button mat-raised-button color="accent" (click)="onSave(task)">
-                Save
-              </button>
-            </ng-template>
-          </mat-cell>
-        </ng-container>
-      </ng-container>
-
-      <!-- Define the table rows -->
-      <mat-header-row *matHeaderRowDef="myTaskColumns"></mat-header-row>
-      <mat-row
-        *matRowDef="let row; columns: myTaskColumns"
-        class="rowMargin"
-      ></mat-row>
-    </mat-table>
-  </mat-tab>
-</mat-tab-group>
+    <mat-header-row *matHeaderRowDef="myTaskColumns"></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: myTaskColumns"
+      class="rowMargin"
+    ></mat-row>
+  </mat-table>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="addRow()"
+    style="float: right"
+  >
+    <mat-icon fontIcon="add"></mat-icon>
+    Add Task
+  </button>
+  <button mat-raised-button color="primary">Save</button>
+</form>

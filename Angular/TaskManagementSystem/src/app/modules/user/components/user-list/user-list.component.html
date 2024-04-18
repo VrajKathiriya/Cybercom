@@ -1,72 +1,142 @@
-<h1>Users List</h1>
+<h1 style="margin: 20px">All Users</h1>
 
-<button mat-raised-button color="primary" (click)="addUser()">
-  <mat-icon>add</mat-icon>Add User
-</button>
+<form [formGroup]="userFormArray" style="margin: 0 20px">
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+      <mat-cell *matCellDef="let userFormGroup">
+        {{ userFormGroup.get("id").value }}
+      </mat-cell>
+    </ng-container>
 
-<mat-table [dataSource]="users">
-  <!-- Define columns -->
-  <ng-container matColumnDef="id">
-    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-    <mat-cell *matCellDef="let user"> {{ user.id }} </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let userFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            (blur)="addValidators('name', i)"
+            [formControl]="userFormGroup.get('name')"
+            placeholder="Name"
+          />
+          <mat-error
+            *ngIf="
+              userFormGroup.get('name').invalid &&
+              userFormGroup.get('name').touched
+            "
+          >
+            Name is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let user">
-      <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="user.name" />
-      </mat-form-field>
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> email </mat-header-cell>
+      <mat-cell *matCellDef="let userFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            (blur)="addValidators('email', i)"
+            [formControl]="userFormGroup.get('email')"
+            placeholder="email"
+          />
+          <mat-error
+            *ngIf="
+              userFormGroup.get('email').invalid &&
+              userFormGroup.get('email').touched
+            "
+          >
+            email is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="email">
-    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-    <mat-cell *matCellDef="let user">
-      <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="user.email" />
-      </mat-form-field>
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="password">
+      <mat-header-cell *matHeaderCellDef> password </mat-header-cell>
+      <mat-cell *matCellDef="let userFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <input
+            matInput
+            (blur)="addValidators('password', i)"
+            [formControl]="userFormGroup.get('password')"
+            placeholder="password"
+          />
+          <mat-error
+            *ngIf="
+              userFormGroup.get('password').invalid &&
+              userFormGroup.get('password').touched
+            "
+          >
+            password is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="password">
-    <mat-header-cell *matHeaderCellDef> Password </mat-header-cell>
-    <mat-cell *matCellDef="let user">
-      <mat-form-field appearance="outline">
-        <input matInput [(ngModel)]="user.password" />
-      </mat-form-field>
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
+      <mat-cell *matCellDef="let userFormGroup; let i = index">
+        <mat-form-field appearance="outline">
+          <mat-select
+            (blur)="addValidators('role', i)"
+            [formControl]="userFormGroup.get('role')"
+            placeholder="role"
+          >
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{ role }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              userFormGroup.get('role').invalid &&
+              userFormGroup.get('role').touched
+            "
+          >
+            Role is required
+          </mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="role">
-    <mat-header-cell *matHeaderCellDef> Role </mat-header-cell>
-    <mat-cell *matCellDef="let user">
-      <mat-form-field appearance="outline">
-        <mat-select [(ngModel)]="user.role" placeholder="select role">
-          <mat-option *ngFor="let role of roles" [value]="role">
-            {{ role }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let userFormGroup; let i = index">
+        <!-- <button mat-raised-button color="accent" (click)="onSave(i)">
+          save
+        </button> -->
+        <mat-icon
+          *ngIf="userFormGroup.get('id').value != ''"
+          fontIcon="delete"
+          color="warn"
+          (click)="onDelete(i)"
+        ></mat-icon>
+        <mat-icon
+          fontIcon="close"
+          (click)="removeRow(i)"
+          *ngIf="userFormGroup.get('id').value == ''"
+        >
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="actions">
-    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-    <mat-cell *matCellDef="let user">
-      <button mat-raised-button color="accent" (click)="onSave(user)">
-        Save
-      </button>
-      <mat-icon
-        color="warn"
-        fontIcon="delete"
-        (click)="onDelete(user.id)"
-        style="cursor: pointer"
-      ></mat-icon>
-    </mat-cell>
-  </ng-container>
-
-  <!-- Define the table rows -->
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns"> </mat-row>
-</mat-table>
+    <mat-header-row *matHeaderRowDef="userColumns"></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: userColumns"
+      class="rowMargin"
+    ></mat-row>
+  </mat-table>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="addRow()"
+    style="float: right"
+  >
+    <mat-icon fontIcon="add"></mat-icon>
+    Add User
+  </button>
+  <button mat-raised-button color="primary" (click)="onSubmit(userFormArray)">
+    save
+  </button>
+</form>

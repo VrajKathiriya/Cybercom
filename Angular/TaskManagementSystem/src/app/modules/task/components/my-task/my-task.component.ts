@@ -1,7 +1,13 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { map, switchMap } from 'rxjs';
 import { UserProfileService } from 'src/app/core/services/shared/user-profile.service';
 import { TaskService } from 'src/app/core/services/task/task.service';
 import { UserService } from 'src/app/core/services/user/user.service';
@@ -13,22 +19,9 @@ import { UserService } from 'src/app/core/services/user/user.service';
 })
 export class MyTaskComponent {
   tasks: any[] = [];
-  assignmentTasks: any[] = [];
-  myTasks: any[] = [];
   users: any[] = [];
-  current_user: any;
 
-  myTaskColumns: string[] = [
-    'id',
-    'created_by',
-    'title',
-    'description',
-    'due_date',
-    'status',
-    'actions',
-  ];
-
-  assignedTaskColumns: string[] = [
+  myTaskColumns = [
     'id',
     'title',
     'description',
@@ -37,13 +30,16 @@ export class MyTaskComponent {
     'status',
     'actions',
   ];
-  statusOptions: string[] = ['completed', 'pending'];
+  statusOptions = ['pending', 'completed'];
+  taskFormArray: any;
+  dataSource: any;
 
   constructor(
     private taskService: TaskService,
     private userService: UserService,
     private userProfileService: UserProfileService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -53,93 +49,106 @@ export class MyTaskComponent {
       },
     });
 
-    this.userProfileService.userProfile$
-      .pipe(
-        switchMap((userProfile) => {
-          this.current_user = userProfile;
-          console.log('this is data', userProfile);
-          // Return the observable for getAllTasks() after filtering based on the current user id
-          return this.taskService.getAllTasks().pipe(
-            map((tasks: any) => ({
-              tasks: tasks,
-              myTasks: tasks.filter(
-                (task: any) => task.assigned_to === userProfile.id
-              ),
-              assignmentTasks: tasks.filter(
-                (task: any) => task.created_by === userProfile.id
-              ),
-            }))
-          );
-        })
-      )
-      .subscribe(({ tasks, myTasks, assignmentTasks }) => {
-        this.tasks = tasks;
-        this.myTasks = myTasks;
-        this.assignmentTasks = assignmentTasks;
-      });
+    this.taskFormArray = this.fb.array([]);
+
+    this.taskService.getAllTasks().subscribe({
+      next: (res: any) => {
+        this.tasks = res;
+        this.tasks.forEach((task) => {
+          this.taskFormArray.push(this.createTaskFormGroup(task));
+        });
+        this.dataSource = new MatTableDataSource(this.taskFormArray.controls);
+      },
+    });
+    // Populate the form array with initial data
   }
 
-  editableColumn(column: string): boolean {
-    return column !== 'id'; // Make all columns editable except 'id'
-  }
-
-  addTask(): void {
-    const newTask = {
-      id: '',
+  addRow() {
+    const newEntry = {
+      id: Date.now(),
       title: '',
       description: '',
-      created_by: '',
       assigned_to: '',
       due_date: '',
-      status: 'pending',
+      status: '',
     };
-    // this.tasks.push(newTask);
-    this.assignmentTasks = [...this.assignmentTasks, newTask];
+    this.taskFormArray.push(this.createTaskFormGroup(newEntry));
+    this.dataSource = new MatTableDataSource(this.taskFormArray.controls);
   }
 
-  validate(task: any): boolean {
-    if (task.title == '') {
-      this.toastr.error('Please enter title');
-      return false;
-    } else if (task.description == '') {
-      this.toastr.error('Please enter description');
-      return false;
-    } else if (task.assigned_to == '') {
-      this.toastr.error('Please assigned task to someone');
-      return false;
-    } else {
-      return true;
+  createTaskFormGroup(task: any): FormGroup {
+    return this.fb.group({
+      id: [task.id],
+      title: [task.title],
+      description: [task.description],
+      assigned_to: [task.assigned_to],
+      due_date: [task.due_date],
+      status: [task.status],
+    });
+  }
+
+  addValidators(column: string, i: number) {
+    const control = this.taskFormArray.controls[i].get(column);
+
+    if (control) {
+      control.setValidators(Validators.required);
+      control.updateValueAndValidity();
     }
   }
 
-  onSave(task: any): void {
-    // Handle edit operation, e.g., update task data
-
+  onSave(taskIndex: number) {
+    console.log('onsave called');
     let isAvailable = false;
-    let isValidated = this.validate(task);
+    const taskForm = this.taskFormArray.at(taskIndex) as FormGroup;
+    if (taskForm.valid) {
+      const newTask = taskForm.value;
 
-    for (let t of this.tasks) {
-      if (t.id != '' && t.id == task.id) isAvailable = true;
-    }
-
-    if (!isAvailable && isValidated) {
-      task.id = Date.now();
-      task.created_by = this.current_user?.id;
-      this.taskService.addTask(task);
-      this.userProfileService.isLoggedIn();
-      this.toastr.success('Your task is added successfully', 'Success');
-    } else if (isValidated) {
-      this.taskService.editTask(task.id, task);
-      this.userProfileService.isLoggedIn();
-      this.toastr.success('Your task is edited successfully', 'Success');
+      for (let t of this.tasks) {
+        if (t.id == newTask.id) {
+          isAvailable = true;
+        }
+      }
+      if (!isAvailable) {
+        this.taskService.addTask(newTask);
+        this.toastr.success('Task added successfully', 'Success');
+        this.tasks = [...this.tasks, newTask];
+      } else {
+        this.taskService.editTask(newTask.id, newTask);
+        this.toastr.success('Task updated successfully', 'Success');
+      }
+    } else {
+      this.toastr.error('Please fill the form properly', 'ERROR💥');
     }
   }
 
-  onDelete(taskId: number) {
-    let confirmed = confirm('Are you sure?');
+  onDelete(taskIndex: number) {
+    const confirmed = confirm('Are you sure?');
     if (!confirmed) return;
-    this.taskService.deleteTask(taskId);
-    this.userProfileService.isLoggedIn();
-    this.toastr.success('Your task is deleted successfully', 'Success');
+
+    const taskForm = this.taskFormArray.at(taskIndex) as FormGroup;
+    const taskId = taskForm.value.id;
+
+    this.taskService.deleteTask(taskId).subscribe(() => {
+      this.tasks = this.tasks.filter((task) => task.id !== taskId);
+
+      this.taskFormArray.clear();
+
+      this.tasks.forEach((task) => {
+        this.taskFormArray.push(this.createTaskFormGroup(task));
+      });
+
+      this.dataSource = new MatTableDataSource(this.taskFormArray.controls);
+
+      this.toastr.success('Task deleted successfully', 'Success');
+    });
   }
+
+  // onSubmit(array: any) {
+  //   for (let [i, group] of array.controls.entries()) {
+  //     if (group.touched && group.status == 'VALID') {
+  //       console.log(i);
+  //       this.onSave(i);
+  //     }
+  //   }
+  // }
 }
