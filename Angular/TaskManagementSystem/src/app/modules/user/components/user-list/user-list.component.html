@@ -1,6 +1,9 @@
 <h1 style="margin: 20px">All Users</h1>
 
 <form [formGroup]="userFormArray" style="margin: 0 20px">
+  <button mat-raised-button color="accent" (click)="exportUserData()">
+    <mat-icon fontIcon="import_export"></mat-icon>Export
+  </button>
   <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
@@ -136,7 +139,5 @@
     <mat-icon fontIcon="add"></mat-icon>
     Add User
   </button>
-  <button mat-raised-button color="primary" (click)="onSubmit(userFormArray)">
-    save
-  </button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">save</button>
 </form>

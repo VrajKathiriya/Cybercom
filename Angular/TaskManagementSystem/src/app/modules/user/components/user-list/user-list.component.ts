@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import { ngxCsv } from 'ngx-csv';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/core/services/user/user.service';
 
@@ -107,13 +108,13 @@ export class UserListComponent implements OnInit {
           next: (res: any) => {
             this.toastr.success('User added successfully', 'Success');
 
+            this.users = [...this.users, res];
+
             userForm.patchValue({ id: res.id });
 
             this.dataSource.data[userIndex] =
               this.userFormArray.controls[userIndex];
             this.dataSource._updateChangeSubscription();
-
-            this.users = [...this.users, res];
           },
           error: (err: any) => {
             this.toastr.error(err.error.message, 'ERROR💥');
@@ -122,8 +123,18 @@ export class UserListComponent implements OnInit {
       } else {
         this.userService.updateUser(newUser.id, newUser).subscribe({
           next: (res: any) => {
-            this.dataSource.data[userIndex] = this.createUserFormGroup(res);
+            console.log('edited user', res);
+            this.users = this.users.map((user) => {
+              if (user.id == res.id) return res;
+              else return user;
+            });
+
+            userForm.patchValue(res);
+
+            this.dataSource.data[userIndex] =
+              this.userFormArray.controls[userIndex];
             this.dataSource._updateChangeSubscription();
+
             this.toastr.success('User edited successfully', 'Success');
           },
           error: (err: any) => {
@@ -162,20 +173,45 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  onSubmit(array: any) {
-    // console.log(array);
-    let removeRows = [];
-    for (let [i, group] of array.controls.entries()) {
+  onSubmit() {
+    let removeRows: any[] = [];
+    for (let [i, group] of this.userFormArray.controls.entries()) {
       console.log(i, group);
       if (group.touched && group.valid && !group.pristine) {
         // console.log(i);
         this.onSave(i);
+        group.touched = false;
       } else if (!group.touched && group.value.id == '') {
         removeRows.push(i);
       }
     }
-    for (let r of removeRows.reverse()) {
-      this.removeRow(r);
-    }
+
+    // for (let r of removeRows.reverse()) {
+    //   this.removeRow(r);
+    // }
+  }
+
+  exportUserData() {
+    let options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'UserData',
+      useBom: true,
+      headers: [
+        'id',
+        'email',
+        'password',
+        'name',
+        'role',
+        'avatar',
+        'created_At',
+        'updated_at',
+      ],
+    };
+
+    new ngxCsv(this.users, 'userData', options);
   }
 }

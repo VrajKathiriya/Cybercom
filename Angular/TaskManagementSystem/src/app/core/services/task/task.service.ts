@@ -53,4 +53,9 @@ export class TaskService {
 
     return of(true);
   }
+
+  saveImportedData(data: any) {
+    localStorage.removeItem('tasks');
+    localStorage.setItem('tasks', JSON.stringify(data));
+  }
 }
