@@ -42,7 +42,7 @@
             <mat-icon *ngIf="blog.likes?.includes(currentUser.id)"
               >favorite</mat-icon
             >
-            <span class="like-count">{{ blog.likes.length }}</span>
+            <span class="like-count">{{ blog.likes?.length }}</span>
           </button>
           <button mat-icon-button>
             <mat-icon>mode_comment</mat-icon>
