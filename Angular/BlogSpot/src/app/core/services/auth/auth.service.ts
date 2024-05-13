@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment.development';
 })
 export class AuthService {
   login_url: string = environment.base_url + environment.auth_url + '/login';
+  register_url: string = environment.base_url + environment.user_url;
   user_profile_url: string =
     environment.base_url + environment.auth_url + '/profile';
 
@@ -14,6 +15,10 @@ export class AuthService {
 
   loginUser(cred: any) {
     return this.http.post(this.login_url, cred);
+  }
+
+  registerUser(user: any) {
+    return this.http.post(this.register_url, user);
   }
 
   getUserProfile() {

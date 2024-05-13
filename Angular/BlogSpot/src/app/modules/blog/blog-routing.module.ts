@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
 import { ErrorPageComponent } from '../general/components/error-page/error-page.component';
 import { AddBlogComponent } from './components/add-blog/add-blog.component';
+import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'add-blog',
     component: AddBlogComponent,
+  },
+  {
+    path: 'bookmarks',
+    component: BookmarksComponent,
   },
   {
     path: '**',

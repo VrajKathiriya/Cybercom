@@ -96,9 +96,4 @@ export class BlogService {
 
     return of(true);
   }
-
-  saveImportedData(data: any) {
-    localStorage.removeItem('blogs');
-    localStorage.setItem('blogs', JSON.stringify(data));
-  }
 }

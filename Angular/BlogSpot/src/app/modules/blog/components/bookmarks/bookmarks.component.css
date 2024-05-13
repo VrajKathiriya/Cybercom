@@ -94,24 +94,25 @@
   justify-content: flex-start;
 }
 
-.card-actions button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
-  margin: 0 2px;
-  position: relative;
-}
-
 .mat-icon-button {
   margin-right: 8px;
   color: #888;
 }
 
-.like-count {
-  position: absolute;
-  bottom: -5px;
-  font-size: 14px;
+.read-more-btn {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.popular-users {
+  width: 30%;
+  /* background-color: red; */
+}
+
+.users-list {
+  width: 100%;
+
+  padding-left: 20px;
 }
 /* blog-list.component.css */
 .popular-users {
