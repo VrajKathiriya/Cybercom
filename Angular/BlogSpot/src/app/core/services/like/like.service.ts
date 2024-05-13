@@ -13,7 +13,7 @@ export class LikeService {
 
     blogs.forEach((blog: any) => {
       if (blog.id == blogId) {
-        if (!blog.likes.includes(userId)) blog.likes.push(userId);
+        if (!blog.likes?.includes(userId)) blog.likes.push(userId);
         else blog.likes = blog.likes.filter((like: any) => like != userId);
       }
     });

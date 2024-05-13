@@ -36,10 +36,10 @@
             <mat-chip class="category">{{ blog.category }}</mat-chip>
           </mat-chip-set>
           <button mat-icon-button (click)="addLike(blog.id)">
-            <mat-icon *ngIf="!blog.likes.includes(currentUser.id)"
+            <mat-icon *ngIf="!blog.likes?.includes(currentUser.id)"
               >favorite_border</mat-icon
             >
-            <mat-icon *ngIf="blog.likes.includes(currentUser.id)"
+            <mat-icon *ngIf="blog.likes?.includes(currentUser.id)"
               >favorite</mat-icon
             >
             <span class="like-count">{{ blog.likes.length }}</span>
