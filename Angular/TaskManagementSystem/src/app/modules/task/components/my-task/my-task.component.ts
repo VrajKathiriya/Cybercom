@@ -16,6 +16,7 @@ import { ngxCsv } from 'ngx-csv/ngx-csv';
 
 import * as XLSX from 'xlsx';
 import { FileSaverService } from 'ngx-filesaver';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-my-task',
@@ -25,6 +26,7 @@ import { FileSaverService } from 'ngx-filesaver';
 export class MyTaskComponent {
   tasks: any[] = [];
   users: any[] = [];
+  isImported: boolean = false;
 
   myTaskColumns = [
     'id',
@@ -172,6 +174,11 @@ export class MyTaskComponent {
   }
 
   onSubmit() {
+    if (this.isImported) {
+      this.saveImportedData();
+      return;
+    }
+
     console.log(this.taskFormArray);
     let removeRows: any[] = [];
     if (this.taskFormArray.valid) {
@@ -190,6 +197,23 @@ export class MyTaskComponent {
       }
     } else {
       this.toastr.error('Please make valid changes', 'ERROR💥');
+    }
+  }
+
+  saveImportedData() {
+    console.log(this.taskFormArray);
+    for (let [i, group] of this.taskFormArray.controls.entries()) {
+      for (let control in group.controls) {
+        this.addValidators(control, i);
+      }
+    }
+    console.log(this.taskFormArray);
+    if (this.taskFormArray.valid) {
+      this.taskService.saveImportedData(this.tasks);
+      this.toastr.success('Imported data saved successfully');
+      this.isImported = false;
+    } else {
+      this.toastr.error('Import valid data');
     }
   }
 
@@ -214,51 +238,126 @@ export class MyTaskComponent {
 
     // new ngxCsv(this.tasks, 'taskData', options);
 
-    const EXCEL_TYPE =
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    const EXCEL_EXTENSION = '.xlsx';
+    let exportTasks = this.tasks.map((task: any) => {
+      const updatedTask: any = {};
+      this.users.forEach((user) => {
+        if (user.id == task.assigned_to) updatedTask['Assignee'] = user.name;
+      });
+      for (let key in task) {
+        if (key == 'due_date') {
+          updatedTask['Due Date'] = moment(task.due_date).format('MM/DD/YYYY');
+        } else {
+          updatedTask[key.charAt(0).toUpperCase() + key.slice(1)] = task[key];
+        }
+      }
 
-    const worksheet = XLSX.utils.json_to_sheet(this.tasks);
-
-    const workbook = {
-      Sheets: {
-        taskData: worksheet,
-      },
-      SheetNames: ['taskData'],
-    };
-
-    const excelbuffer = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
+      return updatedTask;
     });
 
-    const blobData = new Blob([excelbuffer], { type: EXCEL_TYPE });
+    const columnOrder = [
+      'Id',
+      'Title',
+      'Description',
+      'Assignee',
+      'Due Date',
+      'Status',
+      'Assigned_to',
+    ];
+    const reorderedData = exportTasks.map((row) => {
+      const newRow: any = {};
+      columnOrder.forEach((column) => {
+        newRow[column] = row[column];
+      });
+      return newRow;
+    });
 
-    this.fileSaverService.save(blobData, 'taskData');
+    // const worksheet = XLSX.utils.json_to_sheet(reorderedData);
+
+    // const workbook = {
+    //   Sheets: {
+    //     Tasks: worksheet,
+    //   },
+    //   SheetNames: ['Tasks'],
+    // };
+
+    // const excelbuffer = XLSX.write(workbook, {
+    //   bookType: 'xlsx',
+    //   type: 'array',
+    // });
+    // const blobData = new Blob([excelbuffer], { type: EXCEL_TYPE });
+
+    // this.fileSaverService.save(blobData, 'Task Data');
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(reorderedData);
+
+    for (let i = 2; i <= reorderedData.length + 1; i++) {
+      const cellAddress = 'A' + i;
+      worksheet[cellAddress].t = 's';
+    }
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Tasks');
+
+    XLSX.writeFile(workbook, 'task data.xlsx');
   }
 
   importTaskData(event: any) {
+    let isValid = true;
     let file = event.target.files[0];
 
     let fileReader = new FileReader();
 
     fileReader.onload = (e) => {
+      const requiredColumns = [
+        'id',
+        'title',
+        'description',
+        'due_date',
+        'status',
+        'assigned_to',
+      ];
       let data = new Uint8Array(fileReader.result as ArrayBuffer);
       console.log('data', data);
       let workbook = XLSX.read(data, { type: 'array' });
       console.log('workbook', workbook);
       let sheetNames = workbook.SheetNames;
 
-      this.tasks = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[0]]);
-      this.taskService.saveImportedData(this.tasks);
+      let importData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetNames[0]]);
+      // this.taskService.saveImportedData(this.tasks);
 
-      this.taskFormArray.clear();
-      this.tasks.forEach((task) => {
-        this.taskFormArray.push(this.createTaskFormGroup(task));
+      console.log(importData);
+
+      let importTasks = importData.map((task: any) => {
+        let updatedTasks: any = {};
+        for (let key in task) {
+          if (key == 'Due Date')
+            updatedTasks['due_date'] = moment(task[key]).toDate();
+          else if (key == 'Assignee') continue;
+          else updatedTasks[key.toLowerCase()] = task[key];
+        }
+        return updatedTasks;
       });
-      this.dataSource = new MatTableDataSource(this.taskFormArray.controls);
 
-      this.toastr.success('Data imported successfully', 'Success');
+      for (let key in importTasks[0]) {
+        if (!requiredColumns.includes(key)) {
+          isValid = false;
+          break;
+        }
+      }
+      if (isValid) {
+        this.tasks = importTasks;
+        console.log('is valid called');
+        this.taskFormArray.clear();
+        this.tasks.forEach((task) => {
+          this.taskFormArray.push(this.createTaskFormGroup(task));
+        });
+        this.dataSource = new MatTableDataSource(this.taskFormArray.controls);
+
+        this.toastr.success('Data imported successfully', 'Success');
+        this.isImported = true;
+      } else {
+        this.toastr.error('Please import valid data');
+      }
     };
     fileReader.readAsArrayBuffer(file);
   }

@@ -1,0 +1,17 @@
+.image-container {
+  width: 100px; /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  overflow: hidden;
+  position: relative;
+}
+
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

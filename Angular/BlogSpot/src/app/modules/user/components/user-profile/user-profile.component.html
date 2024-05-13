@@ -1,0 +1,55 @@
+<!-- blog-list.component.html -->
+<div class="blog-list-container">
+  <div class="tags-container">
+    <h2>My Blogs</h2>
+  </div>
+  <div class="blogs">
+    <div class="blog-list">
+      <mat-card class="blog-card" *ngFor="let blog of blogs">
+        <mat-card-header>
+          <div class="blog-meta">
+            <div class="blog-avatar">
+              <img [src]="blog.user_avatar" alt="" />
+            </div>
+            <div class="blog-profile-info">
+              <div class="blog-author">{{ blog.username }}</div>
+              <div class="blog-date">{{ blog.created_at | date }}</div>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <div class="blog-content">
+            <div class="blog-title">{{ blog.title }}</div>
+            <p class="blog-text">{{ blog.content }}</p>
+          </div>
+          <!-- Add image here -->
+          <img class="blog-image" [src]="blog.image_url" alt="Blog Image" />
+        </mat-card-content>
+        <mat-card-actions class="card-actions">
+          <mat-chip-set>
+            <mat-chip class="category">{{ blog.category }}</mat-chip>
+          </mat-chip-set>
+          <button mat-icon-button>
+            <mat-icon>favorite_border</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>mode_comment</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>bookmark_add</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>share</mat-icon>
+          </button>
+          <button mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="deleteBlog(blog.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+  <!-- blog-list.component.html -->
+</div>

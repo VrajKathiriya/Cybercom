@@ -1,0 +1,56 @@
+<mat-toolbar color="primary">
+  <span class="brand" routerLink="blog/blog-list" style="cursor: pointer"
+    >BLOGSPOT</span
+  >
+  <div class="searchbar" *ngIf="userRole == 'admin' || userRole == 'customer'">
+    <mat-icon>search</mat-icon>
+    <input placeholder="Search here..." />
+  </div>
+
+  <!-- Logged-in user section -->
+  <div class="nav-links">
+    <!-- Navigation links -->
+
+    <a
+      routerLink="/auth/login"
+      *ngIf="userRole != 'admin' && userRole != 'customer'"
+      class="nav-link"
+      >Login</a
+    >
+  </div>
+
+  <div class="nav-icons">
+    <mat-icon
+      class="nav-icon"
+      *ngIf="userRole == 'admin' || userRole == 'customer'"
+      routerLink="blog/add-blog"
+      >add_to_photos</mat-icon
+    >
+    <mat-icon
+      class="nav-icon"
+      *ngIf="userRole == 'admin' || userRole == 'customer'"
+      >bookmarks</mat-icon
+    >
+    <mat-icon
+      class="nav-icon"
+      *ngIf="userRole == 'admin' || userRole == 'customer'"
+      >notifications</mat-icon
+    >
+    <mat-icon
+      class="nav-icon"
+      (click)="logout()"
+      *ngIf="userRole == 'admin' || userRole == 'customer'"
+      >logout</mat-icon
+    >
+  </div>
+
+  <div
+    class="user-info"
+    *ngIf="userRole == 'admin' || userRole == 'customer'"
+    routerLink="user/user-profile"
+    style="cursor: pointer"
+  >
+    <img class="user-photo" [src]="loggedInUser.avatar" alt="Profile Photo" />
+    <span class="username">{{ loggedInUser.name }}</span>
+  </div>
+</mat-toolbar>

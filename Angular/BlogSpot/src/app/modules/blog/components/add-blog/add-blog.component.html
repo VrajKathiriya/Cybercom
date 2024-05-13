@@ -1,0 +1,44 @@
+<h1>Add Blog</h1>
+<form class="medium-form" [formGroup]="addBlogForm">
+  <mat-form-field appearance="outline" class="medium-form-field">
+    <mat-label>Category</mat-label>
+    <mat-select
+      name="category"
+      class="medium-select"
+      formControlName="category"
+    >
+      <mat-option value="technology">Technology</mat-option>
+      <mat-option value="science">Science</mat-option>
+      <mat-option value="lifestyle">Lifestyle</mat-option>
+      <!-- Add more options as needed -->
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="medium-form-field">
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      placeholder="Enter title"
+      formControlName="title"
+      class="medium-input"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="medium-form-field">
+    <mat-label>Content</mat-label>
+    <textarea
+      matInput
+      placeholder="Enter content"
+      formControlName="content"
+      class="medium-textarea"
+    ></textarea>
+  </mat-form-field>
+
+  <button
+    mat-raised-button
+    type="submit"
+    class="medium-button"
+    (click)="addBlog()"
+  >
+    Add
+  </button>
+</form>

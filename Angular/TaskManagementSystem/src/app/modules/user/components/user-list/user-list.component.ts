@@ -5,6 +5,10 @@ import { ngxCsv } from 'ngx-csv';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from 'src/app/core/services/user/user.service';
 
+import * as XLSX from 'xlsx';
+import { FileSaverService } from 'ngx-filesaver';
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -29,7 +33,8 @@ export class UserListComponent implements OnInit {
   constructor(
     private userService: UserService,
     private toastr: ToastrService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private fileSaverService: FileSaverService
   ) {}
 
   ngOnInit(): void {
@@ -192,26 +197,54 @@ export class UserListComponent implements OnInit {
   }
 
   exportUserData() {
-    let options = {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalseparator: '.',
-      showLabels: true,
-      showTitle: true,
-      title: 'UserData',
-      useBom: true,
-      headers: [
-        'id',
-        'email',
-        'password',
-        'name',
-        'role',
-        'avatar',
-        'created_At',
-        'updated_at',
-      ],
-    };
+    // let options = {
+    //   fieldSeparator: ',',
+    //   quoteStrings: '"',
+    //   decimalseparator: '.',
+    //   showLabels: true,
+    //   showTitle: true,
+    //   title: 'UserData',
+    //   useBom: true,
+    //   headers: [
+    //     'id',
+    //     'email',
+    //     'password',
+    //     'name',
+    //     'role',
+    //     'avatar',
+    //     'created_At',
+    //     'updated_at',
+    //   ],
+    // };
 
-    new ngxCsv(this.users, 'userData', options);
+    // new ngxCsv(this.users, 'userData', options);
+
+    let exportUsers = this.users.map((user: any) => {
+      const updatedUser: any = {};
+      for (let key in user) {
+        updatedUser[key.charAt(0).toUpperCase() + key.slice(1)] = user[key];
+      }
+      delete updatedUser['Password'];
+      delete updatedUser['Avatar'];
+      return updatedUser;
+    });
+
+    console.log(exportUsers);
+
+    const columnOrder = ['Id', 'Name', 'Email', 'Role'];
+    const reorderedData = exportUsers.map((row) => {
+      const newRow: any = {};
+      columnOrder.forEach((column) => {
+        newRow[column] = row[column];
+      });
+      return newRow;
+    });
+
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.json_to_sheet(reorderedData);
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Users');
+
+    XLSX.writeFile(workbook, 'user data.xlsx');
   }
 }

@@ -1,0 +1,30 @@
+.medium-form {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.medium-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.medium-input,
+.medium-textarea {
+  font-size: 18px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.medium-textarea {
+  min-height: 200px;
+}
+
+.medium-button {
+  font-size: 18px;
+  padding: 12px 24px;
+  border-radius: 5px;
+}

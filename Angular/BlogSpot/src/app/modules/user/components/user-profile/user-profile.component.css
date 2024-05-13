@@ -1,0 +1,183 @@
+::-webkit-scrollbar {
+  display: none;
+}
+/* blog-list.component.css */
+.blog-list-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 30px 150px;
+}
+
+.tags-container {
+  position: sticky;
+  top: 0;
+  width: calc(70% - 20px);
+  margin-right: 20px;
+}
+
+.blogs {
+  width: 70%;
+  /* background-color: black; */
+}
+
+.blog-list {
+  width: 100%;
+  max-height: 500px; /* Set a max height for the blog list */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.blog-card {
+  width: calc(100% - 20px);
+  margin-bottom: 20px;
+}
+
+.blog-meta {
+  display: flex;
+  align-items: center;
+}
+
+.blog-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 10px;
+  overflow: hidden;
+}
+
+.blog-avatar img {
+  width: 40px;
+}
+
+.blog-profile-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.blog-author {
+  font-weight: normal;
+}
+
+.blog-title {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.blog-image {
+  max-width: 100px; /* Adjust the width as needed */
+  margin-left: auto; /* Align the image to the right */
+  margin-top: 10px; /* Add some margin from the top */
+}
+
+.blog-date {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.blog-text {
+  font-size: 0.8rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mat-icon-button {
+  margin-right: 8px;
+  color: #888;
+}
+
+.read-more-btn {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.popular-users {
+  width: 30%;
+  /* background-color: red; */
+}
+
+.users-list {
+  width: 100%;
+
+  padding-left: 20px;
+}
+/* blog-list.component.css */
+.popular-users {
+  width: 30%;
+}
+
+.users-list {
+  border-radius: 8px;
+  width: 100%;
+  max-height: 450px; /* Set a max height for the blog list */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.users-list h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.users-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.users-list li {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.user-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #ccc;
+  margin-right: 15px;
+  overflow: hidden;
+}
+
+.user-avatar img {
+  width: 30px;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.follow-button {
+  border-radius: 20px;
+}
+
+button.mat-raised-button {
+  margin-left: auto;
+}
+
+button.mat-raised-button mat-icon {
+  margin-right: 5px;
+  font-size: 0.4rem;
+}
