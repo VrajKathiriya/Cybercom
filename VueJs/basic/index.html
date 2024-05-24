@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue.js tutorial</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="vue-app">
+      <h1>{{greet('afternoon')}}</h1>
+      <h2>{{name}}</h2>
+
+      <!-- data binding -->
+      <!-- v-bind is directive -->
+      <!-- <a v-bind:href="website">google</a>
+      <input type="text" :value="name" />
+
+      <div v-html="websiteTag"></div>
+
+      <h1>Events</h1>
+      <button @click.once="add(1)">add a year</button>
+      <button v-on:click="subtract(1)">sub a year</button>
+      <button @dblclick="add(10)">add 10 year</button>
+      <button v-on:dblclick="subtract(10)">sub 10 year</button>
+
+      <p>my age is {{age}}</p>
+      <a v-on:click.prevent="click" href="https://www.google.com">google</a>
+
+      <div id="canvas" v-on:mousemove="updateXY">{{x}}, {{y}}</div>
+
+      <h1>Keyboard events</h1>
+      <label>Name:</label>
+      <input type="text" v-on:keyup.enter="logName" />
+      <label>Age:</label>
+      <input type="text" v-on:keyup.alt.enter="logAge" />
+
+      <h1>two way data binding</h1>
+      <label>Name:</label>
+      <input type="text" v-model="name" />
+      <label>Age:</label>
+      <input type="text" v-model="age" />
+
+      <h1>computed properties</h1>
+      <button v-on:click="a++">add to A</button>
+      <button v-on:click="b++">add to B</button>
+      <p>A - {{a}}</p>
+      <p>B - {{b}}</p>
+      <p>Age + A = {{addToA}}</p>
+      <p>Age + B = {{addToB}}</p>
+
+      <h1>List</h1>
+      <todo-item v-for="todo in todos" :todo="todo" :key="todo.id"></todo-item>
+
+      <h1>Watchrs</h1>
+      <p>{{firstName}}</p>
+      <p>{{lastName}}</p>
+      <p>{{fullName}}</p>
+      <p>reverse of fullname : {{reverseFullName}}</p> -->
+    </div>
+
+    <h1>Multiple vue instances</h1>
+    <div id="vue-one">
+      <h2>{{title}}</h2>
+      <p>{{greet()}}</p>
+    </div>
+    <div id="vue-two">
+      <h2>{{title}}</h2>
+      <p>{{greet()}}</p>
+      <button @click="changeTitle()">Change app one title</button>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

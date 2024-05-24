@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>VueJS Tutorials</title>
+    <link href="styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="vue-app">
+      <!-- bag image -->
+      <div id="bag" :class="{burst:ended}"></div>
+
+      <!-- bag health -->
+      <div id="bag-health">
+        <div :style="{width:health + '%'}"></div>
+      </div>
+
+      <!-- game controls -->
+      <div id="controls">
+        <button @click="punch" v-show="!ended">Punch</button>
+        <button @click="restart">Restart</button>
+      </div>
+    </div>
+  </body>
+
+  <script src="app.js"></script>
+</html>
