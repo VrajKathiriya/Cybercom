@@ -38,7 +38,12 @@
       </div>
       <div class="mb-3">
         <label for="category" class="form-label">Category</label>
-        <select name="category" id="category" @change="updateCategory">
+        <select
+          name="category"
+          id="category"
+          @change="updateCategory"
+          class="form-select"
+        >
           <option
             v-for="category in categories"
             :key="category.id"

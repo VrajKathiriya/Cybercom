@@ -33,7 +33,7 @@
           </div>
           <ul class="list-group mt-3" id="todoList">
             <li
-              v-for="(todo, index) in getTodos"
+              v-for="(todo, index) in todos"
               :key="index"
               class="list-group-item d-flex justify-content-between align-items-center"
             >
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   data() {
@@ -66,18 +66,21 @@ export default {
       todos: [],
     };
   },
-  // created() {
-  //   this.todos = this.getTodos;
-  // },
+  created() {
+    this.todos = this.getTodos(`${this.user.id}`);
+    console.log(this.todos);
+  },
 
   computed: {
-    ...mapGetters(["getTodos"]),
+    ...mapState("auth", { user: (state) => state.user }),
+    ...mapGetters("todo", ["getTodos"]),
   },
   methods: {
-    ...mapActions(["addTodo", "removeTodo"]),
+    ...mapActions("todo", ["addTodo", "removeTodo"]),
     handleAddTodo() {
       if (!this.title || !this.description) return;
       const newTodo = {
+        userId: this.user.id,
         title: this.title,
         description: this.description,
         completed: false,

@@ -47,6 +47,8 @@ export default {
   },
   methods: {
     deleteProduct(id) {
+      const confirmed = confirm("Are you sure?");
+      if (!confirmed) return;
       this.$http
         .delete("https://api.escuelajs.co/api/v1/products/" + id)
         // .then(() => this.$router.push({ path: "/" }));
