@@ -10,8 +10,8 @@ export default {
     // state.todos = state.todos.filter((todo, i) => i != index)
 
     // this is working
-    // state.todos.splice(index, 1);
-    state.todos = [...state.todos.filter((todo, i) => i != index)];
+    state.todos.splice(index, 1);
+    // state.todos = [...state.todos.filter((todo, i) => i != index)];
     localStorage.setItem("todos", JSON.stringify(state.todos));
   },
 };

@@ -63,16 +63,16 @@ export default {
     return {
       title: "",
       description: "",
-      todos: [],
+      // todos: [],
     };
   },
   created() {
-    this.todos = this.getTodos(`${this.user.id}`);
     console.log(this.todos);
   },
 
   computed: {
     ...mapState("auth", { user: (state) => state.user }),
+    ...mapState("todo", { todos: (state) => state.todos }),
     ...mapGetters("todo", ["getTodos"]),
   },
   methods: {
@@ -86,11 +86,13 @@ export default {
         completed: false,
       };
       this.addTodo(newTodo);
+      this.todos = this.getTodos(`${this.user.id}`);
       this.title = "";
       this.description = "";
     },
     handleRemoveTodo(index) {
       this.removeTodo(index);
+      this.todos = this.getTodos(`${this.user.id}`);
     },
   },
 };
