@@ -1,12 +1,10 @@
 import colors from 'vuetify/es5/util/colors'
 
-require('dotenv').config()
-
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - weather-app',
-    title: 'weather-app',
+    titleTemplate: '%s - product-list',
+    title: 'product-list',
     htmlAttrs: {
       lang: 'en',
     },
@@ -23,7 +21,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/apolloClient.js', ssr: false },
+    '~/plugins/eventBus.js',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -38,50 +39,19 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth',
-    '@nuxtjs/dotenv',
+    '@nuxtjs/apollo',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'https://api.escuelajs.co/api/v1',
-    proxy: true,
+    baseURL: '/',
   },
 
-  proxy: {
-    '/api/': {
-      target: 'https://api.openweathermap.org',
-      pathRewrite: { '^/api/': '' },
-      changeOrigin: true,
-    },
-  },
-
-  // auth configuration
-  auth: {
-    strategies: {
-      local: {
-        token: {
-          property: 'access_token',
-          type: 'Bearer',
-          maxAge: 1800,
-        },
-        user: {
-          property: false,
-          autoFetch: true,
-        },
-        endpoints: {
-          login: {
-            url: 'https://api.escuelajs.co/api/v1/auth/login',
-            method: 'post',
-            propertyName: 'access_token',
-          },
-          user: {
-            url: 'https://api.escuelajs.co/api/v1/auth/profile',
-            method: 'get',
-            propertyName: false,
-          },
-        },
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://api.escuelajs.co/graphql', // Replace with your GraphQL endpoint
       },
     },
   },
