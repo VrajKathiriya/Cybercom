@@ -40,6 +40,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/apollo',
+    '@nuxtjs/auth',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -52,6 +53,35 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: 'https://api.escuelajs.co/graphql', // Replace with your GraphQL endpoint
+      },
+    },
+  },
+
+  // auth configuration
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'access_token',
+          type: 'Bearer',
+          maxAge: 1800,
+        },
+        user: {
+          property: false,
+          autoFetch: true,
+        },
+        endpoints: {
+          login: {
+            url: 'https://api.escuelajs.co/api/v1/auth/login',
+            method: 'post',
+            propertyName: 'access_token',
+          },
+          user: {
+            url: 'https://api.escuelajs.co/api/v1/auth/profile',
+            method: 'get',
+            propertyName: false,
+          },
+        },
       },
     },
   },

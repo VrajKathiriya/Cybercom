@@ -1,8 +1,8 @@
 import { GET_CATEGORIES } from '~/graphql/queries/category'
 
-export const state = () => {
-  categories: []
-}
+export const state = () => ({
+  categories: [],
+})
 
 export const mutations = {
   // set categories

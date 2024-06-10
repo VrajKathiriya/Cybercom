@@ -3,9 +3,8 @@
     <v-row>
       <div v-if="!product">Loading...</div>
       <v-col v-else cols="12">
-        <v-btn color="primary" @click="$router.back()">
-          <v-icon left>mdi-arrow-left</v-icon>
-          Back
+        <v-btn small color="accent" @click="$router.back()">
+          <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
 
         <v-card class="mt-4">
@@ -19,7 +18,7 @@
             </div>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="info" :to="`/products/edit-product/${product.id}`">
+            <v-btn color="primary" :to="`/products/edit-product/${product.id}`">
               <v-icon left>mdi-pencil</v-icon>
               Edit
             </v-btn>

@@ -1,6 +1,6 @@
 <template>
   <v-col cols="12" sm="6" md="4">
-    <v-card class="product-card">
+    <v-card class="product-card" @click="navigateToProduct">
       <v-img :src="product.images[0]" contain height="150px"></v-img>
       <v-card-title>{{ product.title }}</v-card-title>
       <v-card-subtitle>{{ product.category.name }}</v-card-subtitle>
@@ -8,17 +8,45 @@
         <div>{{ product.description }}</div>
         <div class="font-weight-bold mt-3">{{ product.price | currency }}</div>
       </v-card-text>
-      <v-card-actions>
-        <v-btn :to="`/product/${product.id}`" color="primary">
-          <v-icon>mdi-information</v-icon>
-          Details</v-btn
+      <v-card-actions class="d-flex justify-space-between">
+        <!-- <v-btn
+          small
+          :to="`/product/${product.id}`"
+          color="primary"
+          class="action-buttons"
         >
-        <v-btn color="info" :to="`/products/edit-product/${product.id}`">
-          <v-icon left>mdi-pencil</v-icon>
+          <v-icon small left>mdi-information</v-icon>
+          Details
+        </v-btn> -->
+        <v-btn
+          small
+          outlined
+          class="action-buttons"
+          color="info"
+          @click.stop="onAddToCart"
+        >
+          <v-icon small left>mdi-cart</v-icon>
+          Add
+        </v-btn>
+        <v-btn
+          small
+          outlined
+          color="primary"
+          :to="`/products/edit-product/${product.id}`"
+          class="action-buttons"
+          @click.stop
+        >
+          <v-icon small left>mdi-pencil</v-icon>
           Edit
         </v-btn>
-        <v-btn color="red" @click="onDeleteProduct(product.id)">
-          <v-icon left>mdi-delete</v-icon>
+        <v-btn
+          small
+          outlined
+          color="red"
+          @click.stop="onDeleteProduct(product.id)"
+          class="action-buttons"
+        >
+          <v-icon small left>mdi-delete</v-icon>
           Delete
         </v-btn>
       </v-card-actions>
@@ -48,8 +76,15 @@ export default {
   },
   methods: {
     ...mapActions('product', ['deleteProduct']),
+    ...mapActions('cart', ['addToCart']),
     onDeleteProduct(productId) {
       this.deleteProduct(productId)
+    },
+    navigateToProduct() {
+      this.$router.push(`/product/${this.product.id}`)
+    },
+    onAddToCart() {
+      this.addToCart({ userId: this.$auth.user.id, product: this.product })
     },
   },
 }
@@ -65,5 +100,8 @@ export default {
 }
 .v-card-text {
   flex-grow: 1;
+}
+.action-buttons {
+  margin-left: 4px;
 }
 </style>

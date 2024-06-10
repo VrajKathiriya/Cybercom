@@ -37,8 +37,17 @@
       </v-btn>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer />
-      <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-        <v-icon>mdi-menu</v-icon>
+      <v-btn color="accent" class="mr-2" v-if="$auth.loggedIn">
+        <v-icon left>mdi-account</v-icon>
+        {{ $auth.user.name }}
+      </v-btn>
+      <v-btn text color="info" class="mr-2" to="/login" v-if="!$auth.loggedIn">
+        <v-icon left>mdi-login</v-icon>
+        Login
+      </v-btn>
+      <v-btn text color="red" v-if="$auth.loggedIn" @click="logout">
+        <v-icon left>mdi-logout</v-icon>
+        Logout
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -46,16 +55,7 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light> mdi-repeat </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+
     <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -72,14 +72,19 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          icon: 'mdi-home',
+          title: 'Home',
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
+          icon: 'mdi-package-variant-closed',
           title: 'Products',
           to: '/products',
+        },
+        {
+          icon: 'mdi-cart',
+          title: 'My Cart',
+          to: 'cart',
         },
       ],
       miniVariant: false,
@@ -87,6 +92,15 @@ export default {
       rightDrawer: false,
       title: 'ProductManagement',
     }
+  },
+  methods: {
+    async logout() {
+      try {
+        await this.$auth.logout()
+      } catch (err) {
+        console.log(err)
+      }
+    },
   },
 }
 </script>

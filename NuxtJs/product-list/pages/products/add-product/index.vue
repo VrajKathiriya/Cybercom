@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <h2>Add Product</h2>
+    <v-btn small color="accent" @click="$router.back()">
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
+    <h2 class="mt-3">Add Product</h2>
     <v-form @submit.prevent="onAddProduct">
       <v-text-field v-model="product.title" label="Title"></v-text-field>
       <v-textarea
@@ -49,7 +52,7 @@ export default {
 
   methods: {
     ...mapActions('product', ['addProduct']),
-    ...mapActions('category', ['fetchCategories']),
+    // ...mapActions('category', ['fetchCategories']),
 
     async onAddProduct() {
       const response = this.addProduct(this.product)

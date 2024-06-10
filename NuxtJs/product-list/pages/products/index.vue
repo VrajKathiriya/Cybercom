@@ -6,6 +6,8 @@
           v-model="selectedCategory"
           :items="categories"
           label="Category"
+          item-text="name"
+          item-value="name"
           @change="filterProducts"
         ></v-select>
       </v-col>
@@ -68,13 +70,18 @@ export default {
     }
   },
 
+  async asyncData({ store }) {
+    await store.dispatch('category/fetchCategories')
+  },
+
   computed: {
     ...mapState('product', {
       products: (state) => state.products,
-      categories: (state) => state.categories,
       loading: (state) => state.loading,
       error: (state) => state.error,
     }),
+
+    ...mapState('category', { categories: (state) => state.categories }),
 
     selectedCategory: {
       get() {
@@ -179,7 +186,7 @@ export default {
   },
 
   mounted() {
-    console.log('products page mounted')
+    // console.log('products page mounted')
     this.fetchProducts()
   },
 }

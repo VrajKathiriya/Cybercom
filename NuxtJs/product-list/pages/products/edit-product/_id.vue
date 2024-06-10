@@ -1,6 +1,9 @@
 <template>
   <v-container>
-    <h2>Edit Product</h2>
+    <v-btn small color="accent" @click="$router.back()">
+      <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
+    <h2 class="mt-3">Edit Product</h2>
     <v-form @submit.prevent="onEditProduct">
       <v-text-field v-model="product.title" label="Title"></v-text-field>
       <v-textarea

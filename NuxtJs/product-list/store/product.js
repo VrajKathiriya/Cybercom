@@ -75,12 +75,6 @@ export const actions = {
       })
 
       context.commit('setProducts', response.data.products)
-      let categories = [
-        ...new Set(
-          response.data.products.map((product) => product.category.name)
-        ),
-      ]
-      context.commit('setCategories', categories)
     } catch (error) {
       console.log('error in product fetching', error)
       context.commit('setError', error)
