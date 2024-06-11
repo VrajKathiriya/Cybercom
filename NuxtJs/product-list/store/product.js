@@ -1,5 +1,9 @@
 import gql from 'graphql-tag'
-import { CREATE_PRODUCT, UPDATE_PRODUCT } from '~/graphql/mutations/product'
+import {
+  CREATE_PRODUCT,
+  DELETE_PRODUCT,
+  UPDATE_PRODUCT,
+} from '~/graphql/mutations/product'
 import { GET_PRODUCTS } from '~/graphql/queries/product'
 
 export const state = () => ({
@@ -93,16 +97,21 @@ export const actions = {
 
     try {
       const response = await apolloClient.mutate({
-        mutation: gql`
-          mutation DeleteProduct($id: ID!) {
-            deleteProduct(id: $id)
-          }
-        `,
+        mutation: DELETE_PRODUCT,
         variables: { id: productId },
       })
 
       if (response.data.deleteProduct) {
-        context.commit('setRemoveProduct', productId)
+        // Wait for the setRemoveProduct mutation to complete before removing from the cart
+        await context.commit('setRemoveProduct', productId)
+        context.commit(
+          'cart/removeFromCart',
+          {
+            userId: this.$auth.user.id,
+            productId: productId,
+          },
+          { root: true }
+        )
         return true
       }
     } catch (error) {

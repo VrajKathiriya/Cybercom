@@ -50,15 +50,20 @@ export const mutations = {
 
   // remove from cart
   removeFromCart(state, { productId, userId }) {
+    console.log('removeFromCart is called')
     let cartIsEmpty = false
-    state.carts.forEach((cart, index) => {
-      if (cart.userId == userId) {
-        cart.products = [
-          ...cart.products.filter((product) => product.id != productId),
-        ]
-        if (cart.products.length == 0) cartIsEmpty = true
-      }
-    })
+    state.carts = [
+      ...state.carts.map((cart) => {
+        if (cart.userId === userId) {
+          cart.products = [
+            ...cart.products.filter((product) => product.id !== productId),
+          ]
+          if (cart.products.length === 0) cartIsEmpty = true
+        }
+        return cart
+      }),
+    ]
+
     if (cartIsEmpty) {
       state.carts = [...state.carts.filter((cart) => cart.userId != userId)]
     }
@@ -68,8 +73,10 @@ export const mutations = {
 export const actions = {
   // fetch carts from localStorage
   fetchCarts({ commit }) {
-    const carts = JSON.parse(localStorage.getItem('carts')) || []
-    commit('setCarts', carts)
+    if (process.client) {
+      const carts = JSON.parse(localStorage.getItem('carts')) || []
+      commit('setCarts', carts)
+    }
   },
 
   // add new cart or product

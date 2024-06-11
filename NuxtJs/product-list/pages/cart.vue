@@ -101,6 +101,7 @@ export default {
     },
   },
 
+  middleware: 'auth',
   computed: {
     ...mapState('cart', { carts: (state) => state.carts }),
     totalItems() {
@@ -111,10 +112,10 @@ export default {
     },
   },
 
-  async created() {
+  async mounted() {
     await this.fetchCarts()
     this.setProducts()
-    console.log(this.products)
+    // console.log(this.products)
   },
 
   methods: {
@@ -138,14 +139,15 @@ export default {
 
     removeProduct(productId) {
       this.removeFromCart({ productId: productId, userId: this.$auth.user.id })
+      this.products = this.products.filter((product) => product.id != productId)
     },
     onIncrementQuantity(productId) {
       this.incrementQuantity(productId)
-      console.log(this.products)
+      // console.log(this.products)
     },
     onDecrementQuantity(productId) {
       this.decrementQuantity(productId)
-      console.log(this.products)
+      // console.log(this.products)
     },
     productTotalAmount(product) {
       return product.price * product.quantity

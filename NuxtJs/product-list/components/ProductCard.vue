@@ -24,9 +24,20 @@
           class="action-buttons"
           color="info"
           @click.stop="onAddToCart"
+          v-if="!isAdded"
         >
           <v-icon small left>mdi-cart</v-icon>
           Add
+        </v-btn>
+        <v-btn
+          small
+          class="action-buttons"
+          color="info"
+          v-if="isAdded"
+          @click.stop
+        >
+          <v-icon small left>mdi-cart</v-icon>
+          Added
         </v-btn>
         <v-btn
           small
@@ -62,6 +73,9 @@ export default {
       type: Object,
       required: true,
     },
+    isAdded: {
+      type: Boolean,
+    },
   },
   filters: {
     currency(value) {
@@ -85,7 +99,11 @@ export default {
     },
     onAddToCart() {
       this.addToCart({ userId: this.$auth.user.id, product: this.product })
+      this.$emit('addToCart', this.product.id)
     },
+  },
+  mounted() {
+    console.log('isAdded', this.isAdded)
   },
 }
 </script>

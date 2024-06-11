@@ -33,7 +33,9 @@
           v-for="product in displayedProducts"
           :key="product.id"
           :product="product"
+          :isAdded="cartProductsId.includes(product.id)"
           @deleteProduct="handleDeleteProduct"
+          @addToCart="handleAddToCart"
         />
       </template>
     </v-row>
@@ -67,9 +69,11 @@ export default {
         { text: 'Price: Low to High', value: 'price_asc' },
         { text: 'Price: High to Low', value: 'price_desc' },
       ],
+      cartProductsId: [],
+      isAdded: false,
     }
   },
-
+  middleware: 'auth',
   async asyncData({ store }) {
     await store.dispatch('category/fetchCategories')
   },
@@ -80,6 +84,8 @@ export default {
       loading: (state) => state.loading,
       error: (state) => state.error,
     }),
+
+    ...mapState('cart', { carts: (state) => state.carts }),
 
     ...mapState('category', { categories: (state) => state.categories }),
 
@@ -164,6 +170,10 @@ export default {
     //   }
     // },
 
+    handleAddToCart(productId) {
+      this.cartProductsId = [...this.cartProductsId, productId]
+    },
+
     // handle delete product
     handleDeleteProduct(productId) {
       this.deleteProduct(productId)
@@ -188,6 +198,12 @@ export default {
   mounted() {
     // console.log('products page mounted')
     this.fetchProducts()
+    this.carts.forEach((cart) => {
+      if ((cart.userId = this.$auth.user.id)) {
+        this.cartProductsId = cart.products.map((product) => product.id)
+      }
+    })
+    console.log(this.cartProductsId)
   },
 }
 </script>

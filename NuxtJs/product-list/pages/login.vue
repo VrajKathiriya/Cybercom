@@ -47,7 +47,6 @@ export default {
       valid: true,
       email: '',
       password: '',
-      rememberMe: false,
       emailRules: [
         (v) => !!v || 'E-mail is required',
         (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -68,6 +67,9 @@ export default {
               password: this.password,
             },
           })
+          if (loginResponse) {
+            this.$router.push('/')
+          }
         }
       } catch (err) {
         console.log('error in login', err)
