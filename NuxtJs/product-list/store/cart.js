@@ -1,8 +1,6 @@
-import Vue from 'vue'
-
-export const state = {
+export const state = () => ({
   carts: [],
-}
+})
 
 export const mutations = {
   // set carts
@@ -12,25 +10,17 @@ export const mutations = {
 
   // add new cart
   setToCart(state, cart) {
-    state.carts = JSON.parse(localStorage.getItem('carts')) || []
-
     state.carts = [...state.carts, cart]
-
-    localStorage.setItem('carts', JSON.stringify(state.carts))
   },
 
   // add new product
   setAddedProduct(state, { userId, product }) {
-    state.carts = JSON.parse(localStorage.getItem('carts')) || []
-    const newProduct = product
-    newProduct.quantity = 1
+    const newProduct = { ...product, quantity: 1 }
     state.carts.forEach((cart) => {
       if (cart.userId == userId) {
         cart.products = [...cart.products, newProduct]
       }
     })
-
-    localStorage.setItem('carts', JSON.stringify(state.carts))
   },
 
   // set increment quantity
@@ -44,7 +34,6 @@ export const mutations = {
         })
       }
     })
-    localStorage.setItem('carts', JSON.stringify(state.carts))
   },
 
   // set decrement quantity
@@ -57,43 +46,37 @@ export const mutations = {
         })
       }
     })
-
-    localStorage.setItem('carts', JSON.stringify(state.carts))
   },
 
   // remove from cart
-  removeFromCart(state, productId) {
+  removeFromCart(state, { productId, userId }) {
     let cartIsEmpty = false
     state.carts.forEach((cart, index) => {
-      if (cart.userId == this.$auth.user.id) {
-        cart.products = cart.products.filter(
-          (product) => product.id != productId
-        )
+      if (cart.userId == userId) {
+        cart.products = [
+          ...cart.products.filter((product) => product.id != productId),
+        ]
         if (cart.products.length == 0) cartIsEmpty = true
       }
     })
     if (cartIsEmpty) {
-      state.carts = state.carts.filter(
-        (cart) => cart.userId != this.$auth.user.id
-      )
+      state.carts = [...state.carts.filter((cart) => cart.userId != userId)]
     }
-
-    localStorage.setItem('carts', JSON.stringify(state.carts))
   },
 }
 
 export const actions = {
   // fetch carts from localStorage
-  fetchCarts(context) {
+  fetchCarts({ commit }) {
     const carts = JSON.parse(localStorage.getItem('carts')) || []
-    context.commit('setCarts', carts)
+    commit('setCarts', carts)
   },
 
   // add new cart or product
   async addToCart(context, { userId, product }) {
     let isPresent = false
     context.state.carts.forEach((cart) => {
-      if (cart.userId == userId) {
+      if (cart.userId === userId) {
         isPresent = true
       }
     })
@@ -102,7 +85,7 @@ export const actions = {
       context.commit('setAddedProduct', { userId, product })
     } else {
       product.quantity = 1
-      let cart = {
+      const cart = {
         id: Date.now(),
         userId: userId,
         products: [product],
@@ -122,8 +105,8 @@ export const actions = {
   },
 
   // remove from cart
-  removeFromCart(context, productId) {
-    context.commit('removeFromCart', productId)
+  removeFromCart({ commit }, { productId, userId }) {
+    commit('removeFromCart', { productId, userId })
   },
 }
 

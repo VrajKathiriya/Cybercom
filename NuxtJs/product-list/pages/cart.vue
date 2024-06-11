@@ -137,7 +137,7 @@ export default {
     },
 
     removeProduct(productId) {
-      this.removeFromCart(productId)
+      this.removeFromCart({ productId: productId, userId: this.$auth.user.id })
     },
     onIncrementQuantity(productId) {
       this.incrementQuantity(productId)
